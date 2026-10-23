@@ -1,0 +1,1313 @@
+/* Base Careops App & Container */
+
+
+/* ==========================================================
+   THEME VARIABLES & BASE CONTAINER
+   ========================================================== */
+.careops-app {
+  --app-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-sub: #475569;
+  --navy-header-bg: #0f2744;
+  --primary-purple: #5e48e8;
+  --accent-green: #059669;
+  --accent-red: #dc2626;
+  --accent-orange: #ea580c;
+
+  font-family: 'Anuphan', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--app-bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+
+
+
+/* ==========================================================
+   DARK MODE STYLES (ทำงานได้จริง คมชัด สบายตา)
+   ========================================================== */
+.careops-app.dark-mode {
+  --app-bg: #0b0f19;
+  --card-bg: #151c2e;
+  --card-border: #222f46;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-sub: #cbd5e1;
+  --navy-header-bg: #070d18;
+}
+
+
+.careops-app.dark-mode .hero-navy-card {
+  background: linear-gradient(135deg, #070d18 0%, #101d36 100%);
+  border-color: #24324d;
+}
+
+.careops-app.dark-mode .hero-model-box {
+  background: rgba(5, 11, 20, 0.85);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.careops-app.dark-mode .kpi-card-box {
+  background: #151c2e;
+  border-color: #222f46;
+}
+
+.careops-app.dark-mode .kpi-card-box.card-high-risk {
+  background: #1e131d;
+  border-color: #7f1d1d;
+}
+
+.careops-app.dark-mode .icon-blue { background: #1e293b; color: #60a5fa; }
+.careops-app.dark-mode .icon-purple { background: #1e293b; color: #a78bfa; }
+.careops-app.dark-mode .icon-amber { background: #1e293b; color: #fbbf24; }
+.careops-app.dark-mode .icon-rose { background: #2a151b; color: #f87171; }
+
+.careops-app.dark-mode .section-title-bar .page-title {
+  color: #ffffff;
+}
+
+.careops-app.dark-mode .vps-badge {
+  background: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .period-select-btn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.careops-app.dark-mode .action-square-btn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .period-dropdown-menu {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.careops-app.dark-mode .dropdown-item:hover {
+  background: #27354f;
+}
+
+.careops-app.dark-mode .dropdown-item .item-title {
+  color: #f8fafc;
+}
+
+.careops-app.dark-mode .dropdown-item .item-desc {
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .kpi-grid-card,
+.careops-app.dark-mode .chart-card,
+.careops-app.dark-mode .grid-card,
+.careops-app.dark-mode .kpi-mini-card,
+.careops-app.dark-mode .unban-table-container {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.careops-app.dark-mode .kpi-col:not(:last-child) {
+  border-right-color: var(--card-border);
+}
+
+.careops-app.dark-mode .val-bold {
+  color: #ffffff;
+}
+
+.careops-app.dark-mode .val-muted {
+  color: #64748b;
+}
+
+.careops-app.dark-mode .kpi-label {
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .chart-title-wrap .card-title,
+.careops-app.dark-mode .card-title-box .card-title {
+  color: #ffffff;
+}
+
+.careops-app.dark-mode .chart-subtext,
+.careops-app.dark-mode .card-title-box .card-subtitle {
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .chart-grid-line {
+  stroke: #222f46;
+}
+
+.careops-app.dark-mode .axis-txt {
+  fill: #64748b;
+}
+
+.careops-app.dark-mode .day-lbl {
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .day-lbl:hover,
+.careops-app.dark-mode .day-lbl.active-day {
+  color: #818cf8;
+}
+
+.careops-app.dark-mode .snapshot-row {
+  border-bottom-color: var(--card-border);
+}
+
+.careops-app.dark-mode .bold-ip {
+  color: #f1f5f9;
+}
+
+.careops-app.dark-mode .ip-type-label {
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .hits-tag {
+  background: #1e293b;
+  color: #94a3b8;
+  border-color: #334155;
+}
+
+.careops-app.dark-mode .struct-stat {
+  background: #0f172a;
+  border-color: #24324d;
+}
+
+.careops-app.dark-mode .struct-num {
+  color: #ffffff;
+}
+
+.careops-app.dark-mode .struct-label {
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .defense-status-banner {
+  background: #0d1e33;
+  border-color: #1e3a5f;
+}
+
+.careops-app.dark-mode .defense-status-banner .status-title {
+  color: #38bdf8;
+}
+
+.careops-app.dark-mode .defense-desc {
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .defense-desc strong {
+  color: #f1f5f9;
+}
+
+.careops-app.dark-mode .table-toolbar {
+  border-bottom-color: var(--card-border);
+}
+
+.careops-app.dark-mode .search-input {
+  background: #0f172a;
+  border-color: #2b3a52;
+  color: #f1f5f9;
+}
+
+.careops-app.dark-mode .filter-pill {
+  background: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .filter-pill.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.careops-app.dark-mode .ops-data-table th {
+  background: #0f172a;
+  color: #94a3b8;
+  border-bottom-color: var(--card-border);
+}
+
+.careops-app.dark-mode .ops-data-table td {
+  border-bottom-color: var(--card-border);
+  color: #cbd5e1;
+}
+
+.careops-app.dark-mode .ops-data-table tbody tr:hover {
+  background: #182338;
+}
+
+.careops-app.dark-mode .hits-bubble {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+.careops-app.dark-mode .modal-dialog {
+  background: #151c2e;
+  border-color: #2b3a52;
+}
+
+.careops-app.dark-mode .modal-header {
+  border-bottom-color: #2b3a52;
+}
+
+.careops-app.dark-mode .modal-title {
+  color: #ffffff;
+}
+
+.careops-app.dark-mode .modal-subtitle {
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .form-label {
+  color: #cbd5e1;
+}
+
+.careops-app.dark-mode .form-input {
+  background: #0f172a;
+  border-color: #2b3a52;
+  color: #ffffff;
+}
+
+.careops-app.dark-mode .selector-btn {
+  background: #0f172a;
+  border-color: #2b3a52;
+  color: #94a3b8;
+}
+
+.careops-app.dark-mode .selector-btn.active {
+  background: #1e293b;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.careops-app.dark-mode .modal-footer {
+  border-top-color: #2b3a52;
+}
+
+.careops-app.dark-mode .btn-cancel {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+
+
+/* ==========================================================
+   1. HEADER NAVY BAR
+   ========================================================== */
+.header-navy-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--navy-header-bg);
+  box-shadow: 0 4px 16px rgba(15, 39, 68, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+}
+
+/* ==========================================================
+   HEADER NAVY BAR (CS BUU OFFICIAL 1:1 THEME)
+   ========================================================== */
+.header-navy-bar {
+  background-color: #0f2744;
+  border-bottom: 1px solid #1b3b64;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 4px 14px rgba(15, 39, 68, 0.25);
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.navy-bar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 76px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+/* ซ้าย: แบรนด์และโลโก้คมชัดระดับ Vector SVG 100% ตรงตามภาพต้นฉบับ */
+.navy-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  justify-self: start;
+  user-select: none;
+}
+
+.buu-brand-img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.navy-brand-group:hover .buu-brand-img {
+  transform: scale(1.03);
+}
+
+.brand-v-divider {
+  width: 1.5px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 9999px;
+}
+
+.navy-brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.brand-cs-buu {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Prompt', 'Kanit', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color 0.15s ease;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.navy-brand-group:hover .brand-cs-buu {
+  color: #fef08a;
+}
+
+.brand-cs-sub {
+  margin-top: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Prompt', 'Kanit', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #ffce00;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* กลาง: เมนูนำทางแบบเว็บหลัก CS BUU สมส่วนและอยู่กึ่งกลาง 100% */
+.main-site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.75rem;
+  justify-self: center;
+}
+
+.main-nav-link {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: #e2e8f0;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.75rem 0.25rem 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: color 0.18s ease;
+  line-height: 1.4;
+}
+
+.main-nav-link:hover {
+  color: #ffffff;
+}
+
+.main-nav-link.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* แถบขีดสีทองใต้เมนูที่เลือก (Signature CS BUU Web Theme) */
+.gold-active-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background-color: #fbbf24;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+}
+
+.nav-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  line-height: 1;
+}
+
+/* ขวา: ปุ่มสลับธีม + ปุ่มหลักสีน้ำเงินตามเว็บหลัก */
+.navy-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-self: end;
+}
+
+.navy-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.navy-theme-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.navy-blue-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+
+.navy-blue-btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+
+
+/* ==========================================================
+   2. MAIN CONTAINER & DASHBOARD OVERVIEW
+   ========================================================== */
+.careops-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tab-content-fade {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* SECTION TITLE BAR */
+.section-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title-with-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+
+.vps-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.28rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+.title-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.period-dropdown-container {
+  position: relative;
+}
+
+.period-select-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 0.48rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.period-select-btn:hover {
+  border-color: #94a3b8;
+}
+
+.period-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  min-width: 220px;
+  padding: 0.4rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dropdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+  width: 100%;
+}
+
+.dropdown-item:hover {
+  background: #f1f5f9;
+}
+
+.dropdown-item.active {
+  background: #eff6ff;
+}
+
+.dropdown-item.active .item-title {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.item-title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.item-desc {
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-top: 0.1rem;
+}
+
+.action-square-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.action-square-btn:hover {
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+
+
+/* ==========================================================
+   4. MODAL DIALOG
+   ========================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.modal-dialog {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 520px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.modal-header {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.modal-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.modal-subtitle {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+}
+
+.modal-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.required {
+  color: #dc2626;
+}
+
+.action-type-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.selector-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.selector-btn.active {
+  background: #ffffff;
+  border-color: #2563eb;
+  color: #2563eb;
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.15);
+}
+
+.form-input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.88rem;
+  outline: none;
+  color: #0f172a;
+  transition: border-color 0.15s ease;
+}
+
+.form-input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+}
+
+.btn-cancel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  padding: 0.48rem 1rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-confirm {
+  border: none;
+  color: #ffffff;
+  padding: 0.48rem 1.15rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-green { background: #059669; }
+.btn-green:hover { background: #047857; }
+.btn-red { background: #dc2626; }
+.btn-red:hover { background: #b91c1c; }
+
+
+
+/* ==========================================================
+   5. FLOATING TOAST NOTIFICATION
+   ========================================================== */
+.toast-card {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 0.85rem 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 2000;
+  min-width: 280px;
+  max-width: 420px;
+  animation: slideUp 0.2s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.toast-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.toast-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.toast-detail {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  margin-top: 0.1rem;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+
+
+/* ==========================================================
+   HELPER UTILITIES
+   ========================================================== */
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.tiny-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.text-muted {
+  color: #94a3b8;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+
+
+/* ==========================================================
+   RESPONSIVE DESIGN
+   ========================================================== */
+@media (max-width: 1024px) {
+
+  .hero-navy-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .kpi-4-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .kpi-grid-card {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  .kpi-col:nth-child(2) {
+    border-right: none;
+  }
+  .bottom-dual-grid {
+    grid-template-columns: 1fr;
+  }
+  .unban-kpi-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .kpi-4-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .navy-bar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+  .main-site-nav {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 1.5rem;
+  }
+  .navy-right-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .kpi-grid-card {
+    grid-template-columns: 1fr;
+  }
+  .kpi-col:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 1rem;
+  }
+  .structure-metrics-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+
+/* ==========================================================
+   SEAMLESS LOADING SCREEN (100% FLUSH WITH BACKGROUND - GMAIL STYLE)
+   ========================================================== */
+.page-loading-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.careops-app.dark-mode .page-loading-backdrop {
+  background: #0b101b;
+}
+
+/* ไม่มีกรอบ Card, ไม่มีเงา Box-shadow, กลืนเนียนไปกับพื้นหลัง 100% */
+.seamless-loader-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  max-width: 460px;
+  width: 100%;
+}
+
+/* โลโก้เหมือนหน้าเว็บ (CS BUU Web Brand Lockup) */
+.loader-brand-website-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: logo-float 2.5s ease-in-out infinite;
+  color: #0f2744;
+}
+
+.careops-app.dark-mode .loader-brand-website-wrap {
+  color: #ffffff;
+}
+
+.loader-site-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.seamless-buu-brand-img {
+  height: 54px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 14px rgba(15, 39, 68, 0.08));
+}
+
+.seamless-brand-v-divider {
+  width: 1.5px;
+  height: 42px;
+  background: #cbd5e1;
+}
+
+.careops-app.dark-mode .seamless-brand-v-divider {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.seamless-brand-text-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.seamless-brand-cs-buu {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #0f2744;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.careops-app.dark-mode .seamless-brand-cs-buu {
+  color: #f8fafc;
+}
+
+.seamless-brand-cs-sub {
+  margin-top: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Prompt', 'Kanit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: #d97706;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.careops-app.dark-mode .seamless-brand-cs-sub {
+  color: #fbbf24;
+}
+
+@keyframes logo-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* หลอดโหลดแนวนอนแบบสลิม สไตล์ Gmail (Slim Linear Tube) */
+.seamless-tube-track {
+  width: 270px;
+  max-width: 80vw;
+  height: 3.5px;
+  background: #eceff1;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 2rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.careops-app.dark-mode .seamless-tube-track {
+  background: #1e293b;
+}
+
+.seamless-tube-fill {
+  position: relative;
+  height: 100%;
+  background: linear-gradient(90deg, #0f2744, #2563eb 55%, #38bdf8 100%);
+  border-radius: 9999px;
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.careops-app.dark-mode .seamless-tube-fill {
+  background: linear-gradient(90deg, #1d4ed8, #3b82f6 55%, #38bdf8 100%);
+}
+
+.seamless-tube-shimmer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%);
+  animation: tube-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes tube-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ชื่อระบบ SecDash ด้านล่างหลอดโหลด */
+.seamless-system-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 1.18rem;
+  letter-spacing: -0.015em;
+}
+
+.system-title-bold {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.careops-app.dark-mode .system-title-bold {
+  color: #ffffff;
+}
+
+.system-title-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  padding: 0.15rem 0.45rem;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+.careops-app.dark-mode .system-title-badge {
+  color: #60a5fa;
+  background: #1e293b;
+  border-color: #334155;
+}
+
+/* สเตตัสและเปอร์เซ็นต์ */
+.seamless-meta-status {
+  margin-top: 0.65rem;
+  font-size: 0.78rem;
+  color: #80868b;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.careops-app.dark-mode .seamless-meta-status {
+  color: #64748b;
+}
+
+.seamless-step-msg {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.careops-app.dark-mode .seamless-step-msg {
+  color: #60a5fa;
+}
+
+.seamless-percent {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: #5f6368;
+}
+
+.careops-app.dark-mode .seamless-percent {
+  color: #94a3b8;
+}
+
+/* ข้อความช่วยเหลือมุมขวาล่าง (เลียนแบบ Gmail 1:1) */
+.seamless-footer-help {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  font-size: 0.75rem;
+  color: #70757a;
+  letter-spacing: 0.01em;
+  opacity: 0.85;
+}
+
+.careops-app.dark-mode .seamless-footer-help {
+  color: #64748b;
+}
+
+@media (max-width: 640px) {
+  .seamless-footer-help {
+    position: static;
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+}
+
+/* Fade Transition ตอนโหลดเสร็จ */
+.fade-loading-enter-active,
+.fade-loading-leave-active {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-loading-enter-from {
+  opacity: 0;
+}
+
+.fade-loading-leave-to {
+  opacity: 0;
+  transform: scale(1.02);
+}
+
+/* Spin animation for refresh icon */
+.spin-anim {
+  animation: spin-clockwise 0.8s linear infinite;
+}
+
+@keyframes spin-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.refresh-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  cursor: pointer;
+}
+
+.refresh-pill-btn:hover {
+  background: #dbeafe;
+}
+
+.careops-app.dark-mode .refresh-pill-btn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #60a5fa;
+}
+
+.careops-app.dark-mode .refresh-pill-btn:hover {
+  background: #27354f;
+}
+
