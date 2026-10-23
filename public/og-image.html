@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>SecDash - Social Preview Card (1200x630)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: #e5e5e5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* 1200x630 FIXED CANVAS */
+    .social-canvas {
+      width: 1200px;
+      height: 630px;
+      position: relative;
+      background-color: #FAF9F7;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* TOP BRAND AREA */
+    .brand-area {
+      height: 155px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 18px;
+      z-index: 2;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      background: #171717;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+    }
+
+    .brand-name {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 42px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: #171717;
+      line-height: 1;
+    }
+
+    .brand-tagline {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #737373;
+    }
+
+    /* PREVIEW STAGE (LOWER 2/3) */
+    .mockup-stage {
+      flex: 1;
+      position: relative;
+      padding: 0 44px;
+      margin-top: 5px;
+    }
+
+    /* DESKTOP DEVICE MOCKUP */
+    .desktop-frame {
+      width: 100%;
+      height: 520px;
+      background: #171717;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      padding: 10px 10px 0 10px;
+      box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.25);
+    }
+
+    .desktop-inner {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* DESKTOP TITLEBAR */
+    .desktop-titlebar {
+      height: 34px;
+      background: #F4F3F0;
+      border-bottom: 1px solid #E5E3DC;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 16px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #D4D2C9;
+    }
+
+    .titlebar-url {
+      background: #ffffff;
+      border: 1px solid #E5E3DC;
+      border-radius: 6px;
+      padding: 2px 14px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #525252;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .url-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+    }
+
+    .titlebar-meta {
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 600;
+      color: #737373;
+    }
+
+    /* DESKTOP CONTENT */
+    .desktop-content {
+      flex: 1;
+      padding: 20px 22px;
+      background: #FAF9F7;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* STATS ROW */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #E7E5DF;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #737373;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #171717;
+      line-height: 1.1;
+    }
+
+    .stat-sub {
+      font-size: 10px;
+      font-weight: 600;
+      color: #059669;
+      margin-top: 4px;
+    }
+
+    .stat-sub.red {
+      color: #DC2626;
+    }
+
+    /* CORE TABLE (UNBAN & FIREWALL CONTROLLER) */
+    .table-card {
+      background: #ffffff;
+      border: 1px solid #E7E5DF;
+      border-radius: 12px;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .table-head-bar {
+      padding: 10px 14px;
+      background: #FAF9F7;
+      border-bottom: 1px solid #E7E5DF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #171717;
+    }
+
+    .table-tags {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tag-chip {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #EAE8E2;
+      color: #404040;
+    }
+
+    .tag-chip.active {
+      background: #171717;
+      color: #ffffff;
+    }
+
+    .ui-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .ui-table th {
+      text-align: left;
+      padding: 8px 14px;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #737373;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #E7E5DF;
+    }
+
+    .ui-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid #F1EFE9;
+      color: #262626;
+      font-size: 11px;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .badge-blocked {
+      background: #FEE2E2;
+      color: #B91C1C;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+
+    .badge-allowed {
+      background: #DCFCE7;
+      color: #15803D;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+
+    .btn-action-unban {
+      background: #171717;
+      color: #ffffff;
+      border: none;
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .btn-action-reban {
+      background: #F4F3F0;
+      color: #525252;
+      border: 1px solid #D4D2C9;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* PHONE OVERLAY MOCKUP (LOWER RIGHT) */
+    .phone-frame {
+      position: absolute;
+      right: 70px;
+      bottom: -15px;
+      width: 250px;
+      height: 380px;
+      background: #171717;
+      border-radius: 36px;
+      padding: 8px 8px 0 8px;
+      box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.45);
+      z-index: 10;
+    }
+
+    .phone-inner {
+      width: 100%;
+      height: 100%;
+      background: #FAF9F7;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* DYNAMIC ISLAND */
+    .phone-notch {
+      width: 76px;
+      height: 18px;
+      background: #171717;
+      border-radius: 20px;
+      margin: 8px auto 6px auto;
+    }
+
+    .phone-content {
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .phone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #E7E5DF;
+      padding-bottom: 8px;
+    }
+
+    .phone-brand {
+      font-size: 11px;
+      font-weight: 800;
+      color: #171717;
+    }
+
+    .phone-status-dot {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .phone-card {
+      background: #ffffff;
+      border: 1px solid #E7E5DF;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .phone-card-title {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #737373;
+      margin-bottom: 6px;
+    }
+
+    .phone-input {
+      width: 100%;
+      padding: 6px 8px;
+      background: #F4F3F0;
+      border: 1px solid #E5E3DC;
+      border-radius: 6px;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #171717;
+      margin-bottom: 8px;
+    }
+
+    .phone-btn {
+      width: 100%;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 7px;
+      border-radius: 6px;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .phone-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #F1EFE9;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="social-canvas">
+    <!-- TOP BRAND AREA -->
+    <div class="brand-area">
+      <div class="brand-lockup">
+        <div class="brand-mark">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <span class="brand-name">SecDash</span>
+      </div>
+      <div class="brand-tagline">Firewall Operations & Threat Intelligence</div>
+    </div>
+
+    <!-- MOCKUP STAGE -->
+    <div class="mockup-stage">
+      <!-- PRIMARY DESKTOP DEVICE -->
+      <div class="desktop-frame">
+        <div class="desktop-inner">
+          <!-- TITLEBAR -->
+          <div class="desktop-titlebar">
+            <div class="window-dots">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <div class="titlebar-url">
+              <span class="url-dot"></span>
+              <span>https://nenenainaemak.duckdns.org</span>
+            </div>
+            <div class="titlebar-meta">GeoIP TH Firewall: ACTIVE</div>
+          </div>
+
+          <!-- DESKTOP SCREEN CONTENT -->
+          <div class="desktop-content">
+            <!-- 4 STATS -->
+            <div class="stats-row">
+              <div class="stat-card">
+                <span class="stat-label">Total Requests</span>
+                <span class="stat-value">27,902</span>
+                <span class="stat-sub">● All Traffic</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Attacks Blocked</span>
+                <span class="stat-value">12,996</span>
+                <span class="stat-sub red">46.6% Mitigated</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Defense Efficiency</span>
+                <span class="stat-value">99.1%</span>
+                <span class="stat-sub">Kernel Layer DROP</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Firewall IPs</span>
+                <span class="stat-value">15 Rules</span>
+                <span class="stat-sub">fail2ban & GeoIP</span>
+              </div>
+            </div>
+
+            <!-- TABLE PREVIEW -->
+            <div class="table-card">
+              <div class="table-head-bar">
+                <span class="table-title">Firewall IP Manager & Unban Table</span>
+                <div class="table-tags">
+                  <span class="tag-chip active">All (15)</span>
+                  <span class="tag-chip">Blocked</span>
+                  <span class="tag-chip">Unbanned</span>
+                </div>
+              </div>
+
+              <table class="ui-table">
+                <thead>
+                  <tr>
+                    <th>IP Address</th>
+                    <th>Origin</th>
+                    <th>Threat Signature</th>
+                    <th>Hits</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">34.182.207.28</td>
+                    <td>🌐 Non-TH (US)</td>
+                    <td>XML-RPC Abuse</td>
+                    <td class="mono">10,097</td>
+                    <td><span class="badge-blocked">● BLOCKED</span></td>
+                    <td><button class="btn-action-unban">Unban</button></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">67.205.191.35</td>
+                    <td>🌐 Non-TH (EU)</td>
+                    <td>wp-login Brute-force</td>
+                    <td class="mono">681</td>
+                    <td><span class="badge-blocked">● BLOCKED</span></td>
+                    <td><button class="btn-action-unban">Unban</button></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">1.46.128.90</td>
+                    <td>🇹🇭 Thailand (BKK)</td>
+                    <td>Admin Whitelist</td>
+                    <td class="mono">0</td>
+                    <td><span class="badge-allowed">● ALLOWED</span></td>
+                    <td><button class="btn-action-reban">Re-ban</button></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">35.214.108.214</td>
+                    <td>🌐 Non-TH (SG)</td>
+                    <td>Vulnerability Probing</td>
+                    <td class="mono">207</td>
+                    <td><span class="badge-blocked">● BLOCKED</span></td>
+                    <td><button class="btn-action-unban">Unban</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECONDARY PHONE DEVICE OVERLAY (LOWER RIGHT) -->
+      <div class="phone-frame">
+        <div class="phone-inner">
+          <div class="phone-notch"></div>
+          <div class="phone-content">
+            <div class="phone-header">
+              <span class="phone-brand">SecDash Mobile</span>
+              <span class="phone-status-dot">● 200 OK</span>
+            </div>
+
+            <!-- Quick Unban Widget -->
+            <div class="phone-card">
+              <span class="phone-card-title">Quick Unban / Ban</span>
+              <div class="phone-input">1.46.128.90</div>
+              <button class="phone-btn">Unban IP Address</button>
+            </div>
+
+            <!-- List Preview -->
+            <div class="phone-card">
+              <span class="phone-card-title">Live Rules</span>
+              <div class="phone-item">
+                <span class="mono">34.182.207.28</span>
+                <span class="badge-blocked">DROP</span>
+              </div>
+              <div class="phone-item">
+                <span class="mono">1.46.128.90</span>
+                <span class="badge-allowed">ALLOW</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

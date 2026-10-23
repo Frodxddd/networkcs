@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <style>
+      .serif { font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif; }
+      .sans { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace; }
+    </style>
+    <filter id="desktopShadow" x="30" y="140" width="1140" height="520" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="25" stdDeviation="30" flood-color="#0f172a" flood-opacity="0.22" />
+    </filter>
+    <filter id="phoneShadow" x="850" y="240" width="310" height="420" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="25" stdDeviation="25" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- 1200x630 BACKGROUND -->
+  <rect width="1200" height="630" fill="#FAF9F7" />
+
+  <!-- TOP BRAND LOCKUP -->
+  <g transform="translate(600, 68)" text-anchor="middle">
+    <!-- Icon -->
+    <rect x="-105" y="-36" width="30" height="30" rx="8" fill="#171717" />
+    <path d="M-90 -16s-7 -3.5 -7 -8.75V-31l7 -2.625 7 2.625v6.25c0 5.25 -7 8.75 -7 8.75z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Wordmark -->
+    <text x="10" y="-12" class="serif" font-size="44" fill="#171717" letter-spacing="-0.02em">SecDash</text>
+    
+    <!-- Subtitle -->
+    <text x="0" y="20" class="sans" font-size="12" font-weight="700" fill="#737373" letter-spacing="0.14em">FIREWALL OPERATIONS &amp; THREAT INTELLIGENCE</text>
+  </g>
+
+  <!-- DESKTOP MOCKUP -->
+  <g filter="url(#desktopShadow)">
+    <!-- Dark Outer Bezel -->
+    <rect x="54" y="152" width="1092" height="500" rx="20" fill="#171717" />
+    
+    <!-- Desktop Screen Inner -->
+    <rect x="64" y="162" width="1072" height="490" rx="12" fill="#FFFFFF" />
+
+    <!-- Window Titlebar -->
+    <rect x="64" y="162" width="1072" height="38" fill="#F4F3F0" />
+    <line x1="64" y1="200" x2="1136" y2="200" stroke="#E5E3DC" stroke-width="1" />
+    
+    <!-- Dots -->
+    <circle cx="86" cy="181" r="5" fill="#D4D2C9" />
+    <circle cx="102" cy="181" r="5" fill="#D4D2C9" />
+    <circle cx="118" cy="181" r="5" fill="#D4D2C9" />
+
+    <!-- URL Pill -->
+    <rect x="144" y="170" width="270" height="22" rx="6" fill="#FFFFFF" stroke="#E5E3DC" stroke-width="1" />
+    <circle cx="158" cy="181" r="3.5" fill="#10B981" />
+    <text x="170" y="185" class="mono" font-size="11" fill="#525252">https://nenenainaemak.duckdns.org</text>
+
+    <!-- Header Status -->
+    <text x="1116" y="185" class="sans" font-size="11" font-weight="600" fill="#737373" text-anchor="end">GeoIP TH Firewall: ACTIVE</text>
+
+    <!-- Desktop Background Canvas -->
+    <rect x="64" y="200" width="1072" height="450" fill="#FAF9F7" />
+
+    <!-- 4 KPI CARDS -->
+    <!-- Card 1 -->
+    <g transform="translate(86, 218)">
+      <rect width="240" height="74" rx="10" fill="#FFFFFF" stroke="#E7E5DF" stroke-width="1" />
+      <text x="14" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">TOTAL REQUESTS</text>
+      <text x="14" y="49" class="mono" font-size="22" font-weight="800" fill="#171717">27,902</text>
+      <text x="14" y="65" class="sans" font-size="10" font-weight="600" fill="#059669">● All Log Events</text>
+    </g>
+
+    <!-- Card 2 -->
+    <g transform="translate(340, 218)">
+      <rect width="240" height="74" rx="10" fill="#FFFFFF" stroke="#E7E5DF" stroke-width="1" />
+      <text x="14" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">ATTACKS BLOCKED</text>
+      <text x="14" y="49" class="mono" font-size="22" font-weight="800" fill="#171717">12,996</text>
+      <text x="14" y="65" class="sans" font-size="10" font-weight="600" fill="#DC2626">46.6% Mitigated</text>
+    </g>
+
+    <!-- Card 3 -->
+    <g transform="translate(594, 218)">
+      <rect width="240" height="74" rx="10" fill="#FFFFFF" stroke="#E7E5DF" stroke-width="1" />
+      <text x="14" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">DEFENSE EFFICIENCY</text>
+      <text x="14" y="49" class="mono" font-size="22" font-weight="800" fill="#171717">99.1%</text>
+      <text x="14" y="65" class="sans" font-size="10" font-weight="600" fill="#059669">Kernel DROP (TH Only)</text>
+    </g>
+
+    <!-- Card 4 -->
+    <g transform="translate(848, 218)">
+      <rect width="268" height="74" rx="10" fill="#FFFFFF" stroke="#E7E5DF" stroke-width="1" />
+      <text x="14" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">FIREWALL IPS</text>
+      <text x="14" y="49" class="mono" font-size="22" font-weight="800" fill="#171717">15 Rules</text>
+      <text x="14" y="65" class="sans" font-size="10" font-weight="600" fill="#2563EB">● fail2ban + GeoIP</text>
+    </g>
+
+    <!-- UNBAN & FIREWALL CONTROLLER TABLE -->
+    <g transform="translate(86, 308)">
+      <rect width="1030" height="320" rx="12" fill="#FFFFFF" stroke="#E7E5DF" stroke-width="1" />
+      
+      <!-- Table Header Bar -->
+      <rect width="1030" height="38" rx="12" fill="#FAF9F7" />
+      <rect y="26" width="1030" height="12" fill="#FAF9F7" />
+      <line x1="0" y1="38" x2="1030" y2="38" stroke="#E7E5DF" stroke-width="1" />
+      <text x="16" y="24" class="sans" font-size="12" font-weight="700" fill="#171717">Firewall IP Manager &amp; Unban Table</text>
+      
+      <!-- Filter Chips -->
+      <rect x="760" y="9" width="60" height="20" rx="4" fill="#171717" />
+      <text x="790" y="23" class="sans" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">All (15)</text>
+      <rect x="828" y="9" width="68" height="20" rx="4" fill="#EAE8E2" />
+      <text x="862" y="23" class="sans" font-size="10" font-weight="600" fill="#404040" text-anchor="middle">Blocked</text>
+      <rect x="904" y="9" width="80" height="20" rx="4" fill="#EAE8E2" />
+      <text x="944" y="23" class="sans" font-size="10" font-weight="600" fill="#404040" text-anchor="middle">Unbanned</text>
+
+      <!-- Table Headings -->
+      <g transform="translate(0, 38)">
+        <text x="16" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">IP ADDRESS</text>
+        <text x="180" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">ORIGIN</text>
+        <text x="340" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">THREAT SIGNATURE</text>
+        <text x="540" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">HITS</text>
+        <text x="640" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">FIREWALL STATUS</text>
+        <text x="820" y="22" class="sans" font-size="10" font-weight="700" fill="#737373" letter-spacing="0.05em">ACTION</text>
+        <line x1="0" y1="32" x2="1030" y2="32" stroke="#E7E5DF" stroke-width="1" />
+      </g>
+
+      <!-- Row 1 -->
+      <g transform="translate(0, 70)">
+        <text x="16" y="24" class="mono" font-size="12" font-weight="700" fill="#171717">34.182.207.28</text>
+        <text x="180" y="24" class="sans" font-size="11" fill="#334155">🌐 Non-TH (US)</text>
+        <rect x="338" y="11" width="115" height="18" rx="4" fill="#F1F5F9" />
+        <text x="346" y="24" class="sans" font-size="10" font-weight="600" fill="#334155">XML-RPC Abuse</text>
+        <text x="540" y="24" class="mono" font-size="12" font-weight="700" fill="#171717">10,097</text>
+        
+        <!-- Status Badge -->
+        <rect x="638" y="10" width="85" height="20" rx="10" fill="#FEE2E2" />
+        <text x="680" y="24" class="sans" font-size="10" font-weight="700" fill="#B91C1C" text-anchor="middle">● BLOCKED</text>
+        
+        <!-- Unban Button -->
+        <rect x="818" y="9" width="62" height="22" rx="6" fill="#171717" />
+        <text x="849" y="24" class="sans" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">Unban</text>
+        <line x1="0" y1="36" x2="1030" y2="36" stroke="#F1EFE9" stroke-width="1" />
+      </g>
+
+      <!-- Row 2 -->
+      <g transform="translate(0, 106)">
+        <text x="16" y="24" class="mono" font-size="12" font-weight="700" fill="#171717">67.205.191.35</text>
+        <text x="180" y="24" class="sans" font-size="11" fill="#334155">🌐 Non-TH (EU)</text>
+        <rect x="338" y="11" width="135" height="18" rx="4" fill="#F1F5F9" />
+        <text x="346" y="24" class="sans" font-size="10" font-weight="600" fill="#334155">wp-login Brute-force</text>
+        <text x="540" y="24" class="mono" font-size="12" font-weight="700" fill="#171717">681</text>
+        
+        <rect x="638" y="10" width="85" height="20" rx="10" fill="#FEE2E2" />
+        <text x="680" y="24" class="sans" font-size="10" font-weight="700" fill="#B91C1C" text-anchor="middle">● BLOCKED</text>
+        
+        <rect x="818" y="9" width="62" height="22" rx="6" fill="#171717" />
+        <text x="849" y="24" class="sans" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">Unban</text>
+        <line x1="0" y1="36" x2="1030" y2="36" stroke="#F1EFE9" stroke-width="1" />
+      </g>
+
+      <!-- Row 3 -->
+      <g transform="translate(0, 142)">
+        <text x="16" y="24" class="mono" font-size="12" font-weight="700" fill="#171717">1.46.128.90</text>
+        <text x="180" y="24" class="sans" font-size="11" fill="#334155">🇹🇭 Thailand (BKK)</text>
+        <rect x="338" y="11" width="110" height="18" rx="4" fill="#ECFDF5" />
+        <text x="346" y="24" class="sans" font-size="10" font-weight="600" fill="#059669">Admin Whitelist</text>
+        <text x="540" y="24" class="mono" font-size="12" font-weight="700" fill="#171717">0</text>
+        
+        <rect x="638" y="10" width="85" height="20" rx="10" fill="#DCFCE7" />
+        <text x="680" y="24" class="sans" font-size="10" font-weight="700" fill="#15803D" text-anchor="middle">● ALLOWED</text>
+        
+        <rect x="818" y="9" width="62" height="22" rx="6" fill="#F4F3F0" stroke="#D4D2C9" stroke-width="1" />
+        <text x="849" y="24" class="sans" font-size="10" font-weight="600" fill="#525252" text-anchor="middle">Re-ban</text>
+        <line x1="0" y1="36" x2="1030" y2="36" stroke="#F1EFE9" stroke-width="1" />
+      </g>
+    </g>
+  </g>
+
+  <!-- SECONDARY PHONE DEVICE OVERLAY (LOWER RIGHT) -->
+  <g filter="url(#phoneShadow)">
+    <!-- Black Phone Frame -->
+    <rect x="880" y="250" width="246" height="390" rx="36" fill="#171717" />
+    
+    <!-- Phone Screen -->
+    <rect x="888" y="258" width="230" height="380" rx="28" fill="#FAF9F7" />
+    
+    <!-- Dynamic Island Pill -->
+    <rect x="965" y="266" width="76" height="18" rx="9" fill="#171717" />
+
+    <!-- Phone Content Area -->
+    <g transform="translate(902, 298)">
+      <!-- Top mini header -->
+      <text x="0" y="12" class="sans" font-size="11" font-weight="800" fill="#171717">SecDash Mobile</text>
+      <text x="202" y="12" class="sans" font-size="9" font-weight="700" fill="#059669" text-anchor="end">● 200 OK</text>
+      <line x1="0" y1="20" x2="202" y2="20" stroke="#E7E5DF" stroke-width="1" />
+
+      <!-- Quick Action Card -->
+      <g transform="translate(0, 30)">
+        <rect width="202" height="110" rx="10" fill="#FFFFFF" stroke="#E7E5DF" stroke-width="1" />
+        <text x="10" y="18" class="sans" font-size="9" font-weight="700" fill="#737373" letter-spacing="0.05em">QUICK UNBAN / BAN</text>
+        <rect x="10" y="26" width="182" height="28" rx="6" fill="#F4F3F0" stroke="#E5E3DC" stroke-width="1" />
+        <text x="18" y="44" class="mono" font-size="11" fill="#171717">1.46.128.90</text>
+        <rect x="10" y="64" width="182" height="32" rx="6" fill="#2563EB" />
+        <text x="101" y="84" class="sans" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">Unban IP Address</text>
+      </g>
+
+      <!-- Live Rules Mini Card -->
+      <g transform="translate(0, 150)">
+        <rect width="202" height="130" rx="10" fill="#FFFFFF" stroke="#E7E5DF" stroke-width="1" />
+        <text x="10" y="18" class="sans" font-size="9" font-weight="700" fill="#737373" letter-spacing="0.05em">FIREWALL STATUS</text>
+        
+        <g transform="translate(10, 30)">
+          <text x="0" y="14" class="mono" font-size="10" fill="#171717">34.182.207.28</text>
+          <rect x="135" y="2" width="45" height="16" rx="8" fill="#FEE2E2" />
+          <text x="157" y="14" class="sans" font-size="8" font-weight="700" fill="#B91C1C" text-anchor="middle">DROP</text>
+          <line x1="0" y1="24" x2="182" y2="24" stroke="#F1EFE9" stroke-width="1" />
+        </g>
+
+        <g transform="translate(10, 62)">
+          <text x="0" y="14" class="mono" font-size="10" fill="#171717">1.46.128.90</text>
+          <rect x="135" y="2" width="45" height="16" rx="8" fill="#DCFCE7" />
+          <text x="157" y="14" class="sans" font-size="8" font-weight="700" fill="#15803D" text-anchor="middle">ALLOW</text>
+          <line x1="0" y1="24" x2="182" y2="24" stroke="#F1EFE9" stroke-width="1" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,32 @@
+{
+ "risk_level": "low",
+ "summary": "24 ชั่วโมงล่าสุดมี 2,319 คำขอ เป็นการโจมตี 0 ครั้ง (0.0%) (สรุปโดยกฎ ไม่ได้ใช้ AI: The read operation timed out)",
+ "findings": [
+  "หลัง firewall สัดส่วนโจมตี 0.5% เทียบกับก่อน firewall 59.2%"
+ ],
+ "recommendations": [
+  "ตรวจ fail2ban และ rate limit ว่ายังทำงาน",
+  "ตรวจ IP ที่โจมตีสูงสุดในตาราง"
+ ],
+ "generated_at": "2026-10-21T10:11:01+00:00",
+ "model": "rule-based",
+ "source": "fallback",
+ "anomalies": [
+  {
+   "hour_th": "09/10 16:00",
+   "attacks": 7593,
+   "requests": 8196
+  },
+  {
+   "hour_th": "09/10 15:00",
+   "attacks": 2553,
+   "requests": 2567
+  }
+ ],
+ "last24h": {
+  "requests": 2319,
+  "attacks": 0,
+  "attack_percent": 0.0
+ },
+ "error": "The read operation timed out"
+}

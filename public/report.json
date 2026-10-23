@@ -1,0 +1,973 @@
+{
+ "generated_at": "2026-10-21T10:05:02+00:00",
+ "firewall_start": "2026-10-10T15:19:00+00:00",
+ "total_requests": 27902,
+ "attack_events": 12996,
+ "by_category": {
+  "vuln_scan": 1317,
+  "xmlrpc_abuse": 10833,
+  "login_failed": 822,
+  "user_enumeration": 20,
+  "login_ratelimited": 4
+ },
+ "top_attackers": [
+  {
+   "ip": "34.182.207.28",
+   "hits": 10100,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 10097,
+    "user_enumeration": 3
+   }
+  },
+  {
+   "ip": "67.205.191.35",
+   "hits": 681,
+   "severity": "high",
+   "types": {
+    "user_enumeration": 9,
+    "login_failed": 672
+   }
+  },
+  {
+   "ip": "35.214.108.214",
+   "hits": 207,
+   "severity": "high",
+   "types": {
+    "vuln_scan": 207
+   }
+  },
+  {
+   "ip": "34.169.31.210",
+   "hits": 183,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 181,
+    "user_enumeration": 2
+   }
+  },
+  {
+   "ip": "146.148.44.249",
+   "hits": 183,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 181,
+    "user_enumeration": 2
+   }
+  },
+  {
+   "ip": "136.86.194.86",
+   "hits": 183,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 181,
+    "user_enumeration": 2
+   }
+  },
+  {
+   "ip": "34.135.56.67",
+   "hits": 183,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 181,
+    "user_enumeration": 2
+   }
+  },
+  {
+   "ip": "45.138.12.51",
+   "hits": 138,
+   "severity": "high",
+   "types": {
+    "vuln_scan": 138
+   }
+  },
+  {
+   "ip": "91.92.242.37",
+   "hits": 126,
+   "severity": "high",
+   "types": {
+    "vuln_scan": 126
+   }
+  },
+  {
+   "ip": "62.60.130.235",
+   "hits": 119,
+   "severity": "high",
+   "types": {
+    "login_failed": 119
+   }
+  },
+  {
+   "ip": "45.148.10.5",
+   "hits": 104,
+   "severity": "high",
+   "types": {
+    "vuln_scan": 104
+   }
+  },
+  {
+   "ip": "89.126.211.166",
+   "hits": 82,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 82
+   }
+  },
+  {
+   "ip": "186.182.105.49",
+   "hits": 82,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 82
+   }
+  },
+  {
+   "ip": "45.43.60.98",
+   "hits": 82,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 82
+   }
+  },
+  {
+   "ip": "45.138.12.27",
+   "hits": 69,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 69
+   }
+  }
+ ],
+ "hourly": [
+  {
+   "hour": "2026-10-06 00:00",
+   "requests": 23,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-06 01:00",
+   "requests": 24,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 02:00",
+   "requests": 63,
+   "attacks": 41
+  },
+  {
+   "hour": "2026-10-06 03:00",
+   "requests": 21,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-06 04:00",
+   "requests": 36,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 05:00",
+   "requests": 143,
+   "attacks": 128
+  },
+  {
+   "hour": "2026-10-06 06:00",
+   "requests": 15,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 07:00",
+   "requests": 23,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 08:00",
+   "requests": 26,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-06 09:00",
+   "requests": 20,
+   "attacks": 6
+  },
+  {
+   "hour": "2026-10-06 10:00",
+   "requests": 147,
+   "attacks": 43
+  },
+  {
+   "hour": "2026-10-06 11:00",
+   "requests": 17,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-06 12:00",
+   "requests": 13,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-06 13:00",
+   "requests": 15,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-06 14:00",
+   "requests": 17,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 15:00",
+   "requests": 11,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-06 16:00",
+   "requests": 24,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 17:00",
+   "requests": 54,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 18:00",
+   "requests": 22,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 19:00",
+   "requests": 21,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 20:00",
+   "requests": 23,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-06 21:00",
+   "requests": 18,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-06 22:00",
+   "requests": 20,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-06 23:00",
+   "requests": 68,
+   "attacks": 41
+  },
+  {
+   "hour": "2026-10-07 00:00",
+   "requests": 89,
+   "attacks": 22
+  },
+  {
+   "hour": "2026-10-07 01:00",
+   "requests": 9,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-07 02:00",
+   "requests": 18,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-07 03:00",
+   "requests": 51,
+   "attacks": 9
+  },
+  {
+   "hour": "2026-10-07 04:00",
+   "requests": 27,
+   "attacks": 3
+  },
+  {
+   "hour": "2026-10-07 05:00",
+   "requests": 8,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-07 06:00",
+   "requests": 12,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-07 07:00",
+   "requests": 150,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-07 08:00",
+   "requests": 47,
+   "attacks": 5
+  },
+  {
+   "hour": "2026-10-07 09:00",
+   "requests": 26,
+   "attacks": 3
+  },
+  {
+   "hour": "2026-10-07 10:00",
+   "requests": 51,
+   "attacks": 42
+  },
+  {
+   "hour": "2026-10-07 11:00",
+   "requests": 17,
+   "attacks": 5
+  },
+  {
+   "hour": "2026-10-07 12:00",
+   "requests": 19,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-07 13:00",
+   "requests": 158,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-07 14:00",
+   "requests": 353,
+   "attacks": 268
+  },
+  {
+   "hour": "2026-10-07 15:00",
+   "requests": 192,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-07 16:00",
+   "requests": 485,
+   "attacks": 183
+  },
+  {
+   "hour": "2026-10-07 17:00",
+   "requests": 293,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-07 18:00",
+   "requests": 270,
+   "attacks": 41
+  },
+  {
+   "hour": "2026-10-07 19:00",
+   "requests": 788,
+   "attacks": 6
+  },
+  {
+   "hour": "2026-10-07 20:00",
+   "requests": 18,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-07 21:00",
+   "requests": 9,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-07 22:00",
+   "requests": 104,
+   "attacks": 69
+  },
+  {
+   "hour": "2026-10-07 23:00",
+   "requests": 111,
+   "attacks": 69
+  },
+  {
+   "hour": "2026-10-08 00:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-08 01:00",
+   "requests": 59,
+   "attacks": 3
+  },
+  {
+   "hour": "2026-10-08 02:00",
+   "requests": 20,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-08 03:00",
+   "requests": 6,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-08 04:00",
+   "requests": 22,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-08 05:00",
+   "requests": 15,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-08 06:00",
+   "requests": 45,
+   "attacks": 19
+  },
+  {
+   "hour": "2026-10-08 07:00",
+   "requests": 53,
+   "attacks": 22
+  },
+  {
+   "hour": "2026-10-08 08:00",
+   "requests": 126,
+   "attacks": 121
+  },
+  {
+   "hour": "2026-10-08 09:00",
+   "requests": 105,
+   "attacks": 96
+  },
+  {
+   "hour": "2026-10-08 10:00",
+   "requests": 107,
+   "attacks": 88
+  },
+  {
+   "hour": "2026-10-08 11:00",
+   "requests": 104,
+   "attacks": 88
+  },
+  {
+   "hour": "2026-10-08 12:00",
+   "requests": 280,
+   "attacks": 271
+  },
+  {
+   "hour": "2026-10-08 13:00",
+   "requests": 116,
+   "attacks": 90
+  },
+  {
+   "hour": "2026-10-08 14:00",
+   "requests": 102,
+   "attacks": 80
+  },
+  {
+   "hour": "2026-10-08 15:00",
+   "requests": 46,
+   "attacks": 16
+  },
+  {
+   "hour": "2026-10-08 16:00",
+   "requests": 195,
+   "attacks": 183
+  },
+  {
+   "hour": "2026-10-08 17:00",
+   "requests": 136,
+   "attacks": 70
+  },
+  {
+   "hour": "2026-10-08 18:00",
+   "requests": 32,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-08 19:00",
+   "requests": 45,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-08 20:00",
+   "requests": 28,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-08 21:00",
+   "requests": 29,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-08 22:00",
+   "requests": 22,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-08 23:00",
+   "requests": 10,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-09 00:00",
+   "requests": 7,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 01:00",
+   "requests": 12,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 02:00",
+   "requests": 32,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 03:00",
+   "requests": 12,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 04:00",
+   "requests": 19,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 05:00",
+   "requests": 24,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-09 06:00",
+   "requests": 13,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-09 07:00",
+   "requests": 17,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 08:00",
+   "requests": 2567,
+   "attacks": 2553
+  },
+  {
+   "hour": "2026-10-09 09:00",
+   "requests": 8196,
+   "attacks": 7593
+  },
+  {
+   "hour": "2026-10-09 10:00",
+   "requests": 294,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 11:00",
+   "requests": 263,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-09 12:00",
+   "requests": 420,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-09 13:00",
+   "requests": 10,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-09 14:00",
+   "requests": 27,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-09 15:00",
+   "requests": 11,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 16:00",
+   "requests": 718,
+   "attacks": 104
+  },
+  {
+   "hour": "2026-10-09 17:00",
+   "requests": 1526,
+   "attacks": 248
+  },
+  {
+   "hour": "2026-10-09 18:00",
+   "requests": 338,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-09 19:00",
+   "requests": 262,
+   "attacks": 124
+  },
+  {
+   "hour": "2026-10-09 20:00",
+   "requests": 7,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 21:00",
+   "requests": 7,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-09 22:00",
+   "requests": 43,
+   "attacks": 4
+  },
+  {
+   "hour": "2026-10-09 23:00",
+   "requests": 59,
+   "attacks": 43
+  },
+  {
+   "hour": "2026-10-10 00:00",
+   "requests": 7,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 01:00",
+   "requests": 6,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-10 02:00",
+   "requests": 28,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 03:00",
+   "requests": 15,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 04:00",
+   "requests": 24,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 05:00",
+   "requests": 23,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 06:00",
+   "requests": 5,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 07:00",
+   "requests": 61,
+   "attacks": 42
+  },
+  {
+   "hour": "2026-10-10 08:00",
+   "requests": 12,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 09:00",
+   "requests": 65,
+   "attacks": 42
+  },
+  {
+   "hour": "2026-10-10 10:00",
+   "requests": 13,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-10 11:00",
+   "requests": 49,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 12:00",
+   "requests": 151,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-10 13:00",
+   "requests": 20,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-10 14:00",
+   "requests": 631,
+   "attacks": 42
+  },
+  {
+   "hour": "2026-10-10 15:00",
+   "requests": 139,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 16:00",
+   "requests": 16,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 18:00",
+   "requests": 20,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-10 19:00",
+   "requests": 510,
+   "attacks": 5
+  },
+  {
+   "hour": "2026-10-10 20:00",
+   "requests": 508,
+   "attacks": 12
+  },
+  {
+   "hour": "2026-10-11 05:00",
+   "requests": 440,
+   "attacks": 6
+  },
+  {
+   "hour": "2026-10-11 06:00",
+   "requests": 48,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-11 10:00",
+   "requests": 25,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-11 11:00",
+   "requests": 7,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-11 12:00",
+   "requests": 660,
+   "attacks": 9
+  },
+  {
+   "hour": "2026-10-11 13:00",
+   "requests": 4,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-11 18:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-12 04:00",
+   "requests": 32,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-12 07:00",
+   "requests": 37,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-12 08:00",
+   "requests": 20,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-12 15:00",
+   "requests": 23,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-12 16:00",
+   "requests": 10,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-12 17:00",
+   "requests": 4,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-13 09:00",
+   "requests": 236,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-13 10:00",
+   "requests": 6,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-13 11:00",
+   "requests": 431,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-13 12:00",
+   "requests": 36,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-13 15:00",
+   "requests": 265,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-13 16:00",
+   "requests": 170,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-13 17:00",
+   "requests": 39,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-13 20:00",
+   "requests": 6,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-14 07:00",
+   "requests": 3,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-14 12:00",
+   "requests": 17,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-15 05:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-15 12:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-16 06:00",
+   "requests": 195,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-16 07:00",
+   "requests": 589,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-16 08:00",
+   "requests": 97,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-16 09:00",
+   "requests": 159,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-16 13:00",
+   "requests": 9,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-16 17:00",
+   "requests": 177,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-16 18:00",
+   "requests": 869,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-17 05:00",
+   "requests": 6,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-17 06:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-17 10:00",
+   "requests": 104,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-17 14:00",
+   "requests": 3,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-18 03:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-19 11:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-19 12:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-19 13:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-19 15:00",
+   "requests": 15,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-19 16:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-20 01:00",
+   "requests": 18,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-20 02:00",
+   "requests": 24,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-20 10:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-20 11:00",
+   "requests": 31,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-21 06:00",
+   "requests": 10,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-21 09:00",
+   "requests": 1,
+   "attacks": 0
+  }
+ ],
+ "before_after": {
+  "before": {
+   "requests": 21916,
+   "attacks": 12964
+  },
+  "after": {
+   "requests": 5986,
+   "attacks": 32
+  }
+ }
+}
