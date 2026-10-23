@@ -254,9 +254,10 @@ const handleRefreshData = () => {
                       :class="row.isUnbanned ? 'reban-btn' : 'unban-btn'"
                       :disabled="apiActionLoading"
                       @click="toggleUnbanRow(row)"
+                      :title="row.isUnbanned ? 'คลิกเพื่อบล็อก IP นี้ซ้ำ' : 'คลิกเพื่อปลดแบน IP นี้'"
                     >
-                      <Unlock v-if="row.isUnbanned" class="tiny-icon" />
-                      <Ban  class="tiny-icon" />
+                      <Ban v-if="row.isUnbanned" class="tiny-icon" />
+                      <Unlock v-else class="tiny-icon" />
                       <span>{{ row.isUnbanned ? 'บล็อกซ้ำ' : 'ปลดแบน IP' }}</span>
                     </button>
                   </td>
@@ -565,6 +566,86 @@ const handleRefreshData = () => {
   padding: 2.5rem;
   color: #94a3b8;
   font-style: italic;
+}
+
+/* ==========================================================
+   ACTION BUTTONS (ปลดแบน / บล็อกซ้ำ)
+   ========================================================== */
+.action-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  font-family: inherit;
+}
+
+.action-pill-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ปุ่มปลดแบน: สไตล์ฟ้าสดใส Modern Clean สบายตา */
+.action-pill-btn.unban-btn {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+
+.action-pill-btn.unban-btn:hover:not(:disabled) {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+  transform: translateY(-1px);
+}
+
+/* ปุ่มบล็อกซ้ำ: สไตล์แดงเตือนภัย */
+.action-pill-btn.reban-btn {
+  background: #fef2f2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.action-pill-btn.reban-btn:hover:not(:disabled) {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+  transform: translateY(-1px);
+}
+
+/* DARK MODE */
+:global(.careops-app.dark-mode) .action-pill-btn.unban-btn {
+  background: #172554;
+  color: #60a5fa;
+  border-color: #1e40af;
+}
+
+:global(.careops-app.dark-mode) .action-pill-btn.unban-btn:hover:not(:disabled) {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+:global(.careops-app.dark-mode) .action-pill-btn.reban-btn {
+  background: #450a0a;
+  color: #f87171;
+  border-color: #991b1b;
+}
+
+:global(.careops-app.dark-mode) .action-pill-btn.reban-btn:hover:not(:disabled) {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
 }
 
 
