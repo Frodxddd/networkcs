@@ -32,6 +32,7 @@ export const useSecurityStore = defineStore('security', () => {
   const isPageLoading = ref(false)
 
   const rawReportStats = ref({
+    generatedAt: '',
     totalRequests: 27902,
     attacksMitigated: 12996,
     defenseEfficiency: '99.5%',
@@ -215,6 +216,7 @@ export const useSecurityStore = defineStore('security', () => {
 
       if (repRes && repRes.ok) {
         const data = await repRes.json()
+        if (data.generated_at) rawReportStats.value.generatedAt = data.generated_at
         if (data.total_requests) rawReportStats.value.totalRequests = data.total_requests
         if (data.attack_events) rawReportStats.value.attacksMitigated = data.attack_events
         if (data.by_category) {

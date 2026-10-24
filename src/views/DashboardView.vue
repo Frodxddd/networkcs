@@ -52,6 +52,19 @@ const setPeriod = (period: PeriodType) => {
 }
 
 // คำนวณสถิติตามช่วงเวลา (รายวัน / รายเดือน / รายปี)
+const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
+
+const reportDateFormatted = computed(() => {
+  if (rawReportStats.value.generatedAt) {
+    const d = new Date(rawReportStats.value.generatedAt)
+    if (!isNaN(d.getTime())) {
+      return `${d.getDate()} ${thaiMonths[d.getMonth()]}`
+    }
+  }
+  const now = new Date()
+  return `${now.getDate()} ${thaiMonths[now.getMonth()]}`
+})
+
 const currentStats = computed(() => {
   if (selectedPeriod.value === 'daily') {
     return {
@@ -69,7 +82,7 @@ const currentStats = computed(() => {
         wpLogin: 0,
         other: 0
       },
-      chartSubtitle: 'ทราฟฟิกรายชั่วโมงตลอด 24 ชม. ล่าสุด (21 ต.ค.) • เว็บไซต์หลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ ม.บูรพา'
+      chartSubtitle: `ทราฟฟิกรายชั่วโมงตลอด 24 ชม. ล่าสุด (${reportDateFormatted.value}) • เว็บไซต์หลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ ม.บูรพา`
     }
   } else if (selectedPeriod.value === 'yearly') {
     return {
@@ -115,14 +128,15 @@ const periodLabels: Record<PeriodType, string> = {
 // จุดกราฟตามช่วงเวลา
 const chartPoints = computed<ChartPoint[]>(() => {
   if (selectedPeriod.value === 'daily') {
+    const dStr = reportDateFormatted.value
     return [
-      { day: '00:00', date: '21 ต.ค.', x: 70, reqY: 185, atkY: 205, requests: 45, attacks: 0, rate: '100%', status: 'ผู้ใช้งานเข้าชมหน้าหลักสูตรปกติ' },
-      { day: '04:00', date: '21 ต.ค.', x: 215, reqY: 195, atkY: 205, requests: 18, attacks: 0, rate: '100%', status: 'ทราฟฟิกช่วงเช้ามืด ปลอดภัยสมบูรณ์' },
-      { day: '08:00', date: '21 ต.ค.', x: 360, reqY: 125, atkY: 205, requests: 312, attacks: 0, rate: '100%', status: 'เริ่มมีผู้เข้าชมและค้นหาข้อมูล TCAS' },
-      { day: '12:00', date: '21 ต.ค.', x: 505, reqY: 80, atkY: 205, requests: 580, attacks: 0, rate: '100%', status: 'ช่วงทราฟฟิกเข้าชม 4 กลุ่มวิชาเอกสูงสุด' },
-      { day: '16:00', date: '21 ต.ค.', x: 650, reqY: 95, atkY: 205, requests: 510, attacks: 0, rate: '100%', status: 'นักศึกษาและอาจารย์เข้าใช้งานปกติ' },
-      { day: '20:00', date: '21 ต.ค.', x: 795, reqY: 110, atkY: 205, requests: 440, attacks: 0, rate: '100%', status: 'ทราฟฟิกช่วงค่ำ ปกป้องสมบูรณ์ 100%' },
-      { day: '23:59', date: '21 ต.ค.', x: 940, reqY: 120, atkY: 205, requests: 414, attacks: 0, rate: '100%', status: 'สรุป 24 ชม. รวม 2,319 คำขอ โจมตี 0 ครั้ง' }
+      { day: '00:00', date: dStr, x: 70, reqY: 185, atkY: 205, requests: 45, attacks: 0, rate: '100%', status: 'ผู้ใช้งานเข้าชมหน้าหลักสูตรปกติ' },
+      { day: '04:00', date: dStr, x: 215, reqY: 195, atkY: 205, requests: 18, attacks: 0, rate: '100%', status: 'ทราฟฟิกช่วงเช้ามืด ปลอดภัยสมบูรณ์' },
+      { day: '08:00', date: dStr, x: 360, reqY: 125, atkY: 205, requests: 312, attacks: 0, rate: '100%', status: 'เริ่มมีผู้เข้าชมและค้นหาข้อมูล TCAS' },
+      { day: '12:00', date: dStr, x: 505, reqY: 80, atkY: 205, requests: 580, attacks: 0, rate: '100%', status: 'ช่วงทราฟฟิกเข้าชม 4 กลุ่มวิชาเอกสูงสุด' },
+      { day: '16:00', date: dStr, x: 650, reqY: 95, atkY: 205, requests: 510, attacks: 0, rate: '100%', status: 'นักศึกษาและอาจารย์เข้าใช้งานปกติ' },
+      { day: '20:00', date: dStr, x: 795, reqY: 110, atkY: 205, requests: 440, attacks: 0, rate: '100%', status: 'ทราฟฟิกช่วงค่ำ ปกป้องสมบูรณ์ 100%' },
+      { day: '23:59', date: dStr, x: 940, reqY: 120, atkY: 205, requests: 414, attacks: 0, rate: '100%', status: 'สรุป 24 ชม. รวม 2,319 คำขอ โจมตี 0 ครั้ง' }
     ]
   } else if (selectedPeriod.value === 'yearly') {
     return [
@@ -809,7 +823,7 @@ onMounted(() => {
                   @click="setPeriod('daily')"
                 >
                   <span class="item-title">รายวัน</span>
-                  <span class="item-desc">24 ชม. ล่าสุด (21 ต.ค.)</span>
+                  <span class="item-desc">24 ชม. ล่าสุด ({{ reportDateFormatted }})</span>
                 </button>
                 <button
                   class="dropdown-item"
