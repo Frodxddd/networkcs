@@ -736,7 +736,7 @@ onMounted(() => {
             </div>
             <div class="kpi-card-val-row">
               <span class="kpi-card-val">
-                {{ selectedPeriod === 'daily' ? '2,319' : (selectedPeriod === 'yearly' ? '142,500' : '7,156') }}
+                {{ selectedPeriod === 'daily' ? '2,319' : (selectedPeriod === 'yearly' ? '142,500' : currentStats.totalRequests.toLocaleString()) }}
               </span>
               <span class="kpi-badge-trend">{{ selectedPeriod === 'daily' ? '+2.4%' : (selectedPeriod === 'yearly' ? '+28%' : '+12.4%') }}</span>
             </div>
@@ -768,7 +768,7 @@ onMounted(() => {
             </div>
             <div class="kpi-card-val-row">
               <span class="kpi-card-val text-amber-val">
-                {{ selectedPeriod === 'daily' ? '0' : (selectedPeriod === 'yearly' ? '54,200' : '865') }}
+                {{ selectedPeriod === 'daily' ? '0' : (selectedPeriod === 'yearly' ? '54,200' : currentStats.attacksMitigated.toLocaleString()) }}
               </span>
               <span class="kpi-badge-watch">{{ selectedPeriod === 'daily' ? 'ปกติ' : 'เฝ้าระวัง' }}</span>
             </div>
@@ -1239,7 +1239,7 @@ onMounted(() => {
                 <div class="target-info">
                   <div class="target-name-row">
                     <span class="target-url mono">/xmlrpc.php</span>
-                    <span class="target-hits mono">10,833 ครั้ง</span>
+                    <span class="target-hits mono">{{ (rawReportStats.categories.xmlrpc || 10833).toLocaleString() }} ครั้ง</span>
                   </div>
                   <div class="target-bar-track">
                     <div class="target-bar-fill" style="width: 92%;"></div>
@@ -1252,7 +1252,7 @@ onMounted(() => {
                 <div class="target-info">
                   <div class="target-name-row">
                     <span class="target-url mono">/wp-login.php</span>
-                    <span class="target-hits mono">822 ครั้ง</span>
+                    <span class="target-hits mono">{{ (rawReportStats.categories.wpLogin || 834).toLocaleString() }} ครั้ง</span>
                   </div>
                   <div class="target-bar-track">
                     <div class="target-bar-fill" style="width: 45%;"></div>
