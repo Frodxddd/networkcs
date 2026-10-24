@@ -8,12 +8,13 @@ import {
   Plus,
   Unlock,
   Ban,
-  CheckCircle2,
-  AlertTriangle,
-  Shield,
   ShieldCheck,
   RefreshCw,
-  Flame
+  X,
+  AlertTriangle,
+  ShieldAlert,
+  Copy,
+  Check
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
@@ -52,8 +53,20 @@ const toggleUnbanRow = async (row: ThreatRow) => {
     apiActionLoading.value = false
     row.isUnbanned = !row.isUnbanned
     if (row.isUnbanned) {
+      securityStore.addAuditLog({
+        ip: row.ip,
+        action: 'UNBAN',
+        actionLabel: 'ปลดแบน IP',
+        detail: `ปลดแบนผ่านหน้าจัดการ IP (${row.attackType})`
+      })
       showToast('success', `ปลดแบน IP ${row.ip} เรียบร้อย`, `ลบกฎ iptables DROP บนเซิร์ฟเวอร์แล้ว • ${row.attackType}`)
     } else {
+      securityStore.addAuditLog({
+        ip: row.ip,
+        action: 'BAN',
+        actionLabel: 'บล็อก IP',
+        detail: `สั่งบล็อกซ้ำผ่านหน้าจัดการ IP (${row.attackType})`
+      })
       showToast('info', `บล็อก IP ${row.ip} เรียบร้อย`, `เพิ่มกฎ iptables DROP บนเซิร์ฟเวอร์แล้ว • ${row.attackType}`)
     }
   }
@@ -67,6 +80,44 @@ const getDots = (score: number, total: number = 8) => {
 const handleRefreshData = () => {
   securityStore.fetchReportData()
 }
+
+// Dialog ยืนยันการปลดแบน IP (ต้องพิมพ์เพื่อยืนยัน)
+const unbanConfirmRow = ref<ThreatRow | null>(null)
+const unbanConfirmInput = ref('')
+const unbanInputRef = ref<HTMLInputElement | null>(null)
+
+const isUnbanInputMatch = computed(() => {
+  if (!unbanConfirmRow.value) return false
+  const targetIp = unbanConfirmRow.value.ip.trim().toLowerCase()
+  const typed = unbanConfirmInput.value.trim().toLowerCase()
+  return typed === targetIp || typed === 'unban' || typed === 'ปลดแบน'
+})
+
+const handleActionClick = (row: ThreatRow) => {
+  if (row.isUnbanned) {
+    // กรณีที่ได้รับอนุญาตอยู่แล้ว: บล็อกซ้ำได้ทันที
+    toggleUnbanRow(row)
+  } else {
+    // กรณีที่ถูกบล็อกอยู่: ต้องเปิด Dialog ให้พิมพ์ยืนยันก่อนปลดแบน
+    unbanConfirmRow.value = row
+    unbanConfirmInput.value = ''
+    setTimeout(() => {
+      unbanInputRef.value?.focus()
+    }, 100)
+  }
+}
+
+const handleConfirmUnbanSubmit = async () => {
+  if (!isUnbanInputMatch.value || !unbanConfirmRow.value || apiActionLoading.value) return
+  const row = unbanConfirmRow.value
+  await toggleUnbanRow(row)
+  closeUnbanConfirmModal()
+}
+
+const closeUnbanConfirmModal = () => {
+  unbanConfirmRow.value = null
+  unbanConfirmInput.value = ''
+}
 </script>
 
 <template>
@@ -76,10 +127,6 @@ const handleRefreshData = () => {
         <section class="section-title-bar">
           <div class="title-with-badge">
             <h1 class="page-title">ระบบจัดการการปลดแบน & กฎไฟร์วอลล์ IP</h1>
-            <span class="vps-badge">
-              <span class="live-dot"></span>
-              iptables Controller • VPS nenenainaemak.duckdns.org
-            </span>
           </div>
 
           <div class="title-controls">
@@ -202,15 +249,7 @@ const handleRefreshData = () => {
                 >
                   <!-- IP Address -->
                   <td class="td-ip">
-                    <div class="ip-cell-box">
-                      <div class="icon-avatar" :style="{ backgroundColor: row.bg, color: row.color }">
-                        <Flame v-if="row.icon === 'flame'" class="avatar-icon" />
-                        <AlertTriangle -if="row.icon === 'alert'" class="avatar-icon" />
-                        <CheckCircle2 -if="row.icon === 'check'" class="avatar-icon" />
-                        <Shield  class="avatar-icon" />
-                      </div>
-                      <span class="mono bold-ip">{{ row.ip }}</span>
-                    </div>
+                    <span class="mono bold-ip">{{ row.ip }}</span>
                   </td>
 
                   <!-- ประเภททราฟฟิก -->
@@ -253,7 +292,7 @@ const handleRefreshData = () => {
                       class="action-pill-btn"
                       :class="row.isUnbanned ? 'reban-btn' : 'unban-btn'"
                       :disabled="apiActionLoading"
-                      @click="toggleUnbanRow(row)"
+                      @click="handleActionClick(row)"
                       :title="row.isUnbanned ? 'คลิกเพื่อบล็อก IP นี้ซ้ำ' : 'คลิกเพื่อปลดแบน IP นี้'"
                     >
                       <Ban v-if="row.isUnbanned" class="tiny-icon" />
@@ -274,6 +313,111 @@ const handleRefreshData = () => {
         </section>
       </main>
 
+    <!-- MODAL ยืนยันการปลดแบน IP (ต้องพิมพ์ยืนยัน) -->
+    <div v-if="unbanConfirmRow" class="modal-backdrop" @click="closeUnbanConfirmModal">
+      <div class="modal-dialog unban-confirm-dialog" @click.stop>
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <h3 class="modal-title flex-title">
+              <ShieldAlert class="modal-title-icon text-amber" />
+              <span>ยืนยันการปลดแบน IP</span>
+            </h3>
+            <span class="modal-subtitle">ระบบรักษาความปลอดภัยไฟร์วอลล์ (iptables)</span>
+          </div>
+          <button class="modal-close-btn" @click="closeUnbanConfirmModal" aria-label="ปิด">
+            <X class="tiny-icon" />
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- การ์ดสรุปข้อมูล IP ที่จะปลดแบน -->
+          <div class="unban-target-card">
+            <div class="target-meta">
+              <span class="target-label">IP ADDRESS ที่ต้องการปลดแบน</span>
+              <div class="target-ip-wrap">
+                <span class="target-ip-mono">{{ unbanConfirmRow.ip }}</span>
+                <button
+                  type="button"
+                  class="btn-copy-fill"
+                  @click="unbanConfirmInput = unbanConfirmRow.ip"
+                  title="คลิกเพื่อกรอกหมายเลข IP นี้ลงในช่องยืนยันทันที"
+                >
+                  <Copy class="tiny-icon" />
+                  <span>ใส่ในช่องพิมพ์</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="target-details-grid">
+              <div class="detail-cell">
+                <span class="detail-label">พฤติกรรมที่ตรวจพบ:</span>
+                <span class="detail-val">{{ unbanConfirmRow.attackType }}</span>
+              </div>
+              <div class="detail-cell">
+                <span class="detail-label">จำนวนครั้งที่บล็อก:</span>
+                <span class="detail-val text-rose">{{ unbanConfirmRow.hits }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- กล่องเตือนความปลอดภัย -->
+          <div class="unban-warning-alert">
+            <AlertTriangle class="alert-icon-svg text-amber" />
+            <div class="alert-content">
+              <strong>คำเตือนด้านความปลอดภัย:</strong>
+              การปลดแบนจะลบกฎ DROP บนเซิร์ฟเวอร์ และอนุญาตให้ IP นี้เชื่อมต่อเข้าสู่เว็บไซต์ได้ทันที หากเป็น IP บอทหรือผู้ไม่หวังดี อาจทำให้เว็บเสี่ยงถูกโจมตีซ้ำ
+            </div>
+          </div>
+
+          <!-- ช่องพิมพ์ยืนยัน -->
+          <div class="form-group unban-type-group">
+            <label class="form-label font-medium">
+              กรุณาพิมพ์ <code class="ip-code-chip">{{ unbanConfirmRow.ip }}</code> เพื่อยืนยัน:
+            </label>
+            <div class="confirm-input-wrap">
+              <input
+                ref="unbanInputRef"
+                v-model="unbanConfirmInput"
+                type="text"
+                class="form-input confirm-type-input"
+                :class="{ 'input-matched': isUnbanInputMatch }"
+                :placeholder="`พิมพ์ ${unbanConfirmRow.ip} เพื่อยืนยัน...`"
+                @keyup.enter="handleConfirmUnbanSubmit"
+              />
+              <span v-if="isUnbanInputMatch" class="match-badge">
+                <Check class="tiny-icon" />
+                <span>ถูกต้อง</span>
+              </span>
+            </div>
+            <span class="form-hint">
+              กด Enter หรือคลิกปุ่มด้านล่างเพื่อดำเนินการ (หรือพิมพ์ <code>UNBAN</code>)
+            </span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn-cancel"
+            :disabled="apiActionLoading"
+            @click="closeUnbanConfirmModal"
+          >
+            ยกเลิก
+          </button>
+          <button
+            type="button"
+            class="btn-confirm btn-unban-execute"
+            :class="{ 'btn-active-glow': isUnbanInputMatch }"
+            :disabled="!isUnbanInputMatch || apiActionLoading"
+            @click="handleConfirmUnbanSubmit"
+          >
+            <Unlock class="tiny-icon" />
+            <span v-if="apiActionLoading">กำลังปลดแบน...</span>
+            <span v-else>ยืนยันการปลดแบน IP</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -646,6 +790,290 @@ const handleRefreshData = () => {
   color: #ffffff;
   border-color: #ef4444;
   box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
+}
+
+/* ==========================================================
+   IP ADDRESS CELL & TYPOGRAPHY
+   ========================================================== */
+.bold-ip {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+}
+
+:global(.careops-app.dark-mode) .bold-ip {
+  color: #f8fafc;
+}
+
+/* ==========================================================
+   UNBAN CONFIRMATION MODAL (พิมพ์ยืนยัน)
+   ========================================================== */
+.unban-confirm-dialog {
+  max-width: 490px;
+  width: 92%;
+}
+
+.flex-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-title-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.unban-target-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.target-meta {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px dashed #cbd5e1;
+}
+
+.target-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.target-ip-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.target-ip-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.btn-copy-fill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.28rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-copy-fill:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #2563eb;
+}
+
+.target-details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+}
+
+.detail-cell {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.detail-label {
+  color: #64748b;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.detail-val {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.unban-warning-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.78rem;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+.alert-icon-svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ip-code-chip {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.confirm-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.confirm-type-input {
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.confirm-type-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.confirm-type-input.input-matched {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.match-badge {
+  position: absolute;
+  right: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #10b981;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  animation: fadeIn 0.15s ease;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-top: 0.35rem;
+}
+
+.btn-unban-execute {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #94a3b8;
+  color: #ffffff;
+  border: none;
+  padding: 0.55rem 1.15rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: not-allowed;
+  transition: all 0.2s ease;
+}
+
+.btn-unban-execute.btn-active-glow {
+  background: #2563eb;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-unban-execute.btn-active-glow:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Dark Mode for Unban Modal */
+:global(.careops-app.dark-mode) .unban-target-card {
+  background: #0f172a;
+  border-color: #1e293b;
+}
+
+:global(.careops-app.dark-mode) .target-meta {
+  border-bottom-color: #1e293b;
+}
+
+:global(.careops-app.dark-mode) .target-ip-mono {
+  color: #f8fafc;
+}
+
+:global(.careops-app.dark-mode) .btn-copy-fill {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+:global(.careops-app.dark-mode) .btn-copy-fill:hover {
+  background: #1e3a8a;
+  border-color: #3b82f6;
+  color: #93c5fd;
+}
+
+:global(.careops-app.dark-mode) .detail-val {
+  color: #e2e8f0;
+}
+
+:global(.careops-app.dark-mode) .unban-warning-alert {
+  background: #451a03;
+  border-color: #78350f;
+  color: #fde68a;
+}
+
+:global(.careops-app.dark-mode) .ip-code-chip {
+  background: #450a0a;
+  color: #fca5a5;
+}
+
+:global(.careops-app.dark-mode) .confirm-type-input {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+:global(.careops-app.dark-mode) .confirm-type-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+:global(.careops-app.dark-mode) .confirm-type-input.input-matched {
+  border-color: #059669;
+  background: #064e3b;
 }
 
 

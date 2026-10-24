@@ -51,6 +51,15 @@ const handleAddSubmit = async () => {
       })
     }
 
+    securityStore.addAuditLog({
+      ip,
+      action: isUnban ? 'UNBAN' : 'BAN',
+      actionLabel: isUnban ? 'ปลดแบน IP' : 'บล็อก IP',
+      detail: quickNote.value
+        ? `${isUnban ? 'ปลดแบน IP' : 'บล็อก IP'}: ${quickNote.value}`
+        : (isUnban ? 'ปลดแบนผ่านหน้าจัดการ IP (เพิ่มสิทธิ์ Whitelist)' : 'บล็อกผ่านหน้าจัดการ IP')
+    })
+
     if (isUnban) {
       showToast('success', `บันทึกการปลดแบน IP ${ip} สำเร็จ`, 'อัปเดตกฎไฟร์วอลล์ Whitelist เรียบร้อยแล้ว')
     } else {

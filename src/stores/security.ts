@@ -14,6 +14,15 @@ export interface ThreatRow {
   isUnbanned: boolean
 }
 
+export interface AuditLogRow {
+  id: string
+  timestamp: string
+  ip: string
+  action: 'UNBAN' | 'BAN'
+  actionLabel: string
+  detail: string
+}
+
 export const useSecurityStore = defineStore('security', () => {
   const isAddModalOpen = ref(false)
   const quickIp = ref('')
@@ -100,6 +109,101 @@ export const useSecurityStore = defineStore('security', () => {
     }
   ])
 
+  // 4. บันทึกประวัติการแก้ไขกฎไฟร์วอลล์ (Audit Logs - ห้ามแก้ไข/ห้ามลบ)
+  const defaultInitialLogs: AuditLogRow[] = [
+    {
+      id: 'log-1',
+      timestamp: '2026-10-24 11:20:15',
+      ip: '1.46.128.90',
+      action: 'UNBAN',
+      actionLabel: 'ปลดแบน IP',
+      detail: 'ปลดแบนผ่านหน้าจัดการ IP (อนุญาตใช้งาน Whitelist)'
+    },
+    {
+      id: 'log-2',
+      timestamp: '2026-10-24 10:45:00',
+      ip: '34.182.207.28',
+      action: 'BAN',
+      actionLabel: 'บล็อก IP',
+      detail: 'บล็อกการเชื่อมต่อผ่านหน้าจัดการ IP (ตรวจพบบอทสแปม XML-RPC)'
+    },
+    {
+      id: 'log-3',
+      timestamp: '2026-10-24 09:12:34',
+      ip: '67.205.191.35',
+      action: 'BAN',
+      actionLabel: 'บล็อก IP',
+      detail: 'บล็อกการเชื่อมต่อผ่านหน้าจัดการ IP (ตรวจพบสุ่มรหัสผ่านหลังบ้าน)'
+    },
+    {
+      id: 'log-4',
+      timestamp: '2026-10-24 08:30:19',
+      ip: '35.214.108.214',
+      action: 'BAN',
+      actionLabel: 'บล็อก IP',
+      detail: 'บล็อกการเชื่อมต่อผ่านหน้าจัดการ IP (ตรวจพบสแกนหาช่องโหว่)'
+    },
+    {
+      id: 'log-5',
+      timestamp: '2026-10-24 07:15:42',
+      ip: '34.169.31.210',
+      action: 'BAN',
+      actionLabel: 'บล็อก IP',
+      detail: 'บล็อกการเชื่อมต่อผ่านหน้าจัดการ IP (ตรวจพบบอทสแกนหาแอดมิน)'
+    }
+  ]
+
+  const loadAuditLogs = (): AuditLogRow[] => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const saved = localStorage.getItem('secdash_audit_logs')
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed
+        }
+      } catch {
+        // fallback
+      }
+    }
+    return defaultInitialLogs
+  }
+
+  const auditLogs = ref<AuditLogRow[]>(loadAuditLogs())
+
+  function addAuditLog(entry: Omit<AuditLogRow, 'id' | 'timestamp'>) {
+    const now = new Date()
+    const pad = (n: number) => n.toString().padStart(2, '0')
+    const timestamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
+    
+    const newLog: AuditLogRow = {
+      id: `log-${Date.now()}`,
+      timestamp,
+      ...entry
+    }
+    auditLogs.value.unshift(newLog)
+
+    // บันทึกลง localStorage ทันที เพื่อให้แสดงผลถาวรแม้รีเฟรชหน้าเว็บหรือ deploy
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        localStorage.setItem('secdash_audit_logs', JSON.stringify(auditLogs.value))
+      } catch {
+        // ignore
+      }
+    }
+
+    // ซิงค์ส่งขึ้นเซิร์ฟเวอร์แบบ Background (ถ้ามี API endpoint บนเซิร์ฟเวอร์)
+    try {
+      const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
+      fetch(`${origin}/api/logs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newLog)
+      }).catch(() => null)
+    } catch {
+      // ignore
+    }
+  }
+
   async function fetchReportData() {
     isPageLoading.value = true
     try {
@@ -142,6 +246,8 @@ export const useSecurityStore = defineStore('security', () => {
     apiActionLoading,
     rawReportStats,
     threatRows,
+    auditLogs,
+    addAuditLog,
     fetchReportData
   }
 })

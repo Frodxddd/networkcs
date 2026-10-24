@@ -19,7 +19,7 @@ import {
 
 const route = useRoute()
 const securityStore = useSecurityStore()
-const { threatRows, isAddModalOpen } = storeToRefs(securityStore)
+const { isAddModalOpen } = storeToRefs(securityStore)
 const { isDarkMode, toggleTheme } = useTheme()
 const { toast } = useToast()
 
@@ -174,8 +174,17 @@ onMounted(() => {
             :class="{ active: route.path === '/unban' }"
           >
             <span>จัดการ IP</span>
-            <span class="nav-count-badge">{{ threatRows.filter(r => !r.isUnbanned).length }}</span>
             <span v-if="route.path === '/unban'" class="gold-active-bar"></span>
+          </RouterLink>
+
+          <!-- เมนู 3: ประวัติการแก้ไข (Audit Log - Read-Only) -->
+          <RouterLink
+            to="/logs"
+            class="main-nav-link pill-tab"
+            :class="{ active: route.path === '/logs' }"
+          >
+            <span>ประวัติการแก้ไข</span>
+            <span v-if="route.path === '/logs'" class="gold-active-bar"></span>
           </RouterLink>
         </nav>
 
