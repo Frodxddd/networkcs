@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useSecurityStore } from './stores/security'
@@ -65,12 +65,26 @@ const runLoadingAnimation = (
   }, 20)
 }
 
+let autoSyncTimer: any = null
+
 onMounted(() => {
   runLoadingAnimation(
     'กำลังโหลดข้อมูลความปลอดภัย',
     'กรุณารอสักครู่ ระบบกำลังดึงข้อมูลล่าสุดจากเซิร์ฟเวอร์',
     650
   )
+  securityStore.fetchReportData()
+
+  // Real-time Central Auto-Sync ทุกๆ 3.5 วินาที
+  autoSyncTimer = setInterval(() => {
+    securityStore.fetchReportData(true)
+  }, 3500)
+})
+
+onUnmounted(() => {
+  if (autoSyncTimer) {
+    clearInterval(autoSyncTimer)
+  }
 })
 </script>
 

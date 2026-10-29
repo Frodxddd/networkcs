@@ -371,29 +371,83 @@ export const useSecurityStore = defineStore('security', () => {
     }
   }
 
-  async function fetchReportData() {
-    isPageLoading.value = true
+  async function fetchReportData(isBackground: boolean = false) {
+    if (!isBackground) isPageLoading.value = true
     try {
       const basePath = import.meta.env.BASE_URL || '/secdash/'
       const t = Date.now()
       const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
-      const [repRes, aiRes, stateRes] = await Promise.all([
+      const [repRes, aiRes, stateRes, logsRes] = await Promise.all([
         fetch(`${basePath}report.json?t=${t}`).catch(() => fetch(`/report.json?t=${t}`).catch(() => null)),
         fetch(`${basePath}ai_report.json?t=${t}`).catch(() => fetch(`/ai_report.json?t=${t}`).catch(() => null)),
-        fetch(`${origin}/api/state`).catch(() => null)
+        fetch(`${origin}/api/state?t=${t}`).catch(() => null),
+        fetch(`${origin}/api/logs?t=${t}`).catch(() => null)
       ])
 
-      // 1. ซิงค์สถานะ unbanned จาก server state API
+      // 1. ซิงค์สถานะและ IP ที่จัดการบน Server ให้ตรงกันทุกคน (Multi-user Sync)
       if (stateRes && stateRes.ok) {
         try {
           const stateData = await stateRes.json()
           if (Array.isArray(stateData.unbanned_ips)) {
             stateData.unbanned_ips.forEach((ip: string) => unbannedIps.value.add(ip))
+          }
+          if (Array.isArray(stateData.banned_ips)) {
+            stateData.banned_ips.forEach((ip: string) => unbannedIps.value.delete(ip))
+          }
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('secdash_unbanned_ips', JSON.stringify([...unbannedIps.value]))
+          }
+          if (stateData.client_ip) {
+            clientIp.value = stateData.client_ip
             if (typeof window !== 'undefined' && window.localStorage) {
-              localStorage.setItem('secdash_unbanned_ips', JSON.stringify([...unbannedIps.value]))
+              localStorage.setItem('secdash_client_ip', stateData.client_ip)
             }
           }
-        } catch {}
+
+          // ซิงค์ Custom IP ทั้งหมดจากเซิร์ฟเวอร์ ให้ทุกเครื่องเห็นตารางตรงกัน 100%
+          if (Array.isArray(stateData.custom_ips) && stateData.custom_ips.length > 0) {
+            const serverThreats: ThreatRow[] = stateData.custom_ips.map((c: any, idx: number) => {
+              const isUnban = stateData.unbanned_ips?.includes(c.ip) || c.isUnbanned === true
+              return {
+                id: `threat-custom-${c.ip || idx}`,
+                ip: c.ip,
+                attackType: c.attackType || (isUnban ? 'ผู้สมัคร TCAS 68 / อาจารย์ ม.บูรพา' : 'บล็อกด้วยตนเองผ่านแดชบอร์ด'),
+                icon: isUnban ? 'check' : 'alert',
+                color: isUnban ? '#059669' : '#dc2626',
+                bg: isUnban ? '#d1fae5' : '#fee2e2',
+                threatIntensity: isUnban ? 15 : 75,
+                allocation: 30,
+                hits: c.hits || (isUnban ? '0 ครั้ง (อนุญาต)' : '1 ครั้ง (บล็อก)'),
+                isUnbanned: isUnban,
+                lastSeen: c.last_seen || '',
+                lastSeenRaw: c.last_seen ? new Date(c.last_seen.replace(' ', 'T')).getTime() : Date.now()
+              }
+            })
+            const cMap = new Map(customThreatRows.value.map(r => [r.ip, r]))
+            serverThreats.forEach(sr => cMap.set(sr.ip, sr))
+            customThreatRows.value = Array.from(cMap.values())
+            if (typeof window !== 'undefined' && window.localStorage) {
+              localStorage.setItem('secdash_custom_threats', JSON.stringify(customThreatRows.value))
+            }
+          }
+        } catch (e) {
+          console.error('Error syncing server state:', e)
+        }
+      }
+
+      // 2. ซิงค์ Audit Logs จาก Server ให้ตรงกันทุกคน
+      if (logsRes && logsRes.ok) {
+        try {
+          const serverLogs = await logsRes.json()
+          if (Array.isArray(serverLogs) && serverLogs.length > 0) {
+            auditLogs.value = serverLogs
+            if (typeof window !== 'undefined' && window.localStorage) {
+              localStorage.setItem('secdash_audit_logs', JSON.stringify(auditLogs.value))
+            }
+          }
+        } catch (e) {
+          console.error('Error syncing server audit logs:', e)
+        }
       }
 
       if (repRes && repRes.ok) {
@@ -561,7 +615,9 @@ export const useSecurityStore = defineStore('security', () => {
     } catch {
       // คงข้อมูลตั้งต้น
     } finally {
-      isPageLoading.value = false
+      if (!isBackground) {
+        isPageLoading.value = false
+      }
     }
   }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSecurityStore, type ThreatRow } from '../stores/security'
 import { useToast } from '../composables/useToast'
@@ -153,6 +153,10 @@ const getDots = (score: number, total: number = 8) => {
 const handleRefreshData = () => {
   securityStore.fetchReportData()
 }
+
+onMounted(() => {
+  securityStore.fetchReportData(true)
+})
 
 // Dialog ยืนยันการปลดแบน IP (ต้องพิมพ์เพื่อยืนยัน)
 const unbanConfirmRow = ref<ThreatRow | null>(null)
@@ -1106,6 +1110,12 @@ const closeUnbanConfirmModal = () => {
   color: #60a5fa !important;
 }
 
+.ip-cell-flex {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .bold-ip {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
@@ -1114,55 +1124,7 @@ const closeUnbanConfirmModal = () => {
   letter-spacing: -0.01em;
 }
 
-:global(.careops-app.dark-mode) .ip-cell-flex {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.self-ip-badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.68rem;
-  font-weight: 700;
-  padding: 0.15rem 0.45rem;
-  border-radius: 9999px;
-  background: #eff6ff;
-  color: #2563eb;
-  border: 1px solid #bfdbfe;
-  letter-spacing: 0.02em;
-}
-
-:global(.careops-app.dark-mode) .self-ip-badge {
-  background: rgba(37, 99, 235, 0.2);
-  color: #93c5fd;
-  border-color: rgba(59, 130, 246, 0.4);
-}
-
-.disabled-self-btn {
-  background: #f1f5f9 !important;
-  color: #94a3b8 !important;
-  border: 1px dashed #cbd5e1 !important;
-  cursor: not-allowed !important;
-  opacity: 0.85;
-}
-
-:global(.careops-app.dark-mode) .disabled-self-btn {
-  background: #1e293b !important;
-  color: #64748b !important;
-  border: 1px dashed #334155 !important;
-}
-
-.self-admin-type {
-  color: #2563eb !important;
-  font-weight: 600;
-}
-
-:global(.careops-app.dark-mode) .self-admin-type {
-  color: #60a5fa !important;
-}
-
-.bold-ip {
+:global(.careops-app.dark-mode) .bold-ip {
   color: #f8fafc;
 }
 
