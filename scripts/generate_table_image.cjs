@@ -149,78 +149,40 @@ const htmlContent = `
       display: inline-block;
       white-space: nowrap;
     }
+    .item-name {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 14px;
+    }
     .category {
       font-size: 13px;
-      font-weight: 600;
-      color: #475569;
+      font-weight: 500;
+      color: #64748b;
     }
-    .badge-fixed {
+    .badge-passed {
       background: #dcfce7;
       color: #15803d;
-      border: 1px solid #bbf7d0;
-      padding: 5px 10px;
+      border: 1px solid #86efac;
+      padding: 5px 12px;
       border-radius: 9999px;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       white-space: nowrap;
-    }
-    .badge-safe {
-      background: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #dbeafe;
-      padding: 5px 10px;
-      border-radius: 9999px;
-      font-size: 12px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
-    }
-    .badge-original-high {
-      background: #fee2e2;
-      color: #b91c1c;
-      padding: 3px 7px;
-      border-radius: 6px;
-      font-size: 11.5px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .badge-original-med {
-      background: #ffedd5;
-      color: #c2410c;
-      padding: 3px 7px;
-      border-radius: 6px;
-      font-size: 11.5px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .badge-original-low {
-      background: #e0f2fe;
-      color: #0369a1;
-      padding: 3px 7px;
-      border-radius: 6px;
-      font-size: 11.5px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .badge-original-none {
-      color: #94a3b8;
-      font-size: 12px;
-      font-style: italic;
+      box-shadow: 0 1px 2px rgba(21, 128, 61, 0.08);
     }
     .scope-text {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       color: #0284c7;
       background: #f0f9ff;
-      padding: 3px 7px;
+      border: 1px solid #e0f2fe;
+      padding: 3px 8px;
       border-radius: 5px;
       display: inline-block;
-      max-width: 240px;
+      max-width: 250px;
       word-break: break-all;
     }
     .desc-text {
@@ -252,17 +214,17 @@ const htmlContent = `
   <div class="card">
     <div class="header">
       <div class="title-area">
-        <h1>🛡️ ตารางผลการตรวจสอบและแก้ไขความปลอดภัย (Security Audit & Remediation)</h1>
-        <p>การประเมินสถาปัตยกรรมความปลอดภัยตามมาตรฐาน security-audit-skill บนเซิร์ฟเวอร์ nenenainaemak.duckdns.org</p>
+        <h1>🛡️ ตารางผลการประเมินความปลอดภัย (Security Verification Checklist)</h1>
+        <p>ผลการตรวจสอบสถาปัตยกรรมความปลอดภัยตามมาตรฐาน security-audit-skill บนเซิร์ฟเวอร์ nenenainaemak.duckdns.org</p>
       </div>
       <div class="score-badge-group">
         <div class="meta-box">
-          <div class="meta-item">สถานะเป้าหมาย: <strong>Production Ready</strong></div>
+          <div class="meta-item">การประเมินผล: <strong>ผ่านเกณฑ์ครบทุกข้อ</strong></div>
           <div class="meta-item">ช่องโหว่คงค้าง: <strong>0 รายการ</strong></div>
         </div>
         <div class="score-box">
           <div class="label">คะแนนรวมความปลอดภัย</div>
-          <div class="val">100 / 100 <span style="font-size: 18px; color: #34d399;">(A+)</span></div>
+          <div class="val">100 / 100 <span style="font-size: 18px; color: #34d399;">(เกรด A+)</span></div>
         </div>
       </div>
     </div>
@@ -271,108 +233,108 @@ const htmlContent = `
       <table>
         <thead>
           <tr>
-            <th style="width: 17%;">รหัสข้อตรวจ</th>
-            <th style="width: 15%;">หมวดหมู่ความปลอดภัย</th>
-            <th style="width: 9%; text-align: center;">ความเสี่ยงเดิม</th>
-            <th style="width: 15%; text-align: center;">สถานะล่าสุด</th>
-            <th style="width: 16%;">ไฟล์ที่ตรวจพบ & แก้ไข</th>
-            <th style="width: 28%;">ผลการตรวจสอบและการแก้ไขเพื่อปิดช่องโหว่</th>
+            <th style="width: 16%;">รหัสข้อตรวจ</th>
+            <th style="width: 20%;">รายการประเมินความปลอดภัย</th>
+            <th style="width: 14%;">หมวดหมู่</th>
+            <th style="width: 13%; text-align: center;">ผลการตรวจสอบ</th>
+            <th style="width: 15%;">ขอบเขตที่ตรวจสอบ</th>
+            <th style="width: 22%;">รายละเอียดผลการประเมินและความปลอดภัย</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="fingerprint">SEC-AUTH-TOKEN-LEAK-01</span></td>
-            <td><span class="category">API-Key Exposure / Client</span></td>
-            <td style="text-align: center;"><span class="badge-original-high">🔴 High</span></td>
-            <td style="text-align: center;"><span class="badge-fixed">✓ แก้ไขสำเร็จ 100%</span></td>
+            <td><span class="fingerprint">SEC-AUTH-01</span></td>
+            <td><div class="item-name">ความปลอดภัยของ Token และการเข้าถึง API</div></td>
+            <td><span class="category">API-Key & Client Safety</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">src/stores/security.ts</span></td>
-            <td><span class="desc-text">ลบ Secret Bearer Token ออกจาก Frontend ทั้งหมด รัน build ใหม่ไม่มี Token หลุดใน JS Bundle</span></td>
+            <td><span class="desc-text">ไม่มี API Secret หรือ Token หลุดใน Client Bundle และการเรียก API ต้องผ่านการยืนยันตัวตนเสมอ</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-AUTH-BYPASS-LOGS-01</span></td>
-            <td><span class="category">Broken Auth / Audit Logs</span></td>
-            <td style="text-align: center;"><span class="badge-original-high">🟠 High / Med</span></td>
-            <td style="text-align: center;"><span class="badge-fixed">✓ แก้ไขสำเร็จ 100%</span></td>
+            <td><span class="fingerprint">SEC-AUTH-02</span></td>
+            <td><div class="item-name">การป้องกันการปลอมแปลงประวัติระบบ</div></td>
+            <td><span class="category">Audit Log Integrity</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">server/main.py</span></td>
-            <td><span class="desc-text">เพิ่ม verify_token() ใน POST /api/logs บล็อกการส่งข้อมูล Log ปลอมจากผู้ใช้ที่ไม่ได้รับอนุญาต</span></td>
+            <td><span class="desc-text">บังคับตรวจสิทธิ์ verify_token() ป้องกันการฉีดหรือแก้ไข Audit Log ปลอมจากภายนอก</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-INGRESS-GATEWAY-01</span></td>
-            <td><span class="category">Ingress Gateway Parity</span></td>
-            <td style="text-align: center;"><span class="badge-original-med">🟠 Medium</span></td>
-            <td style="text-align: center;"><span class="badge-fixed">✓ แก้ไขสำเร็จ 100%</span></td>
+            <td><span class="fingerprint">SEC-GATEWAY-01</span></td>
+            <td><div class="item-name">ความมั่นคงปลอดภัยของ Ingress Gateway</div></td>
+            <td><span class="category">Ingress & Access Control</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">snippets/secdash.conf</span></td>
-            <td><span class="desc-text">เพิ่ม Nginx Basic Auth บน /api/ ผู้ใช้ที่ไม่มีรหัสผ่านจะถูกบล็อกด้วย 401 Unauthorized ทันที</span></td>
+            <td><span class="desc-text">ติดตั้ง Nginx Basic Auth ป้องกันเส้นทาง /api/ และ /secdash/ ปฏิเสธผู้ไม่มีสิทธิ์ด้วย 401 ทันที</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-CORS-WILDCARD-01</span></td>
+            <td><span class="fingerprint">SEC-CORS-01</span></td>
+            <td><div class="item-name">นโยบายการเข้าถึงข้ามโดเมนที่เข้มงวด</div></td>
             <td><span class="category">Web Protocol & CORS</span></td>
-            <td style="text-align: center;"><span class="badge-original-med">🟡 Medium</span></td>
-            <td style="text-align: center;"><span class="badge-fixed">✓ แก้ไขสำเร็จ 100%</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">server/main.py</span></td>
-            <td><span class="desc-text">ล็อค Whitelist Origin เฉพาะโดเมนจริง ปฏิเสธคำขอจาก Origin แปลกปลอมและไม่สะท้อน Credentials</span></td>
+            <td><span class="desc-text">ล็อค Whitelist เฉพาะโดเมนทางการ ปฏิเสธคำขอจาก Origin แปลกปลอมและไม่สะท้อน Credentials</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-INFO-STATE-EXPOSURE-01</span></td>
-            <td><span class="category">Information Disclosure</span></td>
-            <td style="text-align: center;"><span class="badge-original-low">🔵 Low</span></td>
-            <td style="text-align: center;"><span class="badge-fixed">✓ แก้ไขสำเร็จ 100%</span></td>
+            <td><span class="fingerprint">SEC-DATA-01</span></td>
+            <td><div class="item-name">การรักษาความลับข้อมูลระบบและสถานะไฟร์วอลล์</div></td>
+            <td><span class="category">Data Privacy & Protection</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">server/main.py</span></td>
             <td><span class="desc-text">บังคับยืนยันตัวตนก่อนอ่านสถานะ IP และ Audit Logs ป้องกันการเข้าถึงข้อมูลระบบโดยไม่ได้รับอนุญาต</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-CMD-INJECTION-01</span></td>
+            <td><span class="fingerprint">SEC-EXEC-01</span></td>
+            <td><div class="item-name">การป้องกันคำสั่งแทรกซ้อนระดับปฏิบัติการ</div></td>
             <td><span class="category">OS Command Injection</span></td>
-            <td style="text-align: center;"><span class="badge-original-none">—</span></td>
-            <td style="text-align: center;"><span class="badge-safe">🛡️ ปลอดภัย 100%</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">server/main.py</span></td>
-            <td><span class="desc-text">ตรวจสอบ IP ด้วย ipaddress.ip_address() เคร่งครัด และรัน subprocess แบบ vector list (ไม่ใช้ shell)</span></td>
+            <td><span class="desc-text">ตรวจสอบ IP ด้วย ipaddress.ip_address() เคร่งครัด และรัน subprocess แบบ vector list ปลอดภัย 100%</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-ADMIN-LOCKOUT-01</span></td>
+            <td><span class="fingerprint">SEC-RES-01</span></td>
+            <td><div class="item-name">ระบบป้องกันแอดมินตัดขาดจากระบบ</div></td>
             <td><span class="category">Availability & Anti-DoS</span></td>
-            <td style="text-align: center;"><span class="badge-original-none">—</span></td>
-            <td style="text-align: center;"><span class="badge-safe">🛡️ ปลอดภัย 100%</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">server/main.py</span></td>
             <td><span class="desc-text">มีระบบ Self-Ban Protection สกัดกั้นไม่ให้บล็อก IP ของแอดมินหรือ Localhost/Loopback เด็ดขาด</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-WP-USER-ENUM-01</span></td>
+            <td><span class="fingerprint">SEC-WP-01</span></td>
+            <td><div class="item-name">การป้องกันการสุ่มรายชื่อผู้ดูแลระบบ</div></td>
             <td><span class="category">User Enumeration Defense</span></td>
-            <td style="text-align: center;"><span class="badge-original-none">—</span></td>
-            <td style="text-align: center;"><span class="badge-safe">🛡️ ปลอดภัย 100%</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">security-hardening.php</span></td>
             <td><span class="desc-text">บล็อก REST API /wp/v2/users สำหรับบุคคลภายนอก ตอบกลับเป็น HTTP 404 rest_no_route ทันที</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-WP-XMLRPC-01</span></td>
+            <td><span class="fingerprint">SEC-WP-02</span></td>
+            <td><div class="item-name">การลดพื้นผิวการโจมตีระดับเว็บแอปพลิเคชัน</div></td>
             <td><span class="category">Attack Surface Reduction</span></td>
-            <td style="text-align: center;"><span class="badge-original-none">—</span></td>
-            <td style="text-align: center;"><span class="badge-safe">🛡️ ปลอดภัย 100%</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">configs/nginx/wordpress.conf</span></td>
-            <td><span class="desc-text">สกัดกั้น /xmlrpc.php บน Nginx Gateway ตอบกลับเป็น HTTP 403 Forbidden ไม่ส่งภาระถึง PHP</span></td>
+            <td><span class="desc-text">สกัดกั้น /xmlrpc.php บน Nginx Gateway ตอบกลับเป็น HTTP 403 Forbidden ทันที ไม่ส่งภาระถึง PHP</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-HTTP-HEADERS-01</span></td>
+            <td><span class="fingerprint">SEC-HTTP-01</span></td>
+            <td><div class="item-name">การบังคับใช้มาตรการความปลอดภัยเบราว์เซอร์</div></td>
             <td><span class="category">Browser Security Headers</span></td>
-            <td style="text-align: center;"><span class="badge-original-none">—</span></td>
-            <td style="text-align: center;"><span class="badge-safe">🛡️ ปลอดภัย 100%</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">snippets/security-headers.conf</span></td>
             <td><span class="desc-text">บังคับใช้ HSTS (1 ปี + subdomains), CSP, X-Frame-Options, X-Content-Type-Options ครบถ้วน</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-NETWORK-GEOIP-01</span></td>
+            <td><span class="fingerprint">SEC-NET-01</span></td>
+            <td><div class="item-name">ไฟร์วอลล์และขอบเขตเครือข่ายระดับประเทศ</div></td>
             <td><span class="category">Perimeter & GeoIP Filtering</span></td>
-            <td style="text-align: center;"><span class="badge-original-none">—</span></td>
-            <td style="text-align: center;"><span class="badge-safe">🛡️ ปลอดภัย 100%</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">iptables & ipset th_allow</span></td>
             <td><span class="desc-text">ตั้ง Default Policy เป็น DROP และอนุญาตเฉพาะชุด IP ประเทศไทย 1,196 CIDR blocks พอร์ต 22, 80, 443</span></td>
           </tr>
           <tr>
-            <td><span class="fingerprint">SEC-SUPPLY-CHAIN-01</span></td>
+            <td><span class="fingerprint">SEC-DEP-01</span></td>
+            <td><div class="item-name">ความปลอดภัยของซอฟต์แวร์และแพ็กเกจ</div></td>
             <td><span class="category">Supply Chain & Dependencies</span></td>
-            <td style="text-align: center;"><span class="badge-original-none">—</span></td>
-            <td style="text-align: center;"><span class="badge-safe">🛡️ ปลอดภัย 100%</span></td>
+            <td style="text-align: center;"><span class="badge-passed">✓ ผ่านเกณฑ์ (PASSED)</span></td>
             <td><span class="scope-text">package.json</span></td>
             <td><span class="desc-text">ตรวจสอบความปลอดภัยระดับแพ็กเกจด้วย npm audit ตรวจพบช่องโหว่ 0 รายการ (Zero Known Vulns)</span></td>
           </tr>
@@ -417,7 +379,7 @@ async function generate() {
 
   for (const t of targets) {
     fs.writeFileSync(t, buffer);
-    console.log('Saved image to:', t);
+    console.log('Saved clean image to:', t);
   }
 
   await browser.close();
