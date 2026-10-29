@@ -1,37 +1,37 @@
 {
- "generated_at": "2026-10-26T14:02:10+00:00",
+ "generated_at": "2026-10-29T09:37:42+00:00",
  "firewall_start": "2026-10-10T15:19:00+00:00",
- "total_requests": 29659,
- "attack_events": 13010,
- "unique_ips": 660,
+ "total_requests": 30420,
+ "attack_events": 13018,
+ "unique_ips": 666,
  "status_counts": {
-  "4xx": 2650,
-  "2xx": 23706,
-  "3xx": 2922,
+  "4xx": 2764,
+  "2xx": 24246,
+  "3xx": 3013,
   "5xx": 373,
-  "429": 8
+  "429": 24
  },
  "by_category": {
+  "vuln_scan": 1321,
+  "xmlrpc_abuse": 10836,
   "user_enumeration": 22,
-  "vuln_scan": 1317,
-  "xmlrpc_abuse": 10833,
-  "login_failed": 834,
+  "login_failed": 835,
   "login_ratelimited": 4
  },
  "top_targets": [
   {
    "path": "/xmlrpc.php",
-   "count": 10833,
+   "count": 10836,
    "name": "XML-RPC Abuse"
   },
   {
    "path": "/wp-login.php",
-   "count": 834,
+   "count": 835,
    "name": "WordPress Brute Force"
   },
   {
    "path": "Vuln Probing",
-   "count": 1317,
+   "count": 1321,
    "name": "Vulnerability Scanning"
   },
   {
@@ -53,7 +53,8 @@
    "types": {
     "xmlrpc_abuse": 10097,
     "user_enumeration": 3
-   }
+   },
+   "last_seen": "2026-10-09 09:40:50"
   },
   {
    "ip": "67.205.191.35",
@@ -62,7 +63,8 @@
    "types": {
     "user_enumeration": 9,
     "login_failed": 672
-   }
+   },
+   "last_seen": "2026-10-08 15:06:07"
   },
   {
    "ip": "35.214.108.214",
@@ -70,25 +72,8 @@
    "severity": "high",
    "types": {
     "vuln_scan": 207
-   }
-  },
-  {
-   "ip": "136.86.194.86",
-   "hits": 183,
-   "severity": "high",
-   "types": {
-    "xmlrpc_abuse": 181,
-    "user_enumeration": 2
-   }
-  },
-  {
-   "ip": "34.135.56.67",
-   "hits": 183,
-   "severity": "high",
-   "types": {
-    "xmlrpc_abuse": 181,
-    "user_enumeration": 2
-   }
+   },
+   "last_seen": "2026-10-09 17:55:46"
   },
   {
    "ip": "34.169.31.210",
@@ -97,7 +82,8 @@
    "types": {
     "xmlrpc_abuse": 181,
     "user_enumeration": 2
-   }
+   },
+   "last_seen": "2026-10-08 12:49:09"
   },
   {
    "ip": "146.148.44.249",
@@ -106,7 +92,28 @@
    "types": {
     "xmlrpc_abuse": 181,
     "user_enumeration": 2
-   }
+   },
+   "last_seen": "2026-10-08 16:15:12"
+  },
+  {
+   "ip": "136.86.194.86",
+   "hits": 183,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 181,
+    "user_enumeration": 2
+   },
+   "last_seen": "2026-10-07 14:02:08"
+  },
+  {
+   "ip": "34.135.56.67",
+   "hits": 183,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 181,
+    "user_enumeration": 2
+   },
+   "last_seen": "2026-10-07 16:03:43"
   },
   {
    "ip": "45.138.12.51",
@@ -114,7 +121,8 @@
    "severity": "high",
    "types": {
     "vuln_scan": 138
-   }
+   },
+   "last_seen": "2026-10-07 23:53:29"
   },
   {
    "ip": "91.92.242.37",
@@ -122,7 +130,8 @@
    "severity": "high",
    "types": {
     "vuln_scan": 126
-   }
+   },
+   "last_seen": "2026-10-06 05:56:51"
   },
   {
    "ip": "62.60.130.235",
@@ -130,7 +139,8 @@
    "severity": "high",
    "types": {
     "login_failed": 119
-   }
+   },
+   "last_seen": "2026-10-09 19:12:21"
   },
   {
    "ip": "45.148.10.5",
@@ -138,23 +148,8 @@
    "severity": "high",
    "types": {
     "vuln_scan": 104
-   }
-  },
-  {
-   "ip": "45.43.60.98",
-   "hits": 82,
-   "severity": "medium",
-   "types": {
-    "vuln_scan": 82
-   }
-  },
-  {
-   "ip": "186.182.105.49",
-   "hits": 82,
-   "severity": "medium",
-   "types": {
-    "vuln_scan": 82
-   }
+   },
+   "last_seen": "2026-10-09 16:54:31"
   },
   {
    "ip": "89.126.211.166",
@@ -162,7 +157,26 @@
    "severity": "medium",
    "types": {
     "vuln_scan": 82
-   }
+   },
+   "last_seen": "2026-10-10 09:25:24"
+  },
+  {
+   "ip": "186.182.105.49",
+   "hits": 82,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 82
+   },
+   "last_seen": "2026-10-10 14:52:08"
+  },
+  {
+   "ip": "45.43.60.98",
+   "hits": 82,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 82
+   },
+   "last_seen": "2026-10-09 17:08:27"
   },
   {
    "ip": "45.138.12.27",
@@ -170,7 +184,8 @@
    "severity": "medium",
    "types": {
     "vuln_scan": 69
-   }
+   },
+   "last_seen": "2026-10-08 17:46:18"
   },
   {
    "ip": "59.3.43.121",
@@ -178,31 +193,8 @@
    "severity": "medium",
    "types": {
     "vuln_scan": 60
-   }
-  },
-  {
-   "ip": "39.114.167.228",
-   "hits": 41,
-   "severity": "medium",
-   "types": {
-    "vuln_scan": 41
-   }
-  },
-  {
-   "ip": "165.99.207.153",
-   "hits": 41,
-   "severity": "medium",
-   "types": {
-    "vuln_scan": 41
-   }
-  },
-  {
-   "ip": "43.155.202.36",
-   "hits": 41,
-   "severity": "medium",
-   "types": {
-    "vuln_scan": 41
-   }
+   },
+   "last_seen": "2026-10-08 06:37:21"
   },
   {
    "ip": "89.126.214.24",
@@ -210,7 +202,35 @@
    "severity": "medium",
    "types": {
     "vuln_scan": 41
-   }
+   },
+   "last_seen": "2026-10-10 07:08:56"
+  },
+  {
+   "ip": "160.250.132.238",
+   "hits": 41,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 41
+   },
+   "last_seen": "2026-10-06 02:52:42"
+  },
+  {
+   "ip": "39.114.167.228",
+   "hits": 41,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 41
+   },
+   "last_seen": "2026-10-07 14:18:06"
+  },
+  {
+   "ip": "165.99.207.153",
+   "hits": 41,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 41
+   },
+   "last_seen": "2026-10-07 18:17:11"
   }
  ],
  "hourly": [
@@ -1243,6 +1263,81 @@
    "hour": "2026-10-26 13:00",
    "requests": 160,
    "attacks": 2
+  },
+  {
+   "hour": "2026-10-26 14:00",
+   "requests": 8,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-27 07:00",
+   "requests": 4,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-28 03:00",
+   "requests": 30,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-28 05:00",
+   "requests": 37,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-28 06:00",
+   "requests": 264,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-28 10:00",
+   "requests": 20,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-28 11:00",
+   "requests": 41,
+   "attacks": 6
+  },
+  {
+   "hour": "2026-10-28 12:00",
+   "requests": 95,
+   "attacks": 1
+  },
+  {
+   "hour": "2026-10-28 16:00",
+   "requests": 3,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-28 19:00",
+   "requests": 20,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-29 02:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-29 04:00",
+   "requests": 149,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-29 07:00",
+   "requests": 16,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-29 08:00",
+   "requests": 53,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-29 09:00",
+   "requests": 20,
+   "attacks": 0
   }
  ],
  "before_after": {
@@ -1251,8 +1346,8 @@
    "attacks": 12964
   },
   "after": {
-   "requests": 7743,
-   "attacks": 46
+   "requests": 8504,
+   "attacks": 54
   }
  }
 }

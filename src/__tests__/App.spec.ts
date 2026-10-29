@@ -118,6 +118,32 @@ describe('SecDash Thai Security Operations Dashboard', () => {
     expect(wrapper.text()).toContain('ปลดแบน IP')
   })
 
+  it('sorts IP list from newest to oldest by default and supports sorting options', async () => {
+    router.push('/unban')
+    await router.isReady()
+    const wrapper = mountApp()
+    await flushPromises()
+
+    // Header has 'วันเวลาล่าสุด' and default sort 'ใหม่ไปเก่า'
+    expect(wrapper.text()).toContain('วันเวลาล่าสุด')
+    expect(wrapper.text()).toContain('ใหม่ไปเก่า (ล่าสุด)')
+
+    // First row should be the newest IP (1.46.128.90 with Oct 24 / newest timestamp)
+    const rows = wrapper.findAll('.ops-data-table tbody tr')
+    expect(rows.length).toBeGreaterThan(0)
+    expect(rows[0]!.text()).toContain('1.46.128.90')
+
+    // Click 'เก่าไปใหม่' sort button
+    const sortPills = wrapper.findAll('.sort-pill')
+    const oldestPill = sortPills.find(p => p.text().includes('เก่าไปใหม่'))
+    expect(oldestPill).toBeDefined()
+    await oldestPill!.trigger('click')
+    await flushPromises()
+
+    const reorderedRows = wrapper.findAll('.ops-data-table tbody tr')
+    expect(reorderedRows[0]!.text()).not.toContain('1.46.128.90')
+  })
+
   it('renders prominent enlarged donut chart and allows in-graph interactive inspection', async () => {
     router.push('/')
     await router.isReady()

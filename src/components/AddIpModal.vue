@@ -33,9 +33,16 @@ const handleAddSubmit = async () => {
     apiActionLoading.value = false
     isAddModalOpen.value = false
 
+    const now = new Date()
+    const pad = (n: number) => n.toString().padStart(2, '0')
+    const nowFormatted = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
+    const nowMs = now.getTime()
+
     const existing = threatRows.value.find(r => r.ip === ip)
     if (existing) {
       existing.isUnbanned = isUnban
+      existing.lastSeen = nowFormatted
+      existing.lastSeenRaw = nowMs
     } else {
       threatRows.value.unshift({
         id: `threat-${Date.now()}`,
@@ -47,7 +54,9 @@ const handleAddSubmit = async () => {
         threatIntensity: isUnban ? 15 : 75,
         allocation: 30,
         hits: isUnban ? '0 ครั้ง (อนุญาต)' : '1 ครั้ง (บล็อก)',
-        isUnbanned: isUnban
+        isUnbanned: isUnban,
+        lastSeen: nowFormatted,
+        lastSeenRaw: nowMs
       })
     }
 

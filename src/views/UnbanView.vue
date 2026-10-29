@@ -14,7 +14,11 @@ import {
   AlertTriangle,
   ShieldAlert,
   Copy,
-  Check
+  Check,
+  Clock,
+  ArrowUpDown,
+  ArrowDown,
+  ArrowUp
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
@@ -24,13 +28,55 @@ const { showToast } = useToast()
 const ipSearchQuery = ref('')
 const ipFilterStatus = ref<'all' | 'blocked' | 'allowed'>('all')
 
+// เรียงลำดับ: ค่าเริ่มต้นคือ 'newest' (ใหม่ไปเก่า) ตามคำขอของผู้ใช้
+const sortOrder = ref<'newest' | 'oldest' | 'hits'>('newest')
+
+const toggleTimeSort = () => {
+  if (sortOrder.value === 'newest') {
+    sortOrder.value = 'oldest'
+  } else {
+    sortOrder.value = 'newest'
+  }
+}
+
 const filteredThreatRows = computed(() => {
-  return threatRows.value.filter(row => {
-    const matchSearch = row.ip.includes(ipSearchQuery.value) || row.attackType.toLowerCase().includes(ipSearchQuery.value.toLowerCase())
+  const list = threatRows.value.filter(row => {
+    const q = ipSearchQuery.value.trim().toLowerCase()
+    const matchSearch =
+      !q ||
+      row.ip.toLowerCase().includes(q) ||
+      row.attackType.toLowerCase().includes(q) ||
+      (row.lastSeen && row.lastSeen.toLowerCase().includes(q))
     if (!matchSearch) return false
     if (ipFilterStatus.value === 'blocked') return !row.isUnbanned
     if (ipFilterStatus.value === 'allowed') return row.isUnbanned
     return true
+  })
+
+  return list.slice().sort((a, b) => {
+    if (sortOrder.value === 'newest') {
+      const timeA = a.lastSeenRaw ?? 0
+      const timeB = b.lastSeenRaw ?? 0
+      if (timeB !== timeA) return timeB - timeA
+      const hitsA = parseInt(a.hits.replace(/[^\d]/g, ''), 10) || 0
+      const hitsB = parseInt(b.hits.replace(/[^\d]/g, ''), 10) || 0
+      return hitsB - hitsA
+    }
+    if (sortOrder.value === 'oldest') {
+      const timeA = a.lastSeenRaw ?? 0
+      const timeB = b.lastSeenRaw ?? 0
+      if (timeA !== timeB) return timeA - timeB
+      const hitsA = parseInt(a.hits.replace(/[^\d]/g, ''), 10) || 0
+      const hitsB = parseInt(b.hits.replace(/[^\d]/g, ''), 10) || 0
+      return hitsA - hitsB
+    }
+    if (sortOrder.value === 'hits') {
+      const hitsA = parseInt(a.hits.replace(/[^\d]/g, ''), 10) || 0
+      const hitsB = parseInt(b.hits.replace(/[^\d]/g, ''), 10) || 0
+      if (hitsB !== hitsA) return hitsB - hitsA
+      return (b.lastSeenRaw ?? 0) - (a.lastSeenRaw ?? 0)
+    }
+    return 0
   })
 })
 
@@ -52,6 +98,10 @@ const toggleUnbanRow = async (row: ThreatRow) => {
   } finally {
     apiActionLoading.value = false
     row.isUnbanned = !row.isUnbanned
+    const now = new Date()
+    const pad = (n: number) => n.toString().padStart(2, '0')
+    row.lastSeen = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
+    row.lastSeenRaw = now.getTime()
     if (row.isUnbanned) {
       securityStore.addAuditLog({
         ip: row.ip,
@@ -178,14 +228,14 @@ const closeUnbanConfirmModal = () => {
 
         <!-- 3.3 ตารางจัดการ IP และแถบค้นหา/กรอง -->
         <section class="unban-table-container">
-          <!-- แถบค้นหา และกรองสถานะ -->
+          <!-- แถบค้นหา, กรองสถานะ และการจัดเรียง -->
           <div class="table-toolbar">
             <div class="toolbar-search-box">
               <Search class="tiny-icon text-muted" />
               <input
                 v-model="ipSearchQuery"
                 type="text"
-                placeholder="ค้นหา IP Address หรือประเภทการโจมตี..."
+                placeholder="ค้นหา IP Address, วันเวลา, หรือประเภทการโจมตี..."
                 class="search-input"
               />
               <button v-if="ipSearchQuery" class="clear-search-btn" @click="ipSearchQuery = ''">
@@ -193,37 +243,75 @@ const closeUnbanConfirmModal = () => {
               </button>
             </div>
 
-            <div class="toolbar-filters">
-              <div class="filter-pills">
-                <button
-                  class="filter-pill"
-                  :class="{ active: ipFilterStatus === 'all' }"
-                  @click="ipFilterStatus = 'all'"
-                >
-                  ทั้งหมด ({{ threatRows.length }})
-                </button>
-                <button
-                  class="filter-pill"
-                  :class="{ active: ipFilterStatus === 'blocked' }"
-                  @click="ipFilterStatus = 'blocked'"
-                >
-                  ถูกบล็อก ({{ threatRows.filter(r => !r.isUnbanned).length }})
-                </button>
-                <button
-                  class="filter-pill"
-                  :class="{ active: ipFilterStatus === 'allowed' }"
-                  @click="ipFilterStatus = 'allowed'"
-                >
-                  อนุญาตแล้ว ({{ threatRows.filter(r => r.isUnbanned).length }})
-                </button>
-                <button
-                  class="filter-pill refresh-pill-btn"
-                  @click="handleRefreshData"
-                  title="รีเฟรชข้อมูล IP ล่าสุด"
-                >
-                  <RefreshCw class="tiny-icon" :class="{ 'spin-anim': isPageLoading }" />
-                  <span>รีเฟรช</span>
-                </button>
+            <div class="toolbar-controls-row">
+              <!-- ตัวเลือกการเรียงลำดับ (Sort: ค่าเริ่มต้น ใหม่ไปเก่า) -->
+              <div class="toolbar-sort-group">
+                <span class="sort-label">
+                  <ArrowUpDown class="tiny-icon text-muted" />
+                  <span>เรียงตาม:</span>
+                </span>
+                <div class="sort-pills">
+                  <button
+                    class="sort-pill"
+                    :class="{ active: sortOrder === 'newest' }"
+                    @click="sortOrder = 'newest'"
+                    title="เรียงจากวันเวลาล่าสุดไปหาเก่าสุด"
+                  >
+                    <Clock class="tiny-icon" />
+                    <span>ใหม่ไปเก่า (ล่าสุด)</span>
+                  </button>
+                  <button
+                    class="sort-pill"
+                    :class="{ active: sortOrder === 'oldest' }"
+                    @click="sortOrder = 'oldest'"
+                    title="เรียงจากวันเวลาเก่าสุดไปหาใหม่สุด"
+                  >
+                    <span>เก่าไปใหม่</span>
+                  </button>
+                  <button
+                    class="sort-pill"
+                    :class="{ active: sortOrder === 'hits' }"
+                    @click="sortOrder = 'hits'"
+                    title="เรียงตามจำนวนครั้งที่ถูกตรวจพบมากที่สุด"
+                  >
+                    <span>ตรวจพบบ่อยสุด (Hits)</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- กรองสถานะ -->
+              <div class="toolbar-filters">
+                <div class="filter-pills">
+                  <button
+                    class="filter-pill"
+                    :class="{ active: ipFilterStatus === 'all' }"
+                    @click="ipFilterStatus = 'all'"
+                  >
+                    ทั้งหมด ({{ threatRows.length }})
+                  </button>
+                  <button
+                    class="filter-pill"
+                    :class="{ active: ipFilterStatus === 'blocked' }"
+                    @click="ipFilterStatus = 'blocked'"
+                  >
+                    ถูกบล็อก ({{ threatRows.filter(r => !r.isUnbanned).length }})
+                  </button>
+                  <button
+                    class="filter-pill"
+                    :class="{ active: ipFilterStatus === 'allowed' }"
+                    @click="ipFilterStatus = 'allowed'"
+                  >
+                    อนุญาตแล้ว ({{ threatRows.filter(r => r.isUnbanned).length }})
+                  </button>
+                  <button
+                    class="filter-pill refresh-pill-btn"
+                    @click="handleRefreshData"
+                    title="รีเฟรชข้อมูล IP ล่าสุด"
+                  >
+                    <RefreshCw class="tiny-icon" :class="{ 'spin-anim': isPageLoading }" />
+                    <span>รีเฟรช</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -234,8 +322,32 @@ const closeUnbanConfirmModal = () => {
               <thead>
                 <tr>
                   <th class="th-ip">IP Address</th>
+                  <th
+                    class="th-time sortable-header"
+                    :class="{ 'header-sorted': sortOrder === 'newest' || sortOrder === 'oldest' }"
+                    @click="toggleTimeSort"
+                    title="คลิกเพื่อสลับการเรียงวันเวลา ใหม่ไปเก่า / เก่าไปใหม่"
+                  >
+                    <div class="th-header-inner">
+                      <span>วันเวลาล่าสุด</span>
+                      <ArrowDown v-if="sortOrder === 'newest'" class="sort-icon-active" />
+                      <ArrowUp v-else-if="sortOrder === 'oldest'" class="sort-icon-active" />
+                      <ArrowUpDown v-else class="sort-icon-idle" />
+                    </div>
+                  </th>
                   <th class="th-type">พฤติกรรม / ประเภททราฟฟิก</th>
-                  <th class="th-hits">จำนวนที่ตรวจพบ</th>
+                  <th
+                    class="th-hits sortable-header"
+                    :class="{ 'header-sorted': sortOrder === 'hits' }"
+                    @click="sortOrder = 'hits'"
+                    title="คลิกเพื่อเรียงตามจำนวนครั้งที่ตรวจพบ"
+                  >
+                    <div class="th-header-inner">
+                      <span>จำนวนที่ตรวจพบ</span>
+                      <ArrowDown v-if="sortOrder === 'hits'" class="sort-icon-active" />
+                      <ArrowUpDown v-else class="sort-icon-idle" />
+                    </div>
+                  </th>
                   <th class="th-status">สถานะปัจจุบัน</th>
                   <th class="th-threat">ระดับความรุนแรง</th>
                   <th class="th-action text-right">การจัดการกฎ iptables</th>
@@ -250,6 +362,14 @@ const closeUnbanConfirmModal = () => {
                   <!-- IP Address -->
                   <td class="td-ip">
                     <span class="mono bold-ip">{{ row.ip }}</span>
+                  </td>
+
+                  <!-- วันเวลาล่าสุด -->
+                  <td class="td-time">
+                    <div class="time-cell">
+                      <Clock class="tiny-icon text-muted" />
+                      <span class="mono time-val">{{ row.lastSeen || '2026-10-10 12:00:00' }}</span>
+                    </div>
                   </td>
 
                   <!-- ประเภททราฟฟิก -->
@@ -303,7 +423,7 @@ const closeUnbanConfirmModal = () => {
                 </tr>
 
                 <tr v-if="filteredThreatRows.length === 0">
-                  <td colspan="6" class="empty-table-cell">
+                  <td colspan="7" class="empty-table-cell">
                     ไม่พบข้อมูล IP ที่ตรงกับการค้นหา "{{ ipSearchQuery }}"
                   </td>
                 </tr>
@@ -544,6 +664,122 @@ const closeUnbanConfirmModal = () => {
   display: flex;
   align-items: center;
   padding: 0;
+}
+
+.toolbar-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-sort-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.sort-pills {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.sort-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.32rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.sort-pill:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.sort-pill.active {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.2);
+}
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.sortable-header:hover {
+  color: #2563eb !important;
+  background: #f1f5f9;
+}
+
+.sortable-header.header-sorted {
+  color: #2563eb !important;
+}
+
+.th-header-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.sort-icon-active {
+  width: 13px;
+  height: 13px;
+  color: #2563eb;
+  stroke-width: 2.5;
+}
+
+.sort-icon-idle {
+  width: 13px;
+  height: 13px;
+  color: #94a3b8;
+  opacity: 0.6;
+}
+
+.th-time {
+  min-width: 175px;
+}
+
+.td-time {
+  white-space: nowrap;
+}
+
+.time-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #f8fafc;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.time-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #475569;
+  font-weight: 500;
 }
 
 .filter-pills {
@@ -1074,6 +1310,88 @@ const closeUnbanConfirmModal = () => {
 :global(.careops-app.dark-mode) .confirm-type-input.input-matched {
   border-color: #059669;
   background: #064e3b;
+}
+
+/* Dark Mode for Sort & Time Column */
+:global(.careops-app.dark-mode) .toolbar-search-box {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: #334155;
+}
+
+:global(.careops-app.dark-mode) .sort-pill {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+:global(.careops-app.dark-mode) .sort-pill:hover {
+  background: rgba(51, 65, 85, 0.8);
+  color: #f8fafc;
+}
+
+:global(.careops-app.dark-mode) .sort-pill.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+:global(.careops-app.dark-mode) .filter-pill {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+:global(.careops-app.dark-mode) .filter-pill:hover {
+  background: rgba(51, 65, 85, 0.8);
+  color: #f8fafc;
+}
+
+:global(.careops-app.dark-mode) .filter-pill.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+:global(.careops-app.dark-mode) .ops-data-table th {
+  background: #0b1120;
+  color: #94a3b8;
+  border-color: #1e293b;
+}
+
+:global(.careops-app.dark-mode) .sortable-header:hover {
+  background: #1e293b;
+  color: #60a5fa !important;
+}
+
+:global(.careops-app.dark-mode) .sortable-header.header-sorted {
+  color: #60a5fa !important;
+}
+
+:global(.careops-app.dark-mode) .sort-icon-active {
+  color: #60a5fa;
+}
+
+:global(.careops-app.dark-mode) .ops-data-table td {
+  border-color: #1e293b;
+  color: #cbd5e1;
+}
+
+:global(.careops-app.dark-mode) .ops-data-table tbody tr:hover {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+:global(.careops-app.dark-mode) .time-cell {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: #334155;
+}
+
+:global(.careops-app.dark-mode) .time-val {
+  color: #cbd5e1;
+}
+
+:global(.careops-app.dark-mode) .hits-bubble {
+  background: #1e293b;
+  color: #e2e8f0;
 }
 
 
