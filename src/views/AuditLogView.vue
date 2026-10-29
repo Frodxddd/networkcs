@@ -4,7 +4,9 @@ import { storeToRefs } from 'pinia'
 import { useSecurityStore } from '../stores/security'
 import {
   Search,
-  X
+  X,
+  UserCheck,
+  Bot
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
@@ -12,6 +14,12 @@ const { auditLogs } = storeToRefs(securityStore)
 
 const searchQuery = ref('')
 const filterAction = ref<'all' | 'unban' | 'ban'>('all')
+
+const isSystemOperator = (op?: string) => {
+  if (!op) return false
+  const s = op.toLowerCase()
+  return s.includes('fail2ban') || s.includes('ระบบอัตโนมัติ') || s.includes('system') || s.includes('engine')
+}
 
 const filteredLogs = computed(() => {
   return auditLogs.value.filter(log => {
@@ -21,7 +29,8 @@ const filteredLogs = computed(() => {
       log.ip.toLowerCase().includes(q) ||
       log.timestamp.toLowerCase().includes(q) ||
       log.detail.toLowerCase().includes(q) ||
-      log.actionLabel.toLowerCase().includes(q)
+      log.actionLabel.toLowerCase().includes(q) ||
+      (log.operator && log.operator.toLowerCase().includes(q))
 
     if (!matchSearch) return false
     if (filterAction.value === 'unban') return log.action === 'UNBAN'
@@ -96,6 +105,7 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
                 <th class="th-time">วันเวลา (TIMESTAMP)</th>
                 <th class="th-ip">IP ADDRESS</th>
                 <th class="th-action-col">การดำเนินการ</th>
+                <th class="th-operator">ผู้ดำเนินการ (OPERATOR)</th>
                 <th class="th-detail">การแก้ไขในหน้าจัดการ IP</th>
               </tr>
             </thead>
@@ -126,6 +136,18 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
                   </span>
                 </td>
 
+                <!-- ผู้ดำเนินการ (Operator Badge) -->
+                <td class="td-operator">
+                  <span
+                    class="operator-pill"
+                    :class="isSystemOperator(log.operator) ? 'operator-system' : 'operator-admin'"
+                  >
+                    <Bot v-if="isSystemOperator(log.operator)" class="tiny-icon" />
+                    <UserCheck v-else class="tiny-icon" />
+                    <span class="operator-name">{{ log.operator || 'แอดมิน (ผู้ดูแลระบบ)' }}</span>
+                  </span>
+                </td>
+
                 <!-- การแก้ไขในหน้าจัดการ IP -->
                 <td class="td-detail">
                   <span class="detail-text">{{ log.detail }}</span>
@@ -133,7 +155,7 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
               </tr>
 
               <tr v-if="filteredLogs.length === 0">
-                <td colspan="4" class="empty-table-cell">
+                <td colspan="5" class="empty-table-cell">
                   ไม่พบข้อมูลประวัติการแก้ไขที่ตรงกับ "{{ searchQuery }}"
                 </td>
               </tr>
@@ -282,6 +304,38 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
   white-space: nowrap;
 }
 
+.th-operator {
+  white-space: nowrap;
+  min-width: 190px;
+}
+
+.td-operator {
+  white-space: nowrap;
+}
+
+.operator-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  line-height: 1;
+}
+
+.operator-pill.operator-admin {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.operator-pill.operator-system {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
 .detail-text {
   font-size: 0.86rem;
   color: #334155;
@@ -389,5 +443,17 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
 
 :global(.careops-app.dark-mode) .detail-text {
   color: #e2e8f0;
+}
+
+:global(.careops-app.dark-mode) .operator-pill.operator-admin {
+  background: rgba(37, 99, 235, 0.2);
+  color: #60a5fa;
+  border-color: rgba(96, 165, 250, 0.35);
+}
+
+:global(.careops-app.dark-mode) .operator-pill.operator-system {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  border-color: rgba(148, 163, 184, 0.25);
 }
 </style>

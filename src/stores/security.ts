@@ -23,6 +23,7 @@ export interface AuditLogRow {
   action: 'UNBAN' | 'BAN'
   actionLabel: string
   detail: string
+  operator?: string
 }
 
 export interface AiReportData {
@@ -69,6 +70,19 @@ export const useSecurityStore = defineStore('security', () => {
     adminToken.value = ''
     if (typeof window !== 'undefined' && window.sessionStorage) {
       sessionStorage.removeItem('secdash_auth_token')
+    }
+  }
+
+  const currentOperator = ref<string>(
+    (typeof window !== 'undefined' && (window.sessionStorage?.getItem('secdash_operator') || window.localStorage?.getItem('secdash_operator'))) || 'แอดมิน (ผู้ดูแลระบบ)'
+  )
+
+  function setOperator(name: string) {
+    const clean = (name || '').trim() || 'แอดมิน (ผู้ดูแลระบบ)'
+    currentOperator.value = clean
+    if (typeof window !== 'undefined') {
+      window.sessionStorage?.setItem('secdash_operator', clean)
+      window.localStorage?.setItem('secdash_operator', clean)
     }
   }
 
@@ -369,6 +383,7 @@ export const useSecurityStore = defineStore('security', () => {
     const newLog: AuditLogRow = {
       id: `audit-${Date.now()}`,
       timestamp,
+      operator: entry.operator || currentOperator.value,
       ...entry
     }
     auditLogs.value.unshift(newLog)
@@ -608,25 +623,36 @@ export const useSecurityStore = defineStore('security', () => {
         if (data.audit_logs && Array.isArray(data.audit_logs)) {
           data.audit_logs.forEach((l: AuditLogRow) => {
             const key = l.id || `f2b-${l.ip}-${l.timestamp}`
-            logMap.set(key, l)
+            logMap.set(key, {
+              ...l,
+              operator: l.operator || 'ระบบอัตโนมัติ (Fail2ban Engine)'
+            })
           })
         }
 
-        // 2. Server Logs จาก /api/logs (คำสั่งแอดมินปลดแบน/บล็อกจริง)
+        // 2. Server Logs จาก /api/logs (คำสั่งแอดมินปลดแบน/บล็อกจริง - Single Source of Truth)
         serverLogs.forEach((l: AuditLogRow) => {
           const tsMinute = l.timestamp ? l.timestamp.substring(0, 16) : ''
           const key = `admin-${l.ip}-${l.action}-${tsMinute}`
-          logMap.set(key, l)
+          logMap.set(key, {
+            ...l,
+            operator: l.operator || 'แอดมิน (ผู้ดูแลระบบ)'
+          })
         })
 
-        // 3. Local Audit Logs ในเครื่อง
-        auditLogs.value.forEach((l: AuditLogRow) => {
-          const tsMinute = l.timestamp ? l.timestamp.substring(0, 16) : ''
-          const key = l.id.startsWith('f2b-') ? l.id : `admin-${l.ip}-${l.action}-${tsMinute}`
-          if (!logMap.has(key)) {
-            logMap.set(key, l)
-          }
-        })
+        // 3. Local Audit Logs ในเครื่อง (สำรองเฉพาะคำสั่งที่เพิ่งทำแล้วยังไม่ได้ขึ้นเซิร์ฟเวอร์)
+        if (serverLogs.length === 0) {
+          auditLogs.value.forEach((l: AuditLogRow) => {
+            const tsMinute = l.timestamp ? l.timestamp.substring(0, 16) : ''
+            const key = l.id.startsWith('f2b-') ? l.id : `admin-${l.ip}-${l.action}-${tsMinute}`
+            if (!logMap.has(key)) {
+              logMap.set(key, {
+                ...l,
+                operator: l.operator || 'แอดมิน (ผู้ดูแลระบบ)'
+              })
+            }
+          })
+        }
 
         const finalLogs = Array.from(logMap.values())
         finalLogs.sort((a, b) => (b.timestamp || '').localeCompare(a.timestamp || ''))
@@ -678,6 +704,8 @@ export const useSecurityStore = defineStore('security', () => {
     isAdminAuthenticated,
     setAdminToken,
     clearAdminToken,
+    currentOperator,
+    setOperator,
     getAuthHeaders,
     rawReportStats,
     aiReport,

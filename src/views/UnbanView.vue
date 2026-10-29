@@ -22,7 +22,8 @@ import {
   Lock,
   Key,
   Eye,
-  EyeOff
+  EyeOff,
+  User
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
@@ -96,11 +97,15 @@ const toggleUnbanRow = async (row: ThreatRow) => {
   apiActionLoading.value = true
   try {
     const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
+    const op = operatorInput.value.trim() || securityStore.currentOperator
     const res = await fetch(`${origin}/api/${targetAction}`, {
       method: 'POST',
       credentials: 'same-origin',
       headers: securityStore.getAuthHeaders(),
-      body: JSON.stringify({ ip: row.ip }),
+      body: JSON.stringify({
+        ip: row.ip,
+        operator: op
+      }),
       signal: AbortSignal.timeout(8000)
     })
 
@@ -123,17 +128,19 @@ const toggleUnbanRow = async (row: ThreatRow) => {
         ip: row.ip,
         action: 'UNBAN',
         actionLabel: 'ปลดแบน (โดยแอดมิน)',
-        detail: `ปลดแบนผ่านหน้าจัดการ IP (คำสั่งลบ iptables DROP และ Fail2ban สำเร็จจริง)`
+        detail: `ปลดแบนผ่านหน้าจัดการ IP (คำสั่งลบ iptables DROP และ Fail2ban สำเร็จจริง)`,
+        operator: op
       })
-      showToast('success', `ปลดแบน IP ${row.ip} เรียบร้อย`, `ระบบได้ลบกฎบล็อกออกจาก iptables DROP และ Fail2ban บนเซิร์ฟเวอร์จริงแล้ว`)
+      showToast('success', `ปลดแบน IP ${row.ip} เรียบร้อย`, `ระบบได้ลบกฎบล็อกออกจาก iptables DROP และ Fail2ban บนเซิร์ฟเวอร์จริงแล้ว (ผู้ดำเนินการ: ${op})`)
     } else {
       securityStore.addAuditLog({
         ip: row.ip,
         action: 'BAN',
         actionLabel: 'บล็อก (โดยแอดมิน)',
-        detail: `สั่งบล็อกผ่านหน้าจัดการ IP (เพิ่มกฎ iptables DROP สำเร็จจริง)`
+        detail: `สั่งบล็อกผ่านหน้าจัดการ IP (เพิ่มกฎ iptables DROP สำเร็จจริง)`,
+        operator: op
       })
-      showToast('info', `บล็อก IP ${row.ip} เรียบร้อย`, `ระบบได้เพิ่มกฎ iptables DROP บนเซิร์ฟเวอร์จริงแล้ว`)
+      showToast('info', `บล็อก IP ${row.ip} เรียบร้อย`, `ระบบได้เพิ่มกฎ iptables DROP บนเซิร์ฟเวอร์จริงแล้ว (ผู้ดำเนินการ: ${op})`)
     }
   } catch (err: any) {
     console.error('API Error in toggleUnbanRow:', err)
@@ -163,6 +170,7 @@ onMounted(() => {
 // State สำหรับ Admin Auth Verification Modal (เด้งถามครั้งเดียวเมื่อกดสั่งการ)
 const isAdminAuthModalOpen = ref(false)
 const adminPasswordInput = ref('')
+const operatorInput = ref(securityStore.currentOperator || 'แอดมิน')
 const adminAuthError = ref('')
 const adminAuthLoading = ref(false)
 const adminPasswordVisible = ref(false)
@@ -173,6 +181,7 @@ const handleActionClick = (row: ThreatRow) => {
   // บังคับกรอกรหัสผ่านผู้ดูแลระบบเสมอทุกครั้ง ไม่ว่าจะปลดแบนหรือบล็อก IP
   pendingActionRow.value = row
   adminPasswordInput.value = ''
+  operatorInput.value = securityStore.currentOperator || 'แอดมิน'
   adminAuthError.value = ''
   isAdminAuthModalOpen.value = true
   setTimeout(() => {
@@ -199,8 +208,11 @@ const handleVerifyAdminSubmit = async () => {
     if (!data.token) {
       throw new Error('ไม่ได้รับโทเค็นยืนยันสิทธิ์จากเซิร์ฟเวอร์')
     }
-    // ยืนยันสำเร็จ: บันทึก token ใน session
+    // ยืนยันสำเร็จ: บันทึก token ใน session และจดจำชื่อผู้ดำเนินการ
     securityStore.setAdminToken(data.token)
+    if (operatorInput.value.trim()) {
+      securityStore.setOperator(operatorInput.value.trim())
+    }
     isAdminAuthModalOpen.value = false
     showToast('success', 'ยืนยันตัวตนแอดมินสำเร็จ', 'ระบบจดจำสิทธิ์ในรอบนี้แล้ว สามารถสั่งการไฟร์วอลล์ได้ทันที')
 
@@ -555,6 +567,26 @@ const closeAdminAuthModal = () => {
                 <span class="detail-val text-rose">{{ pendingActionRow.hits }}</span>
               </div>
             </div>
+          </div>
+
+          <!-- ช่องระบุชื่อผู้ดำเนินการ / รหัสนิสิต -->
+          <div class="form-group admin-auth-group" style="margin-bottom: 0.85rem;">
+            <label class="form-label font-medium">
+              ชื่อผู้ดำเนินการ / รหัสนิสิต (Operator ID):
+            </label>
+            <div class="password-input-wrap">
+              <User class="password-input-icon text-muted" />
+              <input
+                v-model="operatorInput"
+                type="text"
+                class="form-input admin-password-input"
+                placeholder="เช่น นิสิต 67160058 หรือ แอดมิน..."
+                @keyup.enter="handleVerifyAdminSubmit"
+              />
+            </div>
+            <span class="form-hint">
+              ระบุตัวตนผู้สั่งการเพื่อบันทึกลงในตารางประวัติการแก้ไข (Audit Log)
+            </span>
           </div>
 
           <!-- ช่องกรอกรหัสผ่าน Admin -->

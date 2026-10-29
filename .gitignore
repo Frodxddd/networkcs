@@ -80,4 +80,9 @@ scripts/test_*.cjs
 scripts/take_*.cjs
 !scripts/generate_table_image.cjs
 
+# Python Cache
+__pycache__/
+*.pyc
+server/__pycache__/
+
 

@@ -10,7 +10,8 @@ import {
   Eye,
   EyeOff,
   AlertTriangle,
-  X
+  X,
+  User
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
@@ -20,6 +21,7 @@ const { showToast } = useToast()
 const banPassword = ref('')
 const banPasswordVisible = ref(false)
 const banPasswordError = ref('')
+const addOperatorInput = ref(securityStore.currentOperator || 'แอดมิน')
 
 const handleCloseModal = () => {
   isAddModalOpen.value = false
@@ -60,6 +62,9 @@ const handleAddSubmit = async () => {
       return
     }
     securityStore.setAdminToken(vData.token)
+    if (addOperatorInput.value.trim()) {
+      securityStore.setOperator(addOperatorInput.value.trim())
+    }
     banPasswordError.value = ''
   } catch (e: any) {
     banPasswordError.value = 'เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน'
@@ -69,11 +74,12 @@ const handleAddSubmit = async () => {
   apiActionLoading.value = true
   try {
     const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
+    const op = addOperatorInput.value.trim() || securityStore.currentOperator
     const res = await fetch(`${origin}/api/${quickActionType.value}`, {
       method: 'POST',
       credentials: 'same-origin',
       headers: securityStore.getAuthHeaders(),
-      body: JSON.stringify({ ip, note: quickNote.value }),
+      body: JSON.stringify({ ip, note: quickNote.value, operator: op }),
       signal: AbortSignal.timeout(8000)
     })
 
@@ -123,13 +129,14 @@ const handleAddSubmit = async () => {
       actionLabel: isUnban ? 'ปลดแบน (โดยแอดมิน)' : 'บล็อก (โดยแอดมิน)',
       detail: quickNote.value
         ? `${isUnban ? 'ปลดแบน IP' : 'บล็อก IP'}: ${quickNote.value}`
-        : (isUnban ? 'ปลดแบนผ่านหน้าจัดการ IP (คำสั่งสำเร็จจริง)' : 'บล็อกผ่านหน้าจัดการ IP (คำสั่งสำเร็จจริง)')
+        : (isUnban ? 'ปลดแบนผ่านหน้าจัดการ IP (คำสั่งสำเร็จจริง)' : 'บล็อกผ่านหน้าจัดการ IP (คำสั่งสำเร็จจริง)'),
+      operator: op
     })
 
     if (isUnban) {
-      showToast('success', `ปลดแบน IP ${ip} สำเร็จ`, 'ระบบได้ลบกฎบล็อกออกจาก iptables DROP และ Fail2ban บนเซิร์ฟเวอร์จริงแล้ว')
+      showToast('success', `ปลดแบน IP ${ip} สำเร็จ`, `ระบบได้ลบกฎบล็อกออกจาก iptables DROP และ Fail2ban บนเซิร์ฟเวอร์จริงแล้ว (ผู้ดำเนินการ: ${op})`)
     } else {
-      showToast('info', `บล็อก IP ${ip} สำเร็จ`, 'ระบบได้เพิ่มกฎ iptables DROP บนเซิร์ฟเวอร์จริงแล้ว')
+      showToast('info', `บล็อก IP ${ip} สำเร็จ`, `ระบบได้เพิ่มกฎ iptables DROP บนเซิร์ฟเวอร์จริงแล้ว (ผู้ดำเนินการ: ${op})`)
     }
 
     quickIp.value = ''
@@ -206,6 +213,27 @@ const handleAddSubmit = async () => {
               placeholder="เช่น: IP อาจารย์ประจำสาขาวิชา, นิสิตลงทะเบียน TCAS"
               class="form-input"
             />
+          </div>
+
+          <!-- ระบุชื่อผู้ดำเนินการ / รหัสนิสิต -->
+          <div class="form-group">
+            <label class="form-label" for="operator-input">
+              ชื่อผู้ดำเนินการ / รหัสนิสิต (Operator ID)
+            </label>
+            <div class="password-input-wrap">
+              <User class="password-input-icon text-muted" />
+              <input
+                id="operator-input"
+                v-model="addOperatorInput"
+                type="text"
+                placeholder="เช่น นิสิต 67160058 หรือ แอดมิน..."
+                class="form-input"
+                @keyup.enter="handleAddSubmit"
+              />
+            </div>
+            <span class="form-hint">
+              ระบุตัวตนผู้สั่งการเพื่อบันทึกลงในตารางประวัติการแก้ไข (Audit Log)
+            </span>
           </div>
 
           <!-- ฟิลด์รหัสผ่าน Admin สำหรับการจัดการกฎ IP -->

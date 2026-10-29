@@ -20,7 +20,8 @@ import {
   Eye,
   EyeOff,
   LogOut,
-  ShieldCheck
+  ShieldCheck,
+  User
 } from 'lucide-vue-next'
 
 const route = useRoute()
@@ -31,6 +32,7 @@ const { toast } = useToast()
 
 // Gateway Authentication Lock Screen (กรอกรหัสผ่านเพื่อเข้าใช้งานแดชบอร์ด)
 const lockPasswordInput = ref('')
+const lockOperatorInput = ref(securityStore.currentOperator || '')
 const lockPasswordError = ref('')
 const lockPasswordLoading = ref(false)
 const lockPasswordVisible = ref(false)
@@ -56,6 +58,9 @@ const handleLockLoginSubmit = async () => {
       throw new Error('ไม่ได้รับโทเค็นยืนยันสิทธิ์จากเซิร์ฟเวอร์')
     }
     securityStore.setAdminToken(data.token)
+    if (lockOperatorInput.value.trim()) {
+      securityStore.setOperator(lockOperatorInput.value.trim())
+    }
     lockPasswordInput.value = ''
     lockPasswordError.value = ''
 
@@ -190,6 +195,21 @@ onUnmounted(() => {
 
           <!-- ฟอร์มใส่รหัสผ่านผู้ดูแลระบบ -->
           <form class="gateway-login-form" @submit.prevent="handleLockLoginSubmit">
+            <!-- ระบุชื่อผู้ดูแลระบบ / รหัสนิสิต -->
+            <div class="gateway-form-field" style="margin-bottom: 0.85rem;">
+              <label class="gateway-field-label">ชื่อผู้ดูแลระบบ / รหัสนิสิต (Operator ID):</label>
+              <div class="gateway-input-box">
+                <User class="gateway-key-icon" />
+                <input
+                  v-model="lockOperatorInput"
+                  type="text"
+                  class="gateway-input-control"
+                  placeholder="เช่น นิสิต 67160058 หรือ แอดมิน..."
+                  autocomplete="username"
+                />
+              </div>
+            </div>
+
             <div class="gateway-form-field">
               <label class="gateway-field-label">กรุณากรอกรหัสผ่านเพื่อเข้าใช้งานระบบ:</label>
               <div class="gateway-input-box">

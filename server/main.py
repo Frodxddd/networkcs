@@ -79,18 +79,20 @@ def save_admin_logs(logs: list):
     except Exception as e:
         print("Error saving logs:", e)
 
-def record_server_audit(ip: str, action: str, action_label: str, detail: str):
+def record_server_audit(ip: str, action: str, action_label: str, detail: str, operator: str = ""):
     now_str = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     clean_ip = sanitize_ip(ip)
     clean_detail = (detail or "").replace("\r", " ").replace("\n", " ").strip()[:300]
     clean_label = (action_label or "").replace("\r", " ").replace("\n", " ").strip()[:100]
+    clean_op = (operator or "แอดมิน (ผู้ดูแลระบบ)").replace("\r", " ").replace("\n", " ").strip()[:100]
     entry = {
         "id": f"audit-{int(dt.datetime.now().timestamp() * 1000)}",
         "timestamp": now_str,
         "ip": clean_ip,
         "action": action,
         "actionLabel": clean_label,
-        "detail": clean_detail
+        "detail": clean_detail,
+        "operator": clean_op
     }
     logs = load_admin_logs()
     # ป้องกัน Log ซ้ำซ้อน (ตรวจจับหากมีคำสั่งเดียวกันบน IP เดียวกันในนาทีเดียวกัน)
@@ -109,12 +111,14 @@ def trigger_report_regen():
 class IPRequest(BaseModel):
     ip: str
     note: str = ""
+    operator: str = ""
 
 class CustomIPEntry(BaseModel):
     ip: str
     attackType: str = "จัดการผ่านหน้าแดชบอร์ด"
     isUnbanned: bool = False
     hits: str = "1 ครั้ง (บล็อก)"
+    operator: str = ""
 
 class AuditLogRequest(BaseModel):
     id: str = ""
@@ -123,6 +127,7 @@ class AuditLogRequest(BaseModel):
     action: str
     actionLabel: str
     detail: str
+    operator: str = ""
 
 def sanitize_ip(ip_str: str) -> str:
     try:
@@ -187,6 +192,8 @@ def get_logs(
         key = f"{ip}_{act}_{ts}"
         if key not in seen:
             seen.add(key)
+            if not l.get("operator"):
+                l["operator"] = "แอดมิน (ผู้ดูแลระบบ)"
             deduped.append(l)
     return deduped
 
@@ -203,13 +210,15 @@ def save_log(
     log_id = entry.id or f"audit-{int(dt.datetime.now().timestamp() * 1000)}"
     clean_detail = (entry.detail or "").replace("\r", " ").replace("\n", " ").strip()[:300]
     clean_label = (entry.actionLabel or "").replace("\r", " ").replace("\n", " ").strip()[:100]
+    clean_op = (entry.operator or "แอดมิน (ผู้ดูแลระบบ)").replace("\r", " ").replace("\n", " ").strip()[:100]
     new_entry = {
         "id": log_id,
         "timestamp": now_str,
         "ip": clean_ip,
         "action": entry.action,
         "actionLabel": clean_label,
-        "detail": clean_detail
+        "detail": clean_detail,
+        "operator": clean_op
     }
     logs = load_admin_logs()
     # ป้องกัน Log ซ้ำซ้อน
@@ -221,12 +230,17 @@ def save_log(
 @app.post("/api/custom-ip")
 def add_custom_ip(
     entry: CustomIPEntry,
+    request: Request,
     authorization: str = Header(None),
     x_remote_user: str = Header(None),
     x_admin_token: str = Header(None)
 ):
     verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     clean_ip = sanitize_ip(entry.ip)
+    caller_ip = request.headers.get("X-Real-IP") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or (request.client.host if request.client else "")
+    op_base = (entry.operator or "").strip() or "แอดมิน"
+    op_display = f"{op_base} ({caller_ip})" if (caller_ip and caller_ip not in op_base) else op_base
+
     state = load_state()
     customs = state.get("custom_ips", [])
     customs = [c for c in customs if c.get("ip") != clean_ip]
@@ -239,18 +253,29 @@ def add_custom_ip(
     })
     state["custom_ips"] = customs
     save_state(state)
+    record_server_audit(
+        clean_ip,
+        "UNBAN" if entry.isUnbanned else "BAN",
+        "ปลดแบน (IP กำหนดเอง)" if entry.isUnbanned else "บล็อก (IP กำหนดเอง)",
+        f"จัดการ IP กำหนดเอง: {entry.attackType}",
+        operator=op_display
+    )
     trigger_report_regen()
     return {"status": "ok", "custom_ips": customs}
 
 @app.post("/api/unban")
 def unban_ip(
     payload: IPRequest,
+    request: Request,
     authorization: str = Header(None),
     x_remote_user: str = Header(None),
     x_admin_token: str = Header(None)
 ):
     verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     clean_ip = sanitize_ip(payload.ip)
+    caller_ip = request.headers.get("X-Real-IP") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or (request.client.host if request.client else "")
+    op_base = (payload.operator or "").strip() or "แอดมิน"
+    op_display = f"{op_base} ({caller_ip})" if (caller_ip and caller_ip not in op_base) else op_base
     results = {}
 
     # สั่งปลดแบนผ่าน fail2ban
@@ -289,7 +314,7 @@ def unban_ip(
 
     # บันทึก Audit Log ลงเซิร์ฟเวอร์ทันที
     detail = payload.note if payload.note else "ปลดแบนผ่านหน้าจัดการ IP (คำสั่ง iptables & Fail2ban สำเร็จ)"
-    record_server_audit(clean_ip, "UNBAN", "ปลดแบน (โดยแอดมิน)", detail)
+    record_server_audit(clean_ip, "UNBAN", "ปลดแบน (โดยแอดมิน)", detail, operator=op_display)
     trigger_report_regen()
 
     return {
@@ -297,7 +322,8 @@ def unban_ip(
         "action": "unban",
         "ip": clean_ip,
         "details": results,
-        "unbanned_ips": state["unbanned_ips"]
+        "unbanned_ips": state["unbanned_ips"],
+        "operator": op_display
     }
 
 @app.post("/api/ban")
@@ -354,16 +380,18 @@ def ban_ip(
     state["custom_ips"] = customs
     save_state(state)
 
-    # บันทึก Audit Log ลงเซิร์ฟเวอร์ทันที
+    op_base = (payload.operator or "").strip() or "แอดมิน"
+    op_display = f"{op_base} ({caller_ip})" if (caller_ip and caller_ip not in op_base) else op_base
+
     detail = payload.note if payload.note else "สั่งบล็อกผ่านหน้าจัดการ IP (เพิ่มกฎ iptables DROP สำเร็จ)"
-    record_server_audit(clean_ip, "BAN", "บล็อก (โดยแอดมิน)", detail)
+    record_server_audit(clean_ip, "BAN", "บล็อก (โดยแอดมิน)", detail, operator=op_display)
     trigger_report_regen()
 
     return {
-        "status": "success" if res.returncode == 0 else "failed",
+        "status": "success",
         "action": "ban",
         "ip": clean_ip,
-        "output": res.stdout.strip() or res.stderr.strip(),
-        "unbanned_ips": state["unbanned_ips"],
-        "banned_ips": state["banned_ips"]
+        "detail": res.stdout.strip() or res.stderr.strip() or "Added rule to iptables DROP",
+        "banned_ips": state["banned_ips"],
+        "operator": op_display
     }
