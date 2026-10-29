@@ -364,12 +364,9 @@ const closeUnbanConfirmModal = () => {
                     <span class="mono bold-ip">{{ row.ip }}</span>
                   </td>
 
-                  <!-- วันเวลาล่าสุด -->
+                  <!-- วันเวลาล่าสุด (ไม่มีกรอบ ไม่ใส่กล่อง AI slop) -->
                   <td class="td-time">
-                    <div class="time-cell">
-                      <Clock class="tiny-icon text-muted" />
-                      <span class="mono time-val">{{ row.lastSeen || '2026-10-10 12:00:00' }}</span>
-                    </div>
+                    <span class="mono time-val">{{ row.lastSeen || '-' }}</span>
                   </td>
 
                   <!-- ประเภททราฟฟิก -->
@@ -765,20 +762,10 @@ const closeUnbanConfirmModal = () => {
   white-space: nowrap;
 }
 
-.time-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: #f8fafc;
-  padding: 0.25rem 0.55rem;
-  border-radius: 6px;
-  border: 1px solid #e2e8f0;
-}
-
 .time-val {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  color: #475569;
+  font-size: 0.8rem;
+  color: #64748b;
   font-weight: 500;
 }
 
@@ -1380,13 +1367,8 @@ const closeUnbanConfirmModal = () => {
   background: rgba(30, 41, 59, 0.4);
 }
 
-:global(.careops-app.dark-mode) .time-cell {
-  background: rgba(15, 23, 42, 0.6);
-  border-color: #334155;
-}
-
 :global(.careops-app.dark-mode) .time-val {
-  color: #cbd5e1;
+  color: #94a3b8;
 }
 
 :global(.careops-app.dark-mode) .hits-bubble {

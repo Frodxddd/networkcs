@@ -112,20 +112,6 @@ export const useSecurityStore = defineStore('security', () => {
 
   const threatRows = ref<ThreatRow[]>([
     {
-      id: 'threat-5',
-      ip: '1.46.128.90',
-      attackType: 'IP แอดมิน คณะวิทยาการสารสนเทศ ม.บูรพา (บางแสน)',
-      icon: 'check',
-      color: '#059669',
-      bg: '#d1fae5',
-      threatIntensity: 18,
-      allocation: 18,
-      hits: '0 ครั้ง (ปลอดภัย)',
-      isUnbanned: true,
-      lastSeen: '2026-10-24 11:20:15',
-      lastSeenRaw: new Date('2026-10-24T11:20:15+07:00').getTime()
-    },
-    {
       id: 'threat-1',
       ip: '34.182.207.28',
       attackType: 'บอทเน็ตยิงสแปม XML-RPC (xmlrpc.php)',
@@ -138,20 +124,6 @@ export const useSecurityStore = defineStore('security', () => {
       isUnbanned: false,
       lastSeen: '2026-10-09 09:40:50',
       lastSeenRaw: new Date('2026-10-09T09:40:50Z').getTime()
-    },
-    {
-      id: 'threat-3',
-      ip: '35.214.108.214',
-      attackType: 'สแกนหาช่องโหว่ปลั๊กอิน (Vuln Probing)',
-      icon: 'shield',
-      color: '#9333ea',
-      bg: '#f3e8ff',
-      threatIntensity: 62,
-      allocation: 42,
-      hits: '207 ครั้ง',
-      isUnbanned: false,
-      lastSeen: '2026-10-09 17:55:46',
-      lastSeenRaw: new Date('2026-10-09T17:55:46Z').getTime()
     },
     {
       id: 'threat-2',
@@ -168,6 +140,20 @@ export const useSecurityStore = defineStore('security', () => {
       lastSeenRaw: new Date('2026-10-08T15:06:07Z').getTime()
     },
     {
+      id: 'threat-3',
+      ip: '35.214.108.214',
+      attackType: 'สแกนหาช่องโหว่ปลั๊กอิน (Vuln Probing)',
+      icon: 'shield',
+      color: '#9333ea',
+      bg: '#f3e8ff',
+      threatIntensity: 62,
+      allocation: 42,
+      hits: '207 ครั้ง',
+      isUnbanned: false,
+      lastSeen: '2026-10-09 17:55:46',
+      lastSeenRaw: new Date('2026-10-09T17:55:46Z').getTime()
+    },
+    {
       id: 'threat-4',
       ip: '34.169.31.210',
       attackType: 'บอทตรวจหารายชื่อแอดมิน (User Enum)',
@@ -180,6 +166,20 @@ export const useSecurityStore = defineStore('security', () => {
       isUnbanned: false,
       lastSeen: '2026-10-08 12:49:09',
       lastSeenRaw: new Date('2026-10-08T12:49:09Z').getTime()
+    },
+    {
+      id: 'threat-5',
+      ip: '146.148.44.249',
+      attackType: 'บอทเน็ตยิงสแปม XML-RPC (xmlrpc.php)',
+      icon: 'flame',
+      color: '#dc2626',
+      bg: '#fee2e2',
+      threatIntensity: 58,
+      allocation: 36,
+      hits: '183 ครั้ง',
+      isUnbanned: false,
+      lastSeen: '2026-10-08 16:15:12',
+      lastSeenRaw: new Date('2026-10-08T16:15:12Z').getTime()
     }
   ])
 
@@ -187,8 +187,8 @@ export const useSecurityStore = defineStore('security', () => {
   const defaultInitialLogs: AuditLogRow[] = [
     {
       id: 'log-1',
-      timestamp: '2026-10-24 11:20:15',
-      ip: '1.46.128.90',
+      timestamp: '2026-10-20 11:57:30',
+      ip: '101.109.32.152',
       action: 'UNBAN',
       actionLabel: 'ปลดแบน IP',
       detail: 'ปลดแบนผ่านหน้าจัดการ IP (อนุญาตใช้งาน Whitelist)'
@@ -355,22 +355,7 @@ export const useSecurityStore = defineStore('security', () => {
             }
           })
 
-          const adminRow: ThreatRow = {
-            id: 'threat-admin-buu',
-            ip: '1.46.128.90',
-            attackType: 'IP แอดมิน คณะวิทยาการสารสนเทศ ม.บูรพา (บางแสน)',
-            icon: 'check',
-            color: '#059669',
-            bg: '#d1fae5',
-            threatIntensity: 18,
-            allocation: 18,
-            hits: '0 ครั้ง (ปลอดภัย)',
-            isUnbanned: true,
-            lastSeen: '2026-10-24 11:20:15',
-            lastSeenRaw: new Date('2026-10-24T11:20:15+07:00').getTime()
-          }
-
-          threatRows.value = [adminRow, ...mappedAttackers]
+          threatRows.value = mappedAttackers
         }
         if (data.hourly && Array.isArray(data.hourly)) {
           hourlyRecords.value = data.hourly

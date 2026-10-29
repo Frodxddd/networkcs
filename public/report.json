@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-10-29T09:37:42+00:00",
+ "generated_at": "2026-10-29T09:51:27+00:00",
  "firewall_start": "2026-10-10T15:19:00+00:00",
- "total_requests": 30420,
+ "total_requests": 30438,
  "attack_events": 13018,
  "unique_ips": 666,
  "status_counts": {
-  "4xx": 2764,
-  "2xx": 24246,
-  "3xx": 3013,
+  "4xx": 2767,
+  "2xx": 24258,
+  "3xx": 3016,
   "5xx": 373,
   "429": 24
  },
@@ -231,6 +231,594 @@
     "vuln_scan": 41
    },
    "last_seen": "2026-10-07 18:17:11"
+  },
+  {
+   "ip": "43.155.202.36",
+   "hits": 41,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 41
+   },
+   "last_seen": "2026-10-09 09:39:29"
+  },
+  {
+   "ip": "165.154.218.226",
+   "hits": 39,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 39
+   },
+   "last_seen": "2026-10-06 10:55:37"
+  },
+  {
+   "ip": "101.109.32.152",
+   "hits": 33,
+   "severity": "medium",
+   "types": {
+    "login_failed": 29,
+    "login_ratelimited": 4
+   },
+   "last_seen": "2026-10-11 12:33:53"
+  },
+  {
+   "ip": "129.213.151.234",
+   "hits": 21,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 21
+   },
+   "last_seen": "2026-10-07 00:07:18"
+  },
+  {
+   "ip": "125.25.127.153",
+   "hits": 10,
+   "severity": "medium",
+   "types": {
+    "login_failed": 10
+   },
+   "last_seen": "2026-10-22 18:03:26"
+  },
+  {
+   "ip": "96.62.224.241",
+   "hits": 6,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 6
+   },
+   "last_seen": "2026-10-10 12:45:07"
+  },
+  {
+   "ip": "45.138.12.16",
+   "hits": 6,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 6
+   },
+   "last_seen": "2026-10-09 09:21:40"
+  },
+  {
+   "ip": "20.106.17.91",
+   "hits": 6,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 6
+   },
+   "last_seen": "2026-10-07 19:34:27"
+  },
+  {
+   "ip": "34.31.120.130",
+   "hits": 5,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 5
+   },
+   "last_seen": "2026-10-06 09:27:08"
+  },
+  {
+   "ip": "91.148.245.81",
+   "hits": 5,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 5
+   },
+   "last_seen": "2026-10-07 03:46:27"
+  },
+  {
+   "ip": "96.126.130.210",
+   "hits": 4,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 4
+   },
+   "last_seen": "2026-10-08 07:11:56"
+  },
+  {
+   "ip": "101.109.96.116",
+   "hits": 4,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 2,
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-28 12:14:19"
+  },
+  {
+   "ip": "206.81.12.187",
+   "hits": 4,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 4
+   },
+   "last_seen": "2026-10-09 22:45:42"
+  },
+  {
+   "ip": "156.146.51.203",
+   "hits": 4,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 4
+   },
+   "last_seen": "2026-10-07 03:24:53"
+  },
+  {
+   "ip": "221.159.119.6",
+   "hits": 4,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 4
+   },
+   "last_seen": "2026-10-09 08:53:14"
+  },
+  {
+   "ip": "138.199.39.186",
+   "hits": 4,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 4
+   },
+   "last_seen": "2026-10-07 11:55:53"
+  },
+  {
+   "ip": "45.138.12.6",
+   "hits": 3,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 3
+   },
+   "last_seen": "2026-10-08 01:24:22"
+  },
+  {
+   "ip": "45.148.10.120",
+   "hits": 3,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 3
+   },
+   "last_seen": "2026-10-09 19:23:41"
+  },
+  {
+   "ip": "202.28.78.215",
+   "hits": 3,
+   "severity": "low",
+   "types": {
+    "login_failed": 3
+   },
+   "last_seen": "2026-10-28 06:04:39"
+  },
+  {
+   "ip": "202.28.78.214",
+   "hits": 3,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 1,
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-28 11:01:32"
+  },
+  {
+   "ip": "169.40.142.26",
+   "hits": 3,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 3
+   },
+   "last_seen": "2026-10-07 04:04:51"
+  },
+  {
+   "ip": "45.153.102.164",
+   "hits": 3,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 3
+   },
+   "last_seen": "2026-10-07 08:25:37"
+  },
+  {
+   "ip": "206.189.233.36",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-08 19:02:30"
+  },
+  {
+   "ip": "202.28.78.251",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "login_failed": 2
+   },
+   "last_seen": "2026-10-22 02:33:40"
+  },
+  {
+   "ip": "95.235.198.195",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-10 13:54:18"
+  },
+  {
+   "ip": "49.48.48.149",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "user_enumeration": 2
+   },
+   "last_seen": "2026-10-26 13:03:12"
+  },
+  {
+   "ip": "31.76.111.195",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-06 05:26:21"
+  },
+  {
+   "ip": "167.172.232.142",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-06 10:31:13"
+  },
+  {
+   "ip": "209.38.255.199",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-06 12:14:59"
+  },
+  {
+   "ip": "167.71.233.141",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-06 21:45:40"
+  },
+  {
+   "ip": "46.151.182.7",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-07 08:26:33"
+  },
+  {
+   "ip": "71.74.3.176",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-07 12:09:24"
+  },
+  {
+   "ip": "124.70.71.204",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-07 14:08:33"
+  },
+  {
+   "ip": "167.235.185.190",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-09 18:41:21"
+  },
+  {
+   "ip": "142.93.231.234",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-09 19:00:35"
+  },
+  {
+   "ip": "91.92.240.86",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-09 22:21:52"
+  },
+  {
+   "ip": "80.94.92.65",
+   "hits": 2,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 2
+   },
+   "last_seen": "2026-10-09 23:29:15"
+  },
+  {
+   "ip": "45.138.12.188",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-08 02:36:50"
+  },
+  {
+   "ip": "64.62.156.80",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-08 05:48:24"
+  },
+  {
+   "ip": "198.235.24.10",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 1
+   },
+   "last_seen": "2026-10-08 07:21:02"
+  },
+  {
+   "ip": "144.172.98.192",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-08 08:05:13"
+  },
+  {
+   "ip": "216.180.246.24",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-08 13:03:45"
+  },
+  {
+   "ip": "94.102.56.99",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-08 17:23:53"
+  },
+  {
+   "ip": "93.123.109.101",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-08 23:46:50"
+  },
+  {
+   "ip": "150.109.254.122",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-10 01:34:41"
+  },
+  {
+   "ip": "45.138.12.21",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-10 07:51:53"
+  },
+  {
+   "ip": "205.210.31.128",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 1
+   },
+   "last_seen": "2026-10-10 09:46:12"
+  },
+  {
+   "ip": "184.105.139.69",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-10 10:50:36"
+  },
+  {
+   "ip": "198.235.24.161",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 1
+   },
+   "last_seen": "2026-10-06 00:16:17"
+  },
+  {
+   "ip": "198.235.24.144",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 1
+   },
+   "last_seen": "2026-10-06 03:10:22"
+  },
+  {
+   "ip": "184.105.247.254",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-06 08:17:32"
+  },
+  {
+   "ip": "163.61.91.104",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-06 11:32:30"
+  },
+  {
+   "ip": "216.180.246.177",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-06 13:10:28"
+  },
+  {
+   "ip": "153.117.33.166",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-06 15:05:25"
+  },
+  {
+   "ip": "47.95.234.23",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-06 20:12:30"
+  },
+  {
+   "ip": "64.62.156.38",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-07 00:49:45"
+  },
+  {
+   "ip": "198.235.24.137",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 1
+   },
+   "last_seen": "2026-10-07 06:14:13"
+  },
+  {
+   "ip": "94.154.43.125",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-07 11:33:06"
+  },
+  {
+   "ip": "74.82.47.2",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-09 05:47:22"
+  },
+  {
+   "ip": "45.148.10.171",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-09 06:32:05"
+  },
+  {
+   "ip": "94.154.43.158",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-09 09:30:19"
+  },
+  {
+   "ip": "205.210.31.28",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "xmlrpc_abuse": 1
+   },
+   "last_seen": "2026-10-09 12:39:59"
+  },
+  {
+   "ip": "185.218.86.24",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-09 13:17:31"
+  },
+  {
+   "ip": "130.12.180.212",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-09 14:21:54"
+  },
+  {
+   "ip": "43.230.94.184",
+   "hits": 1,
+   "severity": "low",
+   "types": {
+    "vuln_scan": 1
+   },
+   "last_seen": "2026-10-09 19:33:42"
   }
  ],
  "hourly": [
@@ -1336,7 +1924,7 @@
   },
   {
    "hour": "2026-10-29 09:00",
-   "requests": 20,
+   "requests": 38,
    "attacks": 0
   }
  ],
@@ -1346,7 +1934,7 @@
    "attacks": 12964
   },
   "after": {
-   "requests": 8504,
+   "requests": 8522,
    "attacks": 54
   }
  }

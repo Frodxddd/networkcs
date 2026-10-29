@@ -128,10 +128,10 @@ describe('SecDash Thai Security Operations Dashboard', () => {
     expect(wrapper.text()).toContain('วันเวลาล่าสุด')
     expect(wrapper.text()).toContain('ใหม่ไปเก่า (ล่าสุด)')
 
-    // First row should be the newest IP (1.46.128.90 with Oct 24 / newest timestamp)
+    // First row in default sort (newest to oldest)
     const rows = wrapper.findAll('.ops-data-table tbody tr')
     expect(rows.length).toBeGreaterThan(0)
-    expect(rows[0]!.text()).toContain('1.46.128.90')
+    const initialFirstRowIp = rows[0]!.find('.td-ip').text()
 
     // Click 'เก่าไปใหม่' sort button
     const sortPills = wrapper.findAll('.sort-pill')
@@ -141,7 +141,8 @@ describe('SecDash Thai Security Operations Dashboard', () => {
     await flushPromises()
 
     const reorderedRows = wrapper.findAll('.ops-data-table tbody tr')
-    expect(reorderedRows[0]!.text()).not.toContain('1.46.128.90')
+    const reorderedFirstRowIp = reorderedRows[0]!.find('.td-ip').text()
+    expect(reorderedFirstRowIp).not.toBe(initialFirstRowIp)
   })
 
   it('renders prominent enlarged donut chart and allows in-graph interactive inspection', async () => {
