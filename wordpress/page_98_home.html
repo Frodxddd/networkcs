@@ -1,0 +1,3079 @@
+<!-- wp:html -->
+<!DOCTYPE html>
+<html lang="th" class="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>หลักสูตรวิทยาการคอมพิวเตอร์ | มหาวิทยาลัยบูรพา</title>
+  
+  <!-- Favicon / Site Icon -->
+  <link rel="icon" type="image/svg+xml" href="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/buu_logo.svg"/>
+  <link rel="alternate icon" type="image/png" href="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/buu_logo.png"/>
+  <link rel="apple-touch-icon" href="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/buu_logo.png"/>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <!-- Tailwind CSS CDN -->
+  <link rel="stylesheet" href="/wp-content/uploads/buu-style.css" />
+  <style>
+    /* Reset WordPress wrapper margins and padding */
+    html, body, .wp-site-blocks, .entry-content, .wp-block-post-content {
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: #ffffff;
+    }
+    html.dark, body.dark, html.dark .wp-site-blocks, body.dark .wp-site-blocks,
+    html.dark .entry-content, body.dark .entry-content {
+      background-color: #0e131e !important;
+    }
+    :where(.wp-site-blocks :focus), nav a:focus, nav a:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
+    /* Reset WordPress wrapper margins and padding */
+    html, body, .wp-site-blocks, .entry-content, .wp-block-post-content {
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: #ffffff;
+    }
+    html.dark, body.dark, html.dark .wp-site-blocks, body.dark .wp-site-blocks,
+    html.dark .entry-content, body.dark .entry-content {
+      background-color: #0e131e !important;
+    }
+    
+    /* Remove ugly WordPress default focus outline on navigation links */
+    :where(.wp-site-blocks :focus), nav a:focus, nav a:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    body {
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+      padding: 0;
+    }
+    .academic-grid {
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .dark .academic-grid, html.dark .academic-grid, body.dark .academic-grid {
+      background-image: radial-gradient(#252a36 1.2px, transparent 1.2px);
+    }
+    header {
+      margin-top: 0 !important;
+      top: 0 !important;
+    }
+    #hero-section {
+      position: relative;
+      overflow: hidden;
+      min-height: 840px;
+    }
+    #hero-3d-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 1;
+      pointer-events: none;
+    }
+    html.dark #hero-section, body.dark #hero-section {
+      background-color: #0e131e !important;
+    }
+
+    /* ==========================================================
+       EMIL KOWALSKI ANIMATION SYSTEM (Strict Animate Skill Compliance)
+       - No transition: all (compositor properties only)
+       - Custom bezier curves: --ease-out, --ease-spring, --ease-in-out
+       - Snappy travel distances (18-24px, no sluggish 110px)
+       - Zero scale(0) entrances (scale(0.96) to scale(1))
+       - Staggered cascading entrances (40ms steps)
+       - Micro-interactions: 150-240ms
+       - Hover gating: @media (hover: hover) and (pointer: fine)
+       - Accessibility: @media (prefers-reduced-motion: reduce)
+       ========================================================== */
+    :root {
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      --ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --duration-fast: 160ms;
+      --duration-normal: 240ms;
+      --duration-reveal: 340ms;
+      --duration-modal: 280ms;
+    }
+
+    
+    /* ==========================================================
+       CYBER SNAP-ASSEMBLY ENGINE (CINEMATIC SLOW-MOTION ASSEMBLE)
+       - Deep 3D Perspective (perspective: 1200px)
+       - Slow, graceful, majestic convergence (1.45s duration)
+       - Ease-Cinema Curve: cubic-bezier(0.14, 1, 0.24, 1)
+       - Extended 160ms staggered sequence
+       - Smooth atmospheric blur clears into crystalline focus
+       ========================================================== */
+    .assemble-grid {
+      perspective: 1200px;
+      perspective-origin: center center;
+    }
+
+    /* Base Assemble Element (Cinematic Slow Convergence & Assembly) */
+    /* =================================================================
+       SPECTACULAR HYPER-EXPLODED 3D ASSEMBLY ENGINE & SCROLL WARP
+       Elements fly in from deep stratosphere with laser sweep & shockwave dock
+       ================================================================= */
+    .assemble-grid {
+      perspective: 1800px;
+      perspective-origin: 50% 38%;
+      transform-style: preserve-3d;
+    }
+
+    .assemble-item {
+      opacity: 0;
+      will-change: transform, opacity, filter, box-shadow;
+      transition: box-shadow 350ms ease;
+    }
+
+    /* Dramatic Hyper-Exploded Vectors (แยกชิ้นส่วนลอยเคว้งขอบจักรวาล แล้วพุ่งมารวมร่าง) */
+    .assemble-from-left, .assemble-wide-left {
+      transform: translate3d(-520px, 160px, -380px) rotateY(48deg) rotateZ(-18deg) rotateX(20deg) scale(0.65);
+      filter: blur(20px);
+    }
+
+    .assemble-from-right, .assemble-wide-right {
+      transform: translate3d(520px, 160px, -380px) rotateY(-48deg) rotateZ(18deg) rotateX(-20deg) scale(0.65);
+      filter: blur(20px);
+    }
+
+    .assemble-from-center, .assemble-wide-center {
+      transform: translate3d(0, -380px, -480px) rotateX(46deg) scale(0.55);
+      filter: blur(22px);
+    }
+
+    .assemble-from-top-left {
+      transform: translate3d(-380px, -220px, -280px) rotateX(35deg) rotateY(32deg) scale(0.68);
+      filter: blur(18px);
+    }
+
+    .assemble-from-top-right {
+      transform: translate3d(380px, -220px, -280px) rotateX(35deg) rotateY(-32deg) scale(0.68);
+      filter: blur(18px);
+    }
+
+    .assemble-from-bottom {
+      transform: translate3d(0, 260px, -240px) rotateX(-35deg) scale(0.70);
+      filter: blur(18px);
+    }
+
+    /* Docking and Snap-Lock into position (Scroll-driven docking) */
+    .assemble-item.is-docked {
+      box-shadow: 0 12px 35px -10px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    /* Assembly Staggered Delays (Deliberate, slow cascading intervals: 320ms) */
+    .assemble-delay-1 { transition-delay: 0ms; }
+    .assemble-delay-2 { transition-delay: 320ms; }
+    .assemble-delay-3 { transition-delay: 640ms; }
+    .assemble-delay-4 { transition-delay: 960ms; }
+    .assemble-delay-5 { transition-delay: 1280ms; }
+    .assemble-delay-6 { transition-delay: 1600ms; }
+    .assemble-delay-7 { transition-delay: 1920ms; }
+
+    /* Flash neon shockwave edge when snapping into position */
+    @keyframes assemble-lock-glow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+      }
+      40% {
+        box-shadow: 0 0 65px 14px rgba(56, 189, 248, 0.60), 0 0 0 3px rgba(251, 191, 36, 0.95);
+      }
+      100% {
+        box-shadow: 0 12px 35px -10px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+      }
+    }
+    .assemble-item.is-revealed {
+      animation: assemble-lock-glow 2400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes laser-sweep {
+      0% {
+        top: 0%;
+        opacity: 0.98;
+        transform: scaleX(0.8);
+      }
+      60% {
+        opacity: 0.98;
+        transform: scaleX(1);
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+        transform: scaleX(1.15);
+      }
+    }
+
+    /* Laser Edge Line Ignition on Top of Each Card */
+    .card-laser-trace {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3.5px;
+      background: linear-gradient(90deg, #38bdf8, #a855f7, #fbbf24);
+      transform: scaleX(0);
+      transform-origin: left;
+      opacity: 0;
+      box-shadow: 0 0 18px 3px rgba(56, 189, 248, 0.85);
+      transition: transform 1400ms cubic-bezier(0.16, 1, 0.3, 1) 400ms, opacity 400ms ease 400ms;
+      z-index: 5;
+    }
+    .assemble-item.is-revealed .card-laser-trace {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+
+    /* EMBEDDED 3D SHOWCASE SECTION STYLES (ENHANCED TRUE 3D WITH DYNAMIC SHADOWS) */
+    .section-3d-wrap {
+      background: #f8fafc;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 300ms ease;
+    }
+    .dark .section-3d-wrap {
+      background: #081120;
+    }
+
+    .bg-number-3d {
+      position: absolute;
+      top: -4.8rem;
+      left: 1.8rem;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #0284c7;
+      opacity: 0.05;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      letter-spacing: -0.05em;
+      transition: opacity 500ms ease, transform 600ms cubic-bezier(0.12, 1, 0.22, 1);
+    }
+    .dark .bg-number-3d {
+      opacity: 0.13;
+    }
+
+    .card-3d-wrap {
+      position: relative;
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 26px;
+      padding: 2.2rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      box-shadow: 0 12px 35px -10px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+      cursor: grab;
+      user-select: none;
+      transition: border-color 300ms ease, box-shadow 400ms cubic-bezier(0.12, 1, 0.22, 1), background-color 300ms ease;
+    }
+    .card-3d-wrap:active {
+      cursor: grabbing;
+    }
+    .dark .card-3d-wrap {
+      background: #0d172a;
+      border-color: rgba(56, 189, 248, 0.20);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-3d-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: radial-gradient(450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(245, 158, 11, 0.35), transparent 70%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    .card-3d-wrap:hover::before {
+      opacity: 1;
+    }
+
+    .card-3d-wrap:hover {
+      border-color: rgba(245, 158, 11, 0.55);
+      box-shadow: 0 24px 60px -15px rgba(245, 158, 11, 0.20), 0 6px 16px rgba(0, 0, 0, 0.05);
+    }
+    .dark .card-3d-wrap:hover {
+      border-color: rgba(251, 191, 36, 0.45);
+      box-shadow: 0 26px 60px -12px rgba(251, 191, 36, 0.28);
+    }
+
+    .canvas-3d-container {
+      position: relative;
+      width: 100%;
+      height: 335px;
+      margin: 0.2rem 0 0.4rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    canvas.canvas-3d-el {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    /* 3D Realistic Ground Occlusion Shadow */
+    .model-ground-shadow {
+      width: 220px;
+      height: 34px;
+      background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.18) 0%, rgba(15, 23, 42, 0.06) 45%, transparent 75%);
+      border-radius: 50%;
+      margin: -22px auto 14px auto;
+      filter: blur(5px);
+      pointer-events: none;
+      will-change: transform, opacity;
+      transition: transform 120ms ease, opacity 120ms ease;
+    }
+    .dark .model-ground-shadow {
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.25) 45%, transparent 75%);
+    }
+
+    .pill-badge-3d {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.28rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    </style>
+
+  <!-- Force browser to always return to top on page refresh/reload -->
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  </script>
+</head>
+<body class="bg-white dark:bg-[#0e131e] font-body text-slate-800 dark:text-[#dee2f2] antialiased selection:bg-brand-100 selection:text-brand-900 transition-colors duration-200 m-0 p-0">
+
+  <!-- SITE PRELOADER (Matching Reference Design with CS BUU Branding) -->
+  <div id="site-preloader" class="fixed inset-0 z-[99999] bg-white dark:bg-[#0e131e] flex flex-col items-center justify-center transition-all duration-300 ease-out font-prompt">
+    <div class="flex flex-col items-center max-w-sm sm:max-w-md w-full px-6 text-center select-none">
+      
+      <!-- Brand Logo Header -->
+      <div class="flex items-center justify-center gap-4 mb-7">
+        <img src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/buu_logo.svg" alt="BUU Burapha University Logo" class="h-14 sm:h-16 w-auto object-contain"/>
+        <div class="h-10 w-[1.5px] bg-slate-300 dark:bg-slate-700"></div>
+        <div class="flex flex-col text-left">
+          <span class="font-heading font-extrabold text-2xl sm:text-3xl text-[#0f2744] dark:text-white tracking-tight leading-none">CS BUU</span>
+          <span class="font-mono text-xs sm:text-[13px] font-bold text-[#d97706] dark:text-amber-400 tracking-wider uppercase mt-1.5">Computer Science</span>
+        </div>
+      </div>
+
+      <!-- Animated Progress Bar -->
+      <div class="w-full max-w-[340px] sm:max-w-[390px] h-1.5 bg-slate-100 dark:bg-[#1b2234] rounded-full overflow-hidden mb-6 relative shadow-inner">
+        <div id="preloader-bar" class="h-full bg-gradient-to-r from-[#0f2744] via-[#2563eb] to-[#38bdf8] rounded-full transition-all duration-150 ease-out" style="width: 0%;"></div>
+      </div>
+
+      <!-- Title & Pill Badge (Matches User Screenshot) -->
+      <div class="flex items-center justify-center gap-2.5 mb-2.5">
+        <h2 class="font-heading font-bold text-xl sm:text-2xl text-slate-900 dark:text-white tracking-tight">CS BUU Portal</h2>
+        <span class="px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 font-mono text-xs font-semibold border border-blue-100 dark:border-blue-900 shadow-sm">
+          วท.บ. วิทยาการคอมพิวเตอร์
+        </span>
+      </div>
+
+      <!-- Dynamic Loading Status Message -->
+      <p id="preloader-status" class="text-sm font-medium text-blue-600 dark:text-blue-400 transition-colors">
+        กำลังเตรียมข้อมูลระบบหลักสูตร... (0%)
+      </p>
+
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-[#0f2744] border-b border-[#1b3b64] shadow-md shadow-[#0f2744]/20 transition-colors duration-200">
+    <div class="h-20 max-w-[1680px] mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo (Static & Solid - No Bounce) -->
+      <a href="#" id="brand-logo-link" class="brand-logo-container flex items-center gap-3.5 select-none" title="หน้าแรก CS BUU">
+        <img alt="ตราสัญลักษณ์ มหาวิทยาลัยบูรพา BUU" 
+             class="brand-logo-img h-10 sm:h-11 w-auto object-contain select-none pointer-events-none" 
+             src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/buu_logo.svg"/>
+        <div class="h-8 w-px bg-white/20 hidden sm:block"></div>
+        <div class="flex flex-col">
+          <span class="font-heading font-bold text-lg sm:text-xl text-white tracking-tight leading-none">CS BUU</span>
+          <span class="font-mono text-[11px] font-semibold text-amber-400 tracking-wider uppercase mt-1">Computer Science</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links with Dynamic Active Indicator & ScrollSpy -->
+      <nav id="main-nav" class="hidden lg:flex items-center gap-7">
+        <a href="#hero-section" data-nav="hero-section" class="nav-item is-active relative font-bold text-sm text-white hover:text-white transition-colors py-1 group cursor-pointer">
+          <span>หน้าแรก</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-full h-0.5 bg-amber-400 rounded-full transition-all duration-200 group-hover:w-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
+        </a>
+        <a href="#about-program" data-nav="about-program" class="nav-item relative font-medium text-sm text-slate-200 hover:text-white transition-colors py-1 group cursor-pointer">
+          <span>เกี่ยวกับหลักสูตร</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 rounded-full transition-all duration-200 group-hover:w-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
+        </a>
+        <a href="#showcase-3d" data-nav="showcase-3d" class="nav-item relative font-medium text-sm text-slate-200 hover:text-white transition-colors py-1 group cursor-pointer">
+          <span>เทคโนโลยี 3D</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 rounded-full transition-all duration-200 group-hover:w-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
+        </a>
+        <a href="#news-activities" data-nav="news-activities" class="nav-item relative font-medium text-sm text-slate-200 hover:text-white transition-colors py-1 group cursor-pointer">
+          <span>ข่าวสารและกิจกรรม</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 rounded-full transition-all duration-200 group-hover:w-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
+        </a>
+        <a href="#team" data-nav="team" class="nav-item relative font-medium text-sm text-slate-200 hover:text-white transition-colors py-1 group cursor-pointer">
+          <span>คณาจารย์และทีมงาน</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 rounded-full transition-all duration-200 group-hover:w-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
+        </a>
+        <a href="#contact" data-nav="contact" class="nav-item relative font-medium text-sm text-slate-200 hover:text-white transition-colors py-1 group cursor-pointer">
+          <span>ติดต่อเรา</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 rounded-full transition-all duration-200 group-hover:w-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
+        </a>
+        </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle-btn" 
+                type="button" 
+                aria-label="สลับโหมดสี Dark / Light Mode" 
+                title="สลับโหมดสี (Dark / Light)"
+                class="w-11 h-11 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer active:scale-95">
+          <span id="theme-icon" class="material-symbols-outlined text-[20px]">dark_mode</span>
+        </button>
+
+        <a href="https://www.mytcas.com/" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm shadow-md transition-all focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-[#0f2744] active:scale-95">
+          <span>สมัครเรียน TCAS</span>
+          <span class="material-symbols-outlined text-[18px]">launch</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION (Full-Bleed Edge-to-Edge 3D Computational Space) -->
+    <section id="hero-section" class="relative bg-white dark:bg-[#0e131e] border-b border-slate-200 dark:border-[#252a36] overflow-hidden academic-grid min-h-[840px] lg:min-h-[960px] xl:min-h-[980px] flex items-center transition-colors duration-200">
+      
+      <!-- Three.js Canvas (Edge-to-Edge Full Hero Immersion) -->
+      <canvas id="hero-3d-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0" style="display:block; position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none;"></canvas>
+
+      <!-- Static Fallback (for devices without WebGL) -->
+      <div id="hero-3d-fallback" class="hidden absolute inset-0 w-full h-full z-0 opacity-10 bg-slate-900 pointer-events-none"></div>
+
+      <div class="relative z-10 max-w-[1680px] mx-auto px-4 sm:px-8 lg:px-12 py-6 lg:py-8 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          <!-- Hero Copy (Direct, Concrete, No Throat-Clearing) -->
+          <div class="lg:col-span-6 space-y-6">
+            
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-[#161b27] border border-blue-200 dark:border-[#252a36] text-brand-800 dark:text-[#adc6ff] text-xs font-semibold">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600 dark:bg-[#4d8eff] beacon-dot"></span>
+              <span>หลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ • มหาวิทยาลัยบูรพา บางแสน</span>
+            </div>
+
+            <h1 class="font-heading font-bold text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] text-slate-950 dark:text-[#dee2f2] leading-[1.3] sm:leading-[1.35] tracking-tight">
+              <span class="block">สถาปัตยกรรมซอฟต์แวร์</span>
+              <span class="block text-brand-700 dark:text-[#adc6ff] my-1 sm:my-1.5 shimmer-text font-bold">ระบบคลาวด์ และวิศวกรรมเอไอ</span>
+              <span class="block text-slate-900 dark:text-[#c2c6d6] sm:whitespace-nowrap">ลงมือปฏิบัติจริงตั้งแต่ปี 1</span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-700 dark:text-[#c2c6d6] max-w-2xl leading-relaxed">
+              หลักสูตร 4 ปี (132 หน่วยกิต) คณะวิทยาการสารสนเทศ มุ่งเน้นการออกแบบและสร้างระบบซอฟต์แวร์ระดับองค์กร 
+              โมเดลปัญญาประดิษฐ์ประยุกต์ พร้อมโครงการสหกิจศึกษา 1 ภาคการศึกษาเต็ม ร่วมงานกับบริษัทเทคโนโลยีในเขตพัฒนาพิเศษภาคตะวันออก (EEC)
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap items-center gap-3.5 pt-1">
+              <a href="#about-program" 
+                 class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-slate-900 dark:bg-brand-600 text-white font-semibold text-sm hover:bg-slate-800 dark:hover:bg-brand-700 shadow-sm transition-all active:scale-98">
+                <span>ดูโครงสร้าง 4 กลุ่มวิชา</span>
+                <span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+              </a>
+              <a href="#news-activities" 
+                 class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-white dark:bg-[#161b27] text-slate-800 dark:text-[#dee2f2] font-semibold text-sm hover:bg-slate-50 dark:hover:bg-[#1b1f2b] border border-slate-300 dark:border-[#252a36] shadow-sm transition-all">
+                <span>ระเบียบการรับสมัคร TCAS 68</span>
+                <span class="material-symbols-outlined text-[18px]">feed</span>
+              </a>
+            </div>
+
+            <!-- Academic Badges (Factual & Specific) -->
+            <div class="pt-3 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-slate-200 dark:border-[#252a36] text-slate-600 dark:text-[#c2c6d6] text-xs font-medium">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-600 dark:text-[#adc6ff] text-[18px]">verified</span>
+                <span>มาตรฐาน มคอ.1 & AUN-QA</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-600 dark:text-[#adc6ff] text-[18px]">domain</span>
+                <span>คณะวิทยาการสารสนเทศ</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-600 dark:text-[#adc6ff] text-[18px]">business_center</span>
+                <span>สหกิจศึกษา 16 สัปดาห์เต็ม</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Hero Right Spatial Anchor (Unobstructed 3D Spatial Canvas) -->
+          <div class="lg:col-span-6 relative flex items-center justify-center lg:justify-end min-h-[440px] sm:min-h-[520px] lg:min-h-[640px] pointer-events-none">
+          </div>
+
+        </div>
+
+        <!-- 4 FACTUAL METRIC TILES (Concrete Academic Data) -->
+        <div class="assemble-grid grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-6 mt-6 sm:pt-6 sm:mt-8 border-t border-slate-200/90 dark:border-[#252a36] relative z-10">
+          
+          <div class="metric-card-interactive assemble-item assemble-from-left assemble-delay-1 p-5 sm:p-6 rounded-xl bg-white/90 dark:bg-[#161b27]/90 backdrop-blur-sm border border-slate-200 dark:border-[#252a36] shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-heading font-bold text-2xl sm:text-3xl text-brand-700 dark:text-[#adc6ff]" data-counter-target="132">132</span>
+              <span class="material-symbols-outlined text-slate-400 dark:text-[#8c909f]">school</span>
+            </div>
+            <p class="font-heading font-bold text-slate-900 dark:text-[#dee2f2] text-sm sm:text-base">หน่วยกิตตลอดหลักสูตร</p>
+            <p class="text-xs text-slate-600 dark:text-[#8c909f] mt-1 leading-normal">โครงสร้าง 4 ปี (หลักสูตรปรับปรุง พ.ศ. 2568) รับรองตามเกณฑ์อุดมศึกษา</p>
+          </div>
+
+          <div class="metric-card-interactive assemble-item assemble-from-top-left assemble-delay-2 p-5 sm:p-6 rounded-xl bg-white/90 dark:bg-[#161b27]/90 backdrop-blur-sm border border-slate-200 dark:border-[#252a36] shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-heading font-bold text-2xl sm:text-3xl text-slate-900 dark:text-[#dee2f2]" data-counter-target="22000" data-counter-comma="true">22,000</span>
+              <span class="material-symbols-outlined text-slate-400 dark:text-[#8c909f]">payments</span>
+            </div>
+            <p class="font-heading font-bold text-slate-900 dark:text-[#dee2f2] text-sm sm:text-base">บาท / ภาคการศึกษา</p>
+            <p class="text-xs text-slate-600 dark:text-[#8c909f] mt-1 leading-normal">อัตราค่าธรรมเนียมการศึกษาแบบเหมาจ่าย (หลักสูตรภาคปกติ)</p>
+          </div>
+
+          <div class="metric-card-interactive assemble-item assemble-from-top-right assemble-delay-3 p-5 sm:p-6 rounded-xl bg-white/90 dark:bg-[#161b27]/90 backdrop-blur-sm border border-slate-200 dark:border-[#252a36] shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-heading font-bold text-2xl sm:text-3xl text-brand-700 dark:text-[#adc6ff]">TCAS 68</span>
+              <span class="material-symbols-outlined text-slate-400 dark:text-[#8c909f]">how_to_reg</span>
+            </div>
+            <p class="font-heading font-bold text-slate-900 dark:text-[#dee2f2] text-sm sm:text-base">รับสมัครครบ 4 รอบ</p>
+            <p class="text-xs text-slate-600 dark:text-[#8c909f] mt-1 leading-normal">Portfolio, โควตา 12 จังหวัดภาคตะวันออก, Admission และรอบตรง</p>
+          </div>
+
+          <div class="metric-card-interactive assemble-item assemble-from-right assemble-delay-4 p-5 sm:p-6 rounded-xl bg-white/90 dark:bg-[#161b27]/90 backdrop-blur-sm border border-slate-200 dark:border-[#252a36] shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-heading font-bold text-2xl sm:text-3xl text-slate-900 dark:text-[#dee2f2]" data-counter-target="100" data-counter-suffix="%">100%</span>
+              <span class="material-symbols-outlined text-slate-400 dark:text-[#8c909f]">domain_verification</span>
+            </div>
+            <p class="font-heading font-bold text-slate-900 dark:text-[#dee2f2] text-sm sm:text-base">สหกิจศึกษาภาคสนาม</p>
+            <p class="text-xs text-slate-600 dark:text-[#8c909f] mt-1 leading-normal">ปฏิบัติงานจริง 1 ภาคการศึกษาเต็ม ณ บริษัทชั้นนำใน กทม. และเขต EEC</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Three.js Library & Advanced Edge-to-Edge Spatial Scene -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script>
+      (function() {
+        const canvas = document.getElementById('hero-3d-canvas');
+        const heroSection = document.getElementById('hero-section');
+        const fallback = document.getElementById('hero-3d-fallback');
+
+        function hasWebGL() {
+          try {
+            if (!window.WebGLRenderingContext) return false;
+            const c = document.createElement('canvas');
+            return !!(c.getContext('webgl') || c.getContext('experimental-webgl'));
+          } catch (e) { return false; }
+        }
+
+        if (!hasWebGL()) {
+          canvas.style.display = 'none';
+          if (fallback) fallback.classList.remove('hidden');
+          return;
+        }
+
+        // --- Three.js Setup ---
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+
+        const scene = new THREE.Scene();
+        // Atmospheric Z-Depth Fog: Front vertices/lines pop sharply while back curves softly fade into the background
+        scene.fog = new THREE.Fog(0xffffff, 4.8, 11.2);
+
+        const camera = new THREE.PerspectiveCamera(44, heroSection.clientWidth / heroSection.clientHeight, 0.1, 100);
+        camera.position.set(0, 0, 7.8);
+
+        // --- Master Group for the Primary Computational Structure ---
+        const clusterGroup = new THREE.Group();
+        clusterGroup.rotation.z = 0.16; // Realistic planetary axial tilt
+        clusterGroup.rotation.x = 0.12;
+        scene.add(clusterGroup);
+
+        // --- Refined Academic & High-Tech 3D Globe Palette ---
+        const wireMat = new THREE.MeshBasicMaterial({ color: 0x2563eb, wireframe: true, transparent: true, opacity: 0.18 });
+        const edgeMat = new THREE.LineBasicMaterial({ color: 0x1d4ed8, transparent: true, opacity: 0.65 });
+        const pointMat = new THREE.PointsMaterial({ color: 0x1e40af, size: 0.085, transparent: true, opacity: 0.95 });
+        const latMat = new THREE.LineBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.42 });
+        const innerWireMat = new THREE.MeshBasicMaterial({ color: 0x0284c7, wireframe: true, transparent: true, opacity: 0.22 });
+        const outerHaloMat = new THREE.MeshBasicMaterial({ color: 0x93c5fd, wireframe: true, transparent: true, opacity: 0.05 });
+        const wideRingMat = new THREE.LineBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.38 });
+        const wideBeadMat = new THREE.MeshBasicMaterial({ color: 0x1d4ed8 });
+        const nodeMat = new THREE.MeshBasicMaterial({ color: 0x2563eb });
+        const connLineMat = new THREE.LineBasicMaterial({ color: 0x93c5fd, transparent: true, opacity: 0.32 });
+        const ambientMat = new THREE.PointsMaterial({ color: 0x60a5fa, size: 0.045, transparent: true, opacity: 0.45 });
+
+        function updateThreeTheme(isDark) {
+          if (isDark) {
+            if (scene.fog) scene.fog.color.setHex(0x0e131e);
+            wireMat.color.setHex(0x38bdf8);
+            wireMat.opacity = 0.28;
+            edgeMat.color.setHex(0x60a5fa);
+            edgeMat.opacity = 0.85;
+            pointMat.color.setHex(0xadc6ff);
+            pointMat.opacity = 1.0;
+            latMat.color.setHex(0x38bdf8);
+            latMat.opacity = 0.50;
+            innerWireMat.color.setHex(0x7dd3fc);
+            innerWireMat.opacity = 0.35;
+            outerHaloMat.color.setHex(0x93c5fd);
+            outerHaloMat.opacity = 0.10;
+            wideRingMat.color.setHex(0x60a5fa);
+            wideRingMat.opacity = 0.50;
+            wideBeadMat.color.setHex(0x7dd3fc);
+            nodeMat.color.setHex(0x60a5fa);
+            connLineMat.color.setHex(0x7dd3fc);
+            connLineMat.opacity = 0.45;
+            ambientMat.color.setHex(0x38bdf8);
+            ambientMat.opacity = 0.60;
+          } else {
+            if (scene.fog) scene.fog.color.setHex(0xffffff);
+            wireMat.color.setHex(0x2563eb);
+            wireMat.opacity = 0.18;
+            edgeMat.color.setHex(0x1d4ed8);
+            edgeMat.opacity = 0.65;
+            pointMat.color.setHex(0x1e40af);
+            pointMat.opacity = 0.95;
+            latMat.color.setHex(0x2563eb);
+            latMat.opacity = 0.42;
+            innerWireMat.color.setHex(0x0284c7);
+            innerWireMat.opacity = 0.22;
+            outerHaloMat.color.setHex(0x93c5fd);
+            outerHaloMat.opacity = 0.05;
+            wideRingMat.color.setHex(0x2563eb);
+            wideRingMat.opacity = 0.38;
+            wideBeadMat.color.setHex(0x1d4ed8);
+            nodeMat.color.setHex(0x2563eb);
+            connLineMat.color.setHex(0x93c5fd);
+            connLineMat.opacity = 0.32;
+            ambientMat.color.setHex(0x60a5fa);
+            ambientMat.opacity = 0.45;
+          }
+        }
+        window.updateThreeTheme = updateThreeTheme;
+
+        // --- 1. Primary Outer Geodesic Sphere Shell ---
+        const icoGeo = new THREE.IcosahedronGeometry(2.7, 1);
+        const icoMesh = new THREE.Mesh(icoGeo, wireMat);
+        clusterGroup.add(icoMesh);
+
+        const edgesGeo = new THREE.EdgesGeometry(icoGeo);
+        const edgeLines = new THREE.LineSegments(edgesGeo, edgeMat);
+        clusterGroup.add(edgeLines);
+
+        const vertexPoints = new THREE.Points(icoGeo, pointMat);
+        clusterGroup.add(vertexPoints);
+
+        // --- 2. Curved Spherical Latitude & Meridian Grid (Definitive 3D Globe Perspective) ---
+        const globeGridGroup = new THREE.Group();
+        clusterGroup.add(globeGridGroup);
+
+        const latSegments = 64;
+        function makeLatRing(r, y) {
+          const pts = [];
+          for (let i = 0; i <= latSegments; i++) {
+            const th = (i / latSegments) * Math.PI * 2;
+            pts.push(new THREE.Vector3(Math.cos(th) * r, y, Math.sin(th) * r));
+          }
+          const geo = new THREE.BufferGeometry().setFromPoints(pts);
+          return new THREE.LineLoop(geo, latMat);
+        }
+
+        const R_globe = 2.70;
+        // Equator
+        globeGridGroup.add(makeLatRing(R_globe, 0));
+        // Parallels
+        const y1 = 1.15;
+        const r1 = Math.sqrt(R_globe * R_globe - y1 * y1);
+        globeGridGroup.add(makeLatRing(r1, y1));
+        globeGridGroup.add(makeLatRing(r1, -y1));
+        const y2 = 1.95;
+        const r2 = Math.sqrt(R_globe * R_globe - y2 * y2);
+        globeGridGroup.add(makeLatRing(r2, y2));
+        globeGridGroup.add(makeLatRing(r2, -y2));
+
+        // Longitudinal Meridian Great Circles
+        function makeMeridianRing(r, rotY) {
+          const pts = [];
+          for (let i = 0; i <= latSegments; i++) {
+            const th = (i / latSegments) * Math.PI * 2;
+            pts.push(new THREE.Vector3(Math.cos(th) * r, Math.sin(th) * r, 0));
+          }
+          const geo = new THREE.BufferGeometry().setFromPoints(pts);
+          const loop = new THREE.LineLoop(geo, latMat);
+          loop.rotation.y = rotY;
+          return loop;
+        }
+        globeGridGroup.add(makeMeridianRing(R_globe, 0));
+        globeGridGroup.add(makeMeridianRing(R_globe, Math.PI / 2));
+
+        // --- 3. Expansive Equatorial Data Stream Orbit (Broadening Horizontal Width) ---
+        const wideOrbitGroup = new THREE.Group();
+        clusterGroup.add(wideOrbitGroup);
+        wideOrbitGroup.rotation.x = Math.PI * 0.16;
+        wideOrbitGroup.rotation.z = -Math.PI * 0.08;
+
+        const wideRingRadius = 3.10;
+        const wideRingPts = [];
+        for (let i = 0; i <= latSegments; i++) {
+          const th = (i / latSegments) * Math.PI * 2;
+          wideRingPts.push(new THREE.Vector3(Math.cos(th) * wideRingRadius, 0, Math.sin(th) * wideRingRadius));
+        }
+        const wideRingGeo = new THREE.BufferGeometry().setFromPoints(wideRingPts);
+        const wideRingMesh = new THREE.LineLoop(wideRingGeo, wideRingMat);
+        wideOrbitGroup.add(wideRingMesh);
+
+        const wideBeads = [];
+        for (let k = 0; k < 3; k++) {
+          const bead = new THREE.Mesh(new THREE.SphereGeometry(0.055, 8, 8), wideBeadMat);
+          wideOrbitGroup.add(bead);
+          wideBeads.push({ mesh: bead, phase: (k / 3) * Math.PI * 2, speed: 0.35 });
+        }
+
+        // --- 4. Inner Concentric Wireframe Core (True 3D Parallax Depth) ---
+        const innerGeo = new THREE.IcosahedronGeometry(1.65, 1);
+        const innerMesh = new THREE.Mesh(innerGeo, innerWireMat);
+        clusterGroup.add(innerMesh);
+
+        // --- 5. Outer Geodesic Ambient Halo ---
+        const outerGeo = new THREE.IcosahedronGeometry(2.95, 1);
+        const outerMesh = new THREE.Mesh(outerGeo, outerHaloMat);
+        clusterGroup.add(outerMesh);
+
+        // --- 6. Dynamic Orbiting Constellation Nodes (Wider Spread & 3D Depth) ---
+        const nodeGroup = new THREE.Group();
+        const nodePositions = [];
+        const nodeCount = 16;
+
+        for (let i = 0; i < nodeCount; i++) {
+          const phi = Math.acos(1 - 2 * (i + 0.5) / nodeCount);
+          const theta = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5);
+          const r = 2.75 + (Math.random() * 0.35);
+          const x = r * Math.sin(phi) * Math.cos(theta);
+          const y = r * Math.sin(phi) * Math.sin(theta);
+          const z = r * Math.cos(phi);
+          const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.050, 8, 8), nodeMat);
+          sphere.position.set(x, y, z);
+          nodeGroup.add(sphere);
+          nodePositions.push({ x, y, z, speed: 0.12 + Math.random() * 0.18, phase: Math.random() * Math.PI * 2 });
+        }
+        clusterGroup.add(nodeGroup);
+
+        // --- Connection Vector Lines ---
+        const lineGeo = new THREE.BufferGeometry();
+        const linePositions = new Float32Array(nodeCount * nodeCount * 6);
+        lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+        const connLines = new THREE.LineSegments(lineGeo, connLineMat);
+        clusterGroup.add(connLines);
+
+        // --- Ambient Background Field ---
+        const ambientCount = 32;
+        const ambientGeo = new THREE.BufferGeometry();
+        const ambientPos = new Float32Array(ambientCount * 3);
+        for (let i = 0; i < ambientCount; i++) {
+          ambientPos[i * 3] = (Math.random() - 0.5) * 18;
+          ambientPos[i * 3 + 1] = (Math.random() - 0.5) * 9;
+          ambientPos[i * 3 + 2] = (Math.random() - 0.5) * 5 - 2;
+        }
+        ambientGeo.setAttribute('position', new THREE.BufferAttribute(ambientPos, 3));
+        const ambientPoints = new THREE.Points(ambientGeo, ambientMat);
+        scene.add(ambientPoints);
+
+        // --- Responsive Positioning and Sizing (Shifted Left & Clear of All Edges) ---
+        function updateLayout() {
+          if (!heroSection) return;
+          if (!renderer) return;
+          if (!camera) return;
+          const w = heroSection.clientWidth || window.innerWidth || 1200;
+          const h = heroSection.clientHeight || 720;
+          renderer.setSize(w, h, true);
+          camera.aspect = w / h;
+          if (isNaN(camera.aspect) || !isFinite(camera.aspect) || camera.aspect <= 0) {
+            camera.aspect = 16 / 9;
+          }
+          camera.updateProjectionMatrix();
+
+          // On desktop (w >= 1024), position shifted left so it never clips the right edge!
+          const visibleHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+          const visibleWidth = visibleHeight * camera.aspect;
+
+          if (w >= 1024) {
+            clusterGroup.position.x = visibleWidth * 0.185;
+            clusterGroup.position.y = visibleHeight * 0.105;
+            clusterGroup.scale.set(0.98, 0.88, 0.96);
+          } else if (w >= 640) {
+            clusterGroup.position.x = visibleWidth * 0.14;
+            clusterGroup.position.y = visibleHeight * 0.085;
+            clusterGroup.scale.set(0.72, 0.68, 0.70);
+          } else {
+            clusterGroup.position.x = 0;
+            clusterGroup.position.y = visibleHeight * 0.06;
+            clusterGroup.scale.set(0.52, 0.48, 0.50);
+          }
+        }
+
+        updateLayout();
+        window.addEventListener('resize', updateLayout);
+        window.addEventListener('load', updateLayout);
+        setTimeout(updateLayout, 100);
+        setTimeout(updateLayout, 500);
+        setTimeout(updateLayout, 1500);
+
+        // --- Smooth Mouse Tracking Across the Full Hero Section ---
+        let mouseX = 0, mouseY = 0;
+        let targetRotX = 0, targetRotY = 0;
+
+        heroSection.addEventListener('mousemove', (e) => {
+          const rect = heroSection.getBoundingClientRect();
+          mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+          mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        }, { passive: true });
+
+        // Reset gently on mouse leave
+        heroSection.addEventListener('mouseleave', () => {
+          mouseX = 0;
+          mouseY = 0;
+        }, { passive: true });
+
+        // --- Continuous Smooth Animation Loop ---
+        const clock = new THREE.Clock();
+        function animate() {
+          requestAnimationFrame(animate);
+
+          const t = clock.getElapsedTime();
+
+          // Smooth interpolation for interactive rotation of outer shell
+          targetRotY = mouseX * 0.38;
+          targetRotX = mouseY * 0.24;
+          icoMesh.rotation.y += (targetRotY - icoMesh.rotation.y) * 0.04;
+          icoMesh.rotation.x += (targetRotX - icoMesh.rotation.x) * 0.04;
+          edgeLines.rotation.copy(icoMesh.rotation);
+          vertexPoints.rotation.copy(icoMesh.rotation);
+          globeGridGroup.rotation.copy(icoMesh.rotation);
+
+          // Slow ambient drift
+          icoMesh.rotation.y += 0.0018;
+
+          // Wide orbit ring rotation & bead sliding
+          wideOrbitGroup.rotation.y = t * 0.09;
+          for (let k = 0; k < wideBeads.length; k++) {
+            const b = wideBeads[k];
+            const a = t * b.speed + b.phase;
+            b.mesh.position.set(Math.cos(a) * wideRingRadius, 0, Math.sin(a) * wideRingRadius);
+          }
+
+          // Distinct independent 3D rotation for inner core (True Parallax Depth)
+          innerMesh.rotation.y = -t * 0.18 + icoMesh.rotation.y * 0.50;
+          innerMesh.rotation.x = t * 0.14 + icoMesh.rotation.x * 0.50;
+
+          // Counter-rotating outer halo
+          outerMesh.rotation.y = t * 0.05 + icoMesh.rotation.y * 0.3;
+          outerMesh.rotation.z = Math.sin(t * 0.2) * 0.05;
+
+          // Dynamic orbiting constellation nodes with Z-Depth Perspective Scaling
+          for (let i = 0; i < nodeGroup.children.length; i++) {
+            const node = nodeGroup.children[i];
+            const p = nodePositions[i];
+            const angle = t * p.speed + p.phase;
+            node.position.x = p.x * Math.cos(angle) - p.z * Math.sin(angle);
+            node.position.z = p.x * Math.sin(angle) + p.z * Math.cos(angle);
+            node.position.y = p.y + Math.sin(t * p.speed * 0.8 + i) * 0.25;
+
+            // Perspective scaling: Nodes in front appear larger, nodes in back appear smaller
+            const zDepth = node.position.z;
+            const s = Math.max(0.65, Math.min(1.35, 1.0 + zDepth * 0.15));
+            node.scale.set(s, s, s);
+          }
+
+          // Dynamic connecting vectors between orbiting nodes
+          let lineIdx = 0;
+          const posArray = connLines.geometry.attributes.position.array;
+          for (let i = 0; i < nodeGroup.children.length; i++) {
+            for (let j = i + 1; j < nodeGroup.children.length; j++) {
+              const a = nodeGroup.children[i].position;
+              const b = nodeGroup.children[j].position;
+              const dist = a.distanceTo(b);
+              if (dist < 4.4) {
+                if (lineIdx < posArray.length - 5) {
+                  posArray[lineIdx++] = a.x;
+                  posArray[lineIdx++] = a.y;
+                  posArray[lineIdx++] = a.z;
+                  posArray[lineIdx++] = b.x;
+                  posArray[lineIdx++] = b.y;
+                  posArray[lineIdx++] = b.z;
+                }
+              }
+            }
+          }
+          for (let i = lineIdx; i < posArray.length; i++) posArray[i] = 0;
+          connLines.geometry.attributes.position.needsUpdate = true;
+
+          // Gentle ambient field drift
+          ambientPoints.rotation.y = t * 0.015;
+
+          renderer.render(scene, camera);
+        }
+        animate();
+        // Sync initial 3D palette
+        if (document.documentElement.classList.contains('dark')) {
+          updateThreeTheme(true);
+        }
+      })();
+      </script>
+
+    </section>
+
+    <!-- SECTION 2: SPECIALIZATION TRACKS (4 PILLARS) -->
+    <section class="py-16 lg:py-24 bg-slate-50 dark:bg-[#090e19] border-b border-slate-200 dark:border-[#252a36] transition-colors duration-200" id="about-program">
+      <div class="max-w-[1680px] mx-auto px-4 sm:px-8 lg:px-12 space-y-12">
+        
+        <!-- Header (Direct & Specific) -->
+        <div class="reveal-on-scroll flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 dark:border-[#252a36] pb-6">
+          <div class="space-y-2 max-w-2xl">
+            <div class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-brand-700 dark:text-[#adc6ff] uppercase tracking-widest">
+              <span class="material-symbols-outlined text-[16px]">terminal</span>
+              <span>SPECIALIZATION TRACKS & ELECTIVES</span>
+            </div>
+            <h2 class="font-heading font-bold text-2xl sm:text-4xl text-slate-900 dark:text-[#dee2f2] tracking-tight">4 กลุ่มวิชาเอกเลือกตามความถนัด</h2>
+            <p class="text-slate-600 dark:text-[#c2c6d6] text-sm sm:text-base">
+              โครงสร้างหลักสูตร 132 หน่วยกิต เปิดโอกาสให้นักศึกษาเลือกเจาะลึกทักษะเฉพาะทางในชั้นปีที่ 3-4 เพื่อมุ่งสู่อาชีพเป้าหมาย
+            </p>
+          </div>
+          <div class="shrink-0">
+            <span class="inline-block px-3.5 py-1.5 rounded-lg bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] text-slate-700 dark:text-[#c2c6d6] font-mono text-xs font-semibold shadow-sm">
+              หลักสูตรปรับปรุง พ.ศ. 2568
+            </span>
+          </div>
+        </div>
+
+        <!-- 4 Pillar Cards -->
+        <div class="assemble-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Pillar 1 -->
+          <div class="cyber-card assemble-item assemble-from-left assemble-delay-1 p-6 rounded-2xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] shadow-sm hover:shadow-md flex flex-col justify-between group">
+            <div class="track-accent-line bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600"></div>
+            <div class="space-y-4">
+              <div class="track-icon-pill w-12 h-12 rounded-xl bg-blue-50 dark:bg-[#1b1f2b] text-brand-700 dark:text-[#adc6ff] flex items-center justify-center font-bold">
+                <span class="material-symbols-outlined text-[26px]">code_blocks</span>
+              </div>
+              <div>
+                <span class="font-mono text-xs font-semibold text-brand-700 dark:text-[#adc6ff]">TRACK 01</span>
+                <h3 class="font-heading font-bold text-lg text-slate-900 dark:text-[#dee2f2] mt-1 group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors">
+                  Software Architecture & Cloud
+                </h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-[#c2c6d6] leading-relaxed">
+                การออกแบบระบบ Back-end สเกลใหญ่, สถาปัตยกรรม Microservices, Cloud-Native Systems บน Docker & Kubernetes และวงจรการส่งมอบซอฟต์แวร์แบบ CI/CD
+              </p>
+            </div>
+            <div class="pt-4 mt-6 border-t border-slate-100 dark:border-[#252a36] flex flex-wrap gap-1.5">
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">Go / Java / TS</span>
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">Docker / K8s</span>
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">Cloud CI/CD</span>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="cyber-card assemble-item assemble-from-top-left assemble-delay-2 p-6 rounded-2xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] shadow-sm hover:shadow-md flex flex-col justify-between group">
+            <div class="track-accent-line bg-gradient-to-r from-violet-500 via-purple-400 to-indigo-600"></div>
+            <div class="space-y-4">
+              <div class="track-icon-pill w-12 h-12 rounded-xl bg-blue-50 dark:bg-[#1b1f2b] text-brand-700 dark:text-[#adc6ff] flex items-center justify-center font-bold">
+                <span class="material-symbols-outlined text-[26px]">psychology</span>
+              </div>
+              <div>
+                <span class="font-mono text-xs font-semibold text-brand-700 dark:text-[#adc6ff]">TRACK 02</span>
+                <h3 class="font-heading font-bold text-lg text-slate-900 dark:text-[#dee2f2] mt-1 group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors">
+                  Artificial Intelligence & Data
+                </h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-[#c2c6d6] leading-relaxed">
+                การพัฒนาโมเดล Machine Learning, Deep Learning, Natural Language Processing, Computer Vision และการนำโมเดลไปใช้งานจริงบนโพรดักชัน (MLOps)
+              </p>
+            </div>
+            <div class="pt-4 mt-6 border-t border-slate-100 dark:border-[#252a36] flex flex-wrap gap-1.5">
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">PyTorch</span>
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">LLM / NLP</span>
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">MLOps Pipeline</span>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="cyber-card assemble-item assemble-from-top-right assemble-delay-3 p-6 rounded-2xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] shadow-sm hover:shadow-md flex flex-col justify-between group">
+            <div class="track-accent-line bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500"></div>
+            <div class="space-y-4">
+              <div class="track-icon-pill w-12 h-12 rounded-xl bg-blue-50 dark:bg-[#1b1f2b] text-brand-700 dark:text-[#adc6ff] flex items-center justify-center font-bold">
+                <span class="material-symbols-outlined text-[26px]">shield</span>
+              </div>
+              <div>
+                <span class="font-mono text-xs font-semibold text-brand-700 dark:text-[#adc6ff]">TRACK 03</span>
+                <h3 class="font-heading font-bold text-lg text-slate-900 dark:text-[#dee2f2] mt-1 group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors">
+                  Cybersecurity & Networks
+                </h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-[#c2c6d6] leading-relaxed">
+                ความมั่นคงปลอดภัยสารสนเทศ, การประเมินช่องโหว่และทดสอบเจาะระบบ (Penetration Testing), การป้องกันเครือข่ายสถาปัตยกรรม Zero Trust และนิติวิทยาศาสตร์ดิจิทัล
+              </p>
+            </div>
+            <div class="pt-4 mt-6 border-t border-slate-100 dark:border-[#252a36] flex flex-wrap gap-1.5">
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">Network Defense</span>
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">Zero Trust</span>
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">Pen Testing</span>
+            </div>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="cyber-card assemble-item assemble-from-right assemble-delay-4 p-6 rounded-2xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] shadow-sm hover:shadow-md flex flex-col justify-between group">
+            <div class="track-accent-line bg-gradient-to-r from-amber-500 via-orange-400 to-rose-500"></div>
+            <div class="space-y-4">
+              <div class="track-icon-pill w-12 h-12 rounded-xl bg-blue-50 dark:bg-[#1b1f2b] text-brand-700 dark:text-[#adc6ff] flex items-center justify-center font-bold">
+                <span class="material-symbols-outlined text-[26px]">precision_manufacturing</span>
+              </div>
+              <div>
+                <span class="font-mono text-xs font-semibold text-brand-700 dark:text-[#adc6ff]">TRACK 04</span>
+                <h3 class="font-heading font-bold text-lg text-slate-900 dark:text-[#dee2f2] mt-1 group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors">
+                  Industrial IoT & Systems
+                </h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-[#c2c6d6] leading-relaxed">
+                การพัฒนาระบบสมองกลฝังตัวและเซนเซอร์ IoT สำหรับโรงงานอัจฉริยะในเขต EEC, การประมวลผล Edge Computing และโครงงานแก้ปัญหาจริงร่วมกับภาคอุตสาหกรรม
+              </p>
+            </div>
+            <div class="pt-4 mt-6 border-t border-slate-100 dark:border-[#252a36] flex flex-wrap gap-1.5">
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">Edge IoT</span>
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">Embedded C</span>
+              <span class="tech-tag-chip px-2 py-0.5 rounded bg-slate-100 dark:bg-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#adc6ff]">EEC Industry</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Career & Outcomes Summary (Concrete Graduate Survey) -->
+        <div class="reveal-scale p-8 rounded-2xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] shadow-sm">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-8 space-y-3">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-100 dark:bg-[#1b1f2b] text-slate-800 dark:text-[#dee2f2] font-mono text-xs font-semibold">
+                <span class="material-symbols-outlined text-[16px] text-brand-600 dark:text-[#adc6ff]">trending_up</span>
+                <span>GRADUATE EMPLOYMENT SURVEY</span>
+              </div>
+              <h3 class="font-heading font-bold text-xl sm:text-2xl text-slate-900 dark:text-[#dee2f2]">เส้นทางอาชีพและสถิติการได้งานทำของบัณฑิต</h3>
+              <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+                บัณฑิตวิทยาการคอมพิวเตอร์ มหาวิทยาลัยบูรพา เข้าทำงานในตำแหน่งวิศวกรซอฟต์แวร์, คลาวด์เอ็นจิเนียร์, นักวิทยาศาสตร์ข้อมูล 
+                และผู้เชี่ยวชาญความปลอดภัยไซเบอร์ ทั้งในบริษัทเทคโนโลยีชั้นนำ สถาบันการเงิน และองค์กรอุตสาหกรรมในเขตเศรษฐกิจพิเศษ EEC
+              </p>
+            </div>
+            <div class="lg:col-span-4 grid grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#1b1f2b] border border-slate-200 dark:border-[#252a36]">
+                <p class="font-mono text-xs text-brand-700 dark:text-[#adc6ff] uppercase font-semibold">เงินเดือนเริ่มต้นเฉลี่ย</p>
+                <p class="font-heading text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#dee2f2] mt-1">28k - 55k+</p>
+                <p class="text-[11px] text-slate-500 dark:text-[#8c909f] mt-0.5">บาท/เดือน (First Jobber)</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#1b1f2b] border border-slate-200 dark:border-[#252a36]">
+                <p class="font-mono text-xs text-slate-700 dark:text-[#adc6ff] uppercase font-semibold">อัตราการได้งานทำ</p>
+                <p class="font-heading text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#dee2f2] mt-1">96.4%</p>
+                <p class="text-[11px] text-slate-500 dark:text-[#8c909f] mt-0.5">ภายใน 6 เดือนหลังจบการศึกษา</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2.5: 3D INTERACTIVE ARCHITECTURE (WHITE/LIGHT THEME WITH DEEP 3D) -->
+    <section class="section-3d-wrap py-20 lg:py-28 text-slate-900 dark:text-white relative overflow-hidden border-b border-slate-200 dark:border-slate-800/80 transition-colors duration-300" id="showcase-3d">
+      <!-- Ambient Lighting Glows (Soft Subtle Mesh in Light Mode, Neon in Dark Mode) -->
+      <div class="absolute -top-40 left-1/4 w-[500px] h-[500px] bg-sky-500/5 dark:bg-sky-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+      <div class="absolute -bottom-40 right-1/4 w-[500px] h-[500px] bg-amber-500/5 dark:bg-amber-500/8 rounded-full blur-[140px] pointer-events-none"></div>
+
+      <div class="max-w-[1680px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+        <!-- Section Header (New Punchy Title, Matching White/Light Theme) -->
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4 reveal-on-scroll">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 dark:bg-amber-400/10 border border-amber-500/20 dark:border-amber-400/25 text-amber-700 dark:text-amber-300 text-xs font-semibold tracking-wider uppercase shadow-sm">
+            <span class="material-symbols-outlined text-[15px] text-amber-500 dark:text-amber-400">deployed_code</span>
+            <span>Next-Gen Tech Dimensions</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-slate-900 dark:text-white leading-tight">
+            มิติเทคโนโลยีและนวัตกรรม <span class="text-amber-500 font-extrabold">3 มิติ</span>
+          </h2>
+          <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+            สัมผัส 3 เสาหลักเทคโนโลยีระดับ Enterprise: Cloud Architecture, ควอนตัม AI Core และ Zero Trust Security ผ่านแบบจำลอง 3D แบบเรียลไทม์
+          </p>
+        </div>
+
+        <!-- 3-Card 3D Assembly Grid (Fly-in from separate 3D regions in slow-mo) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-10 assemble-grid" style="perspective: 1600px;">
+          <!-- CARD 1: SOFTWARE & CLOUD ARCHITECTURE -->
+          <div class="relative assemble-item assemble-wide-left assemble-delay-1">
+            <span class="bg-number-3d" style="color: #0284c7;">01</span>
+
+            <div class="card-3d-wrap h-full" id="card-3d-1">
+              <div class="card-laser-trace"></div>
+              <div class="space-y-3 z-10 relative">
+                <h3 class="font-display font-bold text-2xl sm:text-[26px] text-slate-900 dark:text-white tracking-tight leading-tight">
+                  Software & Cloud
+                </h3>
+                <div>
+                  <span class="pill-badge-3d bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30">
+                    CLOUD NATIVE • MICROSERVICES
+                  </span>
+                </div>
+              </div>
+
+              <!-- 3D Canvas 1 -->
+              <div class="canvas-3d-container">
+                <canvas id="canvas-3d-1" class="canvas-3d-el"></canvas>
+              </div>
+              <div class="model-ground-shadow" id="shadow-1"></div>
+              <div class="flex items-center justify-center gap-1.5 text-[11px] font-medium text-slate-400 dark:text-slate-500 mb-2 select-none pointer-events-none">
+                <span class="material-symbols-outlined text-[13px] text-sky-500">3d_rotation</span>
+                <span>คลิกลากหมุน 3D อิสระ 360°</span>
+              </div>
+
+              <div class="space-y-4 z-10 relative text-sm">
+                <p class="leading-relaxed text-slate-600 dark:text-slate-300 text-xs sm:text-sm">
+                  สถาปัตยกรรมคลาวด์และแบ็กเอนด์สเกลใหญ่: ออกแบบโครงสร้าง Microservices และระบบฐานข้อมูลความพร้อมใช้งานสูง
+                </p>
+                <ul class="space-y-2.5 text-xs sm:text-[13px] text-slate-600 dark:text-slate-400">
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0"></span>
+                    <span>พัฒนาระบบ Distributed Microservices ด้วย Go, TypeScript และ Docker Container</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0"></span>
+                    <span>สร้าง CI/CD Automated Pipeline และ Helm บน Kubernetes Cluster</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0"></span>
+                    <span>ฝึกปฏิบัติจริงในวิชาปฏิบัติการซอฟต์แวร์ระดับองค์กรตั้งแต่ชั้นปีที่ 1</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: AI QUANTUM CORE (MATCHING USER 3D PARTICLE SPHERE EXAMPLE) -->
+          <div class="relative assemble-item assemble-wide-center assemble-delay-2">
+            <span class="bg-number-3d" style="color: #7c3aed;">02</span>
+
+            <div class="card-3d-wrap h-full" id="card-3d-2">
+              <div class="card-laser-trace"></div>
+              <div class="space-y-3 z-10 relative">
+                <h3 class="font-display font-bold text-2xl sm:text-[26px] text-slate-900 dark:text-white tracking-tight leading-tight">
+                  AI & Data Engineering
+                </h3>
+                <div>
+                  <span class="pill-badge-3d bg-purple-50 dark:bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30">
+                    LLM • QUANTUM AI CORE
+                  </span>
+                </div>
+              </div>
+
+              <!-- 3D Canvas 2 (Fibonacci Particle Sphere & Cylindrical Server Cage) -->
+              <div class="canvas-3d-container">
+                <canvas id="canvas-3d-2" class="canvas-3d-el"></canvas>
+              </div>
+              <div class="model-ground-shadow" id="shadow-2"></div>
+              <div class="flex items-center justify-center gap-1.5 text-[11px] font-medium text-slate-400 dark:text-slate-500 mb-2 select-none pointer-events-none">
+                <span class="material-symbols-outlined text-[13px] text-purple-500">3d_rotation</span>
+                <span>คลิกลากหมุน 3D อิสระ 360°</span>
+              </div>
+
+              <div class="space-y-4 z-10 relative text-sm">
+                <p class="leading-relaxed text-slate-600 dark:text-slate-300 text-xs sm:text-sm">
+                  วิศวกรรมปัญญาประดิษฐ์และวิทยาการข้อมูล: พัฒนาโมเดล Machine Learning และนำเข้าสู่ Production (MLOps)
+                </p>
+                <ul class="space-y-2.5 text-xs sm:text-[13px] text-slate-600 dark:text-slate-400">
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0"></span>
+                    <span>เทรนและไฟน์ทูนโมเดล Deep Learning ด้วย PyTorch และ HuggingFace</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0"></span>
+                    <span>พัฒนา Autonomous AI Agents และโมเดลประมวลผลภาษาธรรมชาติ (NLP)</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0"></span>
+                    <span>ทำงานจริงบนคลัสเตอร์ GPU ประสิทธิภาพสูงในห้องปฏิบัติการวิจัย</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: CYBER SECURITY & ZERO TRUST -->
+          <div class="relative assemble-item assemble-wide-right assemble-delay-3">
+            <span class="bg-number-3d" style="color: #d97706;">03</span>
+
+            <div class="card-3d-wrap h-full" id="card-3d-3">
+              <div class="card-laser-trace"></div>
+              <div class="space-y-3 z-10 relative">
+                <h3 class="font-display font-bold text-2xl sm:text-[26px] text-slate-900 dark:text-white tracking-tight leading-tight">
+                  Cyber Security
+                </h3>
+                <div>
+                  <span class="pill-badge-3d bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30">
+                    SECURITY • ZERO TRUST
+                  </span>
+                </div>
+              </div>
+
+              <!-- 3D Canvas 3 (Geodesic Shield Dome & Perimeter Radar) -->
+              <div class="canvas-3d-container">
+                <canvas id="canvas-3d-3" class="canvas-3d-el"></canvas>
+              </div>
+              <div class="model-ground-shadow" id="shadow-3"></div>
+              <div class="flex items-center justify-center gap-1.5 text-[11px] font-medium text-slate-400 dark:text-slate-500 mb-2 select-none pointer-events-none">
+                <span class="material-symbols-outlined text-[13px] text-amber-500">3d_rotation</span>
+                <span>คลิกลากหมุน 3D อิสระ 360°</span>
+              </div>
+
+              <div class="space-y-4 z-10 relative text-sm">
+                <p class="leading-relaxed text-slate-600 dark:text-slate-300 text-xs sm:text-sm">
+                  ความมั่นคงปลอดภัยไซเบอร์และระบบป้องกันเชิงรุก: ประเมินช่องโหว่ ทดสอบเจาะระบบ และสถาปัตยกรรมเครือข่ายปลอดภัย
+                </p>
+                <ul class="space-y-2.5 text-xs sm:text-[13px] text-slate-600 dark:text-slate-400">
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0"></span>
+                    <span>วางระบบเกราะป้องกัน GeoIP Firewall และสกัดกั้นการโจมตีทางไซเบอร์ 99.1%</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0"></span>
+                    <span>ฝึกปฏิบัติการเจาะระบบ (Penetration Testing) และนิติวิทยาศาสตร์ดิจิทัล</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0"></span>
+                    <span>สหกิจศึกษา 1 ภาคเรียนเต็ม ร่วมกับบริษัทยักษ์ใหญ่และศูนย์ SOC ในเขต EEC</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: NEWS & ANNOUNCEMENTS -->
+    <section class="py-16 lg:py-24 bg-white dark:bg-[#0e131e] border-b border-slate-200 dark:border-[#252a36] transition-colors duration-200" id="news-activities">
+      <div class="max-w-[1680px] mx-auto px-4 sm:px-8 lg:px-12 space-y-10">
+        
+        <!-- Header & Filters -->
+        <div class="reveal-on-scroll flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-slate-200 dark:border-[#252a36]">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-brand-700 dark:text-[#adc6ff] uppercase tracking-widest">
+              <span class="material-symbols-outlined text-[16px]">newspaper</span>
+              <span>OFFICIAL ANNOUNCEMENTS</span>
+            </div>
+            <h2 class="font-heading font-bold text-2xl sm:text-4xl text-slate-900 dark:text-[#dee2f2]">ข่าวสารและกิจกรรมล่าสุด</h2>
+            <p class="text-sm text-slate-600 dark:text-[#c2c6d6]">กำหนดการรับสมัคร ผลงานนักศึกษา และข่าวประชาสัมพันธ์ของหลักสูตร</p>
+          </div>
+
+          <!-- Category Filter Buttons -->
+          <div class="flex flex-wrap items-center gap-2" id="news-filters">
+            <button class="filter-btn btn-spring active btn-spring px-3.5 py-1.5 rounded-lg text-white dark:text-[#002e6a] bg-slate-900 dark:bg-[#adc6ff] font-mono text-xs font-semibold shadow-sm transition-all" data-filter="all">ทั้งหมด</button>
+            <button class="filter-btn btn-spring px-3.5 py-1.5 rounded-lg text-slate-700 dark:text-[#c2c6d6] bg-slate-100 dark:bg-[#161b27] hover:bg-slate-200 dark:hover:bg-[#1b1f2b] font-mono text-xs font-medium border border-slate-200 dark:border-[#252a36] transition-all" data-filter="admission">ข่าวรับสมัคร</button>
+            <button class="filter-btn btn-spring px-3.5 py-1.5 rounded-lg text-slate-700 dark:text-[#c2c6d6] bg-slate-100 dark:bg-[#161b27] hover:bg-slate-200 dark:hover:bg-[#1b1f2b] font-mono text-xs font-medium border border-slate-200 dark:border-[#252a36] transition-all" data-filter="activity">กิจกรรมและผลงาน</button>
+            <button class="filter-btn btn-spring px-3.5 py-1.5 rounded-lg text-slate-700 dark:text-[#c2c6d6] bg-slate-100 dark:bg-[#161b27] hover:bg-slate-200 dark:hover:bg-[#1b1f2b] font-mono text-xs font-medium border border-slate-200 dark:border-[#252a36] transition-all" data-filter="announcement">ข่าวประชาสัมพันธ์</button>
+            <button class="filter-btn btn-spring px-3.5 py-1.5 rounded-lg text-slate-700 dark:text-[#c2c6d6] bg-slate-100 dark:bg-[#161b27] hover:bg-slate-200 dark:hover:bg-[#1b1f2b] font-mono text-xs font-medium border border-slate-200 dark:border-[#252a36] transition-all" data-filter="guidance">กิจกรรมแนะแนว</button>
+          </div>
+        </div>
+
+        <!-- News Grid -->
+        <div class="assemble-grid grid grid-cols-1 lg:grid-cols-12 gap-6" id="news-cards-container">
+          
+          <!-- Featured Card (6 columns on lg) -->
+          <div class="assemble-item assemble-from-left assemble-delay-1 lg:col-span-6 news-item" 
+               data-author="งานรับเข้าศึกษา คณะวิทยาการสารสนเทศ" 
+               data-category="admission" 
+               data-image="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_tcas_portfolio.jpg"
+               data-content="หลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ มหาวิทยาลัยบูรพา เปิดรับสมัครบุคคลเข้าศึกษาต่อในระดับปริญญาตรี ประจำปีการศึกษา 2568 รอบที่ 1 Portfolio ผู้สมัครที่มีความสนใจและมีผลงานด้านการพัฒนาโปรแกรม หุ่นยนต์ หรือวิทยาการข้อมูล สามารถยื่นผลงานผ่านระบบรับสมัครออนไลน์ พร้อมรับทุนการศึกษาพิเศษสำหรับผู้มีศักยภาพสูง" 
+               data-date="15 ตุลาคม 2567" 
+               data-title="เปิดรับสมัคร TCAS รอบ 1 แฟ้มสะสมผลงาน (Portfolio) ปี 2568">
+            <div class="cyber-card h-full rounded-2xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] hover:shadow-lg flex flex-col cursor-pointer group">
+              <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
+                     alt="บรรยากาศนักศึกษาหลักสูตรวิทยาการคอมพิวเตอร์ มหาวิทยาลัยบูรพา" 
+                     src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_tcas_portfolio.jpg"/>
+                <span class="absolute top-4 left-4 px-3 py-1 rounded-md bg-brand-700 text-white font-mono text-xs font-semibold shadow">
+                  ข่าวรับสมัคร TCAS 68
+                </span>
+                <span class="absolute bottom-4 left-4 font-mono text-xs text-slate-800 dark:text-[#dee2f2] bg-white/95 dark:bg-[#1b1f2b]/95 backdrop-blur-sm px-2.5 py-1 rounded shadow-sm border border-slate-200 dark:border-[#252a36]">
+                  15 ต.ค. 2567
+                </span>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-2">
+                  <h3 class="font-heading font-bold text-xl text-slate-900 dark:text-[#dee2f2] group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors leading-snug">
+                    เปิดรับสมัคร TCAS รอบ 1 แฟ้มสะสมผลงาน (Portfolio) ปี 2568
+                  </h3>
+                  <p class="text-sm text-slate-600 dark:text-[#c2c6d6] line-clamp-3 leading-relaxed">
+                    เปิดรับผู้มีทักษะและผลงานด้านวิทยาการคอมพิวเตอร์ โค้ดดิ้ง และการประกวดโครงงานไอที พร้อมรับข้อเสนอทุนการศึกษาสนับสนุนการวิจัยและพัฒนาซอฟต์แวร์
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-[#252a36]">
+                  <span class="font-mono text-xs font-semibold text-brand-700 dark:text-[#adc6ff] flex items-center gap-1 group-hover:gap-2 transition-all">
+                    <span>อ่านรายละเอียดทั้งหมด</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </span>
+                  <span class="font-mono text-xs text-slate-500 dark:text-[#8c909f]">รับจำนวน 60 ที่นั่ง</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Secondary Cards -->
+          <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            
+            <!-- News 2 -->
+            <div class="assemble-item assemble-from-top-left assemble-delay-2 news-item" 
+                 data-author="ฝ่ายพัฒนานักศึกษาและนวัตกรรม" 
+                 data-category="activity" 
+                 data-image="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_hackathon_winner.jpg"
+                 data-content="ขอแสดงความยินดีกับทีมนักศึกษาชั้นปีที่ 3 ตัวแทนหลักสูตรวิทยาการคอมพิวเตอร์ ที่คว้ารางวัลชนะเลิศการแข่งขันระดับประเทศ ด้วยผลงานระบบเซนเซอร์ IoT และ AI ตรวจวัดคุณภาพอากาศชายฝั่งทะเลบางแสนแบบ Real-time" 
+                 data-date="28 กันยายน 2567" 
+                 data-title="ทีมนักศึกษา CS BUU คว้าชัยชนะอันดับ 1 เวที Hackathon นวัตกรรมสิ่งแวดล้อม">
+              <div class="cyber-card h-full rounded-xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] hover:shadow-md p-4 sm:p-5 flex flex-col justify-between cursor-pointer group">
+                <div class="space-y-3">
+                  <div class="relative h-36 w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
+                         alt="ทีมนักศึกษา CS BUU ชนะเลิศ Hackathon" 
+                         src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_hackathon_winner.jpg"/>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 font-mono text-[11px] text-emerald-800 dark:text-emerald-300 font-medium">กิจกรรมและผลงาน</span>
+                    <span class="font-mono text-[11px] text-slate-400">28 ก.ย. 67</span>
+                  </div>
+                  <h4 class="font-heading font-bold text-base text-slate-900 dark:text-[#dee2f2] group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors leading-snug">
+                    CS BUU Hackathon ชนะเลิศนวัตกรรมสิ่งแวดล้อม
+                  </h4>
+                  <p class="text-xs text-slate-600 dark:text-[#c2c6d6] line-clamp-2">
+                    ผลงานเซนเซอร์ IoT และโมเดลทำนายสภาพอากาศชายฝั่งทะเลบางแสน รับเงินรางวัลและโอกาสบ่มเพาะ
+                  </p>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-[#252a36] flex items-center text-brand-700 dark:text-[#adc6ff] font-mono text-xs font-semibold">
+                  <span>อ่านเนื้อหา</span>
+                  <span class="material-symbols-outlined text-[16px] ml-1">chevron_right</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- News 3 -->
+            <div class="assemble-item assemble-from-top-right assemble-delay-3 news-item" 
+                 data-author="งานสื่อสารองค์กรและประชาสัมพันธ์" 
+                 data-category="guidance" 
+                 data-image="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_open_house.jpg"
+                 data-content="สาขาวิชาวิทยาการคอมพิวเตอร์ เปิดบ้านต้อนรับครูและนักเรียนระดับมัธยมศึกษาตอนปลาย เข้าเยี่ยมชมห้องปฏิบัติการ AI Lab, Cloud Simulation Room และร่วมเวิร์กช็อปเขียนโปรแกรม Game Dev เบื้องต้น" 
+                 data-date="12 กันยายน 2567" 
+                 data-title="กิจกรรม CS BUU Open House 2024 ต้อนรับนักเรียนมัธยมกว่า 800 คน">
+              <div class="cyber-card h-full rounded-xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] hover:shadow-md p-4 sm:p-5 flex flex-col justify-between cursor-pointer group">
+                <div class="space-y-3">
+                  <div class="relative h-36 w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
+                         alt="กิจกรรม CS BUU Open House" 
+                         src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_open_house.jpg"/>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 font-mono text-[11px] text-brand-800 dark:text-blue-300 font-medium">กิจกรรมแนะแนว</span>
+                    <span class="font-mono text-[11px] text-slate-400">12 ก.ย. 67</span>
+                  </div>
+                  <h4 class="font-heading font-bold text-base text-slate-900 dark:text-[#dee2f2] group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors leading-snug">
+                    กิจกรรม Open House ต้อนรับนักเรียนมัธยม 800 คน
+                  </h4>
+                  <p class="text-xs text-slate-600 dark:text-[#c2c6d6] line-clamp-2">
+                    เวิร์กช็อปเขียนโปรแกรม แนะนำแนวทางการเตรียมพอร์ต และการเรียนต่อในหลักสูตร
+                  </p>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-[#252a36] flex items-center text-brand-700 dark:text-[#adc6ff] font-mono text-xs font-semibold">
+                  <span>อ่านเนื้อหา</span>
+                  <span class="material-symbols-outlined text-[16px] ml-1">chevron_right</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- News 4 -->
+            <div class="assemble-item assemble-from-bottom assemble-delay-4 news-item" 
+                 data-author="คณะวิทยาการสารสนเทศ" 
+                 data-category="announcement" 
+                 data-image="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_mou_cloud.jpg"
+                 data-content="คณบดีคณะวิทยาการสารสนเทศ และผู้บริหารบริษัทเทคโนโลยี ร่วมลงนาม MOU ด้านการถ่ายทอดเทคโนโลยี Cloud Architecture และสนับสนุนใบรับรองวิชาชีพสากลแก่นักศึกษา CS BUU" 
+                 data-date="25 สิงหาคม 2567" 
+                 data-title="พิธีลงนามบันทึกความร่วมมือ (MOU) ยกระดับหลักสูตรด้าน Cloud & AI">
+              <div class="cyber-card h-full rounded-xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] hover:shadow-md p-4 sm:p-5 flex flex-col justify-between cursor-pointer group">
+                <div class="space-y-3">
+                  <div class="relative h-36 w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
+                         alt="พิธีลงนาม MOU ด้าน Cloud และ AI" 
+                         src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_mou_cloud.jpg"/>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1b1f2b] border border-slate-200 dark:border-[#252a36] font-mono text-[11px] text-slate-700 dark:text-[#c2c6d6] font-medium">ข่าวประชาสัมพันธ์</span>
+                    <span class="font-mono text-[11px] text-slate-400">25 ส.ค. 67</span>
+                  </div>
+                  <h4 class="font-heading font-bold text-base text-slate-900 dark:text-[#dee2f2] group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors leading-snug">
+                    พิธีลงนามความร่วมมือ (MOU) ด้าน Cloud & AI
+                  </h4>
+                  <p class="text-xs text-slate-600 dark:text-[#c2c6d6] line-clamp-2">
+                    ร่วมมือกับผู้นำด้านเทคโนโลยีเพื่อเปิดคอร์สเสริมทักษะ Cloud Certifications ให้แก่นักศึกษา
+                  </p>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-[#252a36] flex items-center text-brand-700 dark:text-[#adc6ff] font-mono text-xs font-semibold">
+                  <span>อ่านเนื้อหา</span>
+                  <span class="material-symbols-outlined text-[16px] ml-1">chevron_right</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- News 5 -->
+            <div class="assemble-item assemble-from-right assemble-delay-5 news-item" 
+                 data-author="ชมรมวิชาการวิทยาการคอมพิวเตอร์" 
+                 data-category="activity" 
+                 data-image="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_ai_seminar.jpg"
+                 data-content="บรรยายพิเศษจากศิษย์เก่าระดับ Senior Software Engineer ให้คำแนะนำเกี่ยวกับทักษะ System Design และการประยุกต์ใช้ AI ในการทำงานจริง" 
+                 data-date="10 สิงหาคม 2567" 
+                 data-title="สัมมนาพิเศษ: เส้นทาง Software Engineer ยุคปัญญาประดิษฐ์และโอกาสใน EEC">
+              <div class="cyber-card h-full rounded-xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] hover:shadow-md p-4 sm:p-5 flex flex-col justify-between cursor-pointer group">
+                <div class="space-y-3">
+                  <div class="relative h-36 w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
+                         alt="สัมมนา Software Engineer ยุค AI" 
+                         src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/news_ai_seminar.jpg"/>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 font-mono text-[11px] text-emerald-800 dark:text-emerald-300 font-medium">กิจกรรมและผลงาน</span>
+                    <span class="font-mono text-[11px] text-slate-400">10 ส.ค. 67</span>
+                  </div>
+                  <h4 class="font-heading font-bold text-base text-slate-900 dark:text-[#dee2f2] group-hover:text-brand-700 dark:group-hover:text-[#adc6ff] transition-colors leading-snug">
+                    สัมมนาเส้นทาง Software Engineer ยุค AI
+                  </h4>
+                  <p class="text-xs text-slate-600 dark:text-[#c2c6d6] line-clamp-2">
+                    แชร์มุมมองเทรนด์การจ้างงานด้านไอที ทักษะที่ต้องการ และการเตรียมตัวสัมภาษณ์งาน
+                  </p>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-[#252a36] flex items-center text-brand-700 dark:text-[#adc6ff] font-mono text-xs font-semibold">
+                  <span>อ่านเนื้อหา</span>
+                  <span class="material-symbols-outlined text-[16px] ml-1">chevron_right</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: TEAM MEMBERS (MATCHING SCREENSHOT FORMAT & PROMPT FONT) -->
+    <section class="py-16 lg:py-24 bg-slate-50/50 dark:bg-[#090e19] border-b border-slate-200 dark:border-[#252a36] transition-colors duration-200 font-prompt" id="team">
+      <div class="max-w-[1680px] mx-auto px-4 sm:px-8 lg:px-12 space-y-10">
+        
+        <!-- Header -->
+        <div class="reveal-on-scroll text-center max-w-2xl mx-auto space-y-2.5">
+          <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
+            <span class="material-symbols-outlined text-[18px]">groups</span>
+            <span>PROGRAM FACULTY & CONTRIBUTORS</span>
+          </div>
+          <h2 class="font-semibold text-2xl sm:text-3xl text-slate-900 dark:text-[#dee2f2]">คณาจารย์และทีมงานผู้ดูแลหลักสูตร</h2>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            ทีมอาจารย์ประจำและนักศึกษาร่วมขับเคลื่อนการเรียนรู้และการพัฒนาคุณภาพหลักสูตร
+          </p>
+        </div>
+
+        <!-- Cards Layout: 4 top, 3 centered bottom -->
+        <div class="space-y-6">
+          
+          <!-- Row 1: 4 Cards -->
+          <div class="assemble-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Member 1 -->
+            <div class="cyber-card assemble-item assemble-from-left assemble-delay-1 p-6 faculty-card-interactive rounded-2xl bg-white dark:bg-[#161b27] border border-slate-100 dark:border-[#252a36] shadow-[0_2px_12px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group">
+              <div class="faculty-avatar-ring w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4 bg-slate-100">
+                <img src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/faculty_waranrach.png" alt="ดร.วรัณรัชญ์ วิริยะวิทย์" class="w-full h-full object-cover"/>
+              </div>
+              <h3 class="font-medium text-[15px] sm:text-base text-slate-900 dark:text-[#dee2f2] leading-snug">
+                ดร.วรัณรัชญ์ วิริยะวิทย์
+              </h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1 mb-2.5 font-normal">
+                Dr. Waranrach Viriyavit
+              </p>
+              <p class="text-xs sm:text-[13px] font-medium text-slate-800 dark:text-slate-200 mb-2">
+                Program Chair & Advisor
+              </p>
+              <p class="text-[12px] sm:text-xs text-slate-500 dark:text-[#a0a5b5] leading-relaxed">
+                ประธานหลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ ผู้เชี่ยวชาญด้าน Artificial Intelligence, Deep Learning และ Biomedical Signals
+              </p>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="cyber-card assemble-item assemble-from-top-left assemble-delay-2 p-6 faculty-card-interactive rounded-2xl bg-white dark:bg-[#161b27] border border-slate-100 dark:border-[#252a36] shadow-[0_2px_12px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group">
+              <div class="faculty-avatar-ring w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4 bg-slate-100">
+                <img src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/faculty_benjaporn.png" alt="ผศ.ดร.เบญจภรณ์ จันทรกองกุล" class="w-full h-full object-cover"/>
+              </div>
+              <h3 class="font-medium text-[15px] sm:text-base text-slate-900 dark:text-[#dee2f2] leading-snug">
+                ผศ.ดร.เบญจภรณ์ จันทรกองกุล
+              </h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1 mb-2.5 font-normal">
+                Asst. Prof. Dr. Benjaporn Jantarakongkul
+              </p>
+              <p class="text-xs sm:text-[13px] font-medium text-slate-800 dark:text-slate-200 mb-2">
+                Curriculum Lead & Vice Dean
+              </p>
+              <p class="text-[12px] sm:text-xs text-slate-500 dark:text-[#a0a5b5] leading-relaxed">
+                รองคณบดีและอาจารย์ผู้รับผิดชอบหลักสูตร ผู้เชี่ยวชาญด้าน Management Information Systems และ Decision Support Systems
+              </p>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="cyber-card assemble-item assemble-from-top-right assemble-delay-3 p-6 faculty-card-interactive rounded-2xl bg-white dark:bg-[#161b27] border border-slate-100 dark:border-[#252a36] shadow-[0_2px_12px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group">
+              <div class="faculty-avatar-ring w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4 bg-slate-100">
+                <img src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/faculty_pichet.png" alt="ผศ.ดร.พิเชษ วะยะลุน" class="w-full h-full object-cover"/>
+              </div>
+              <h3 class="font-medium text-[15px] sm:text-base text-slate-900 dark:text-[#dee2f2] leading-snug">
+                ผศ.ดร.พิเชษ วะยะลุน
+              </h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1 mb-2.5 font-normal">
+                Asst. Prof. Dr. Pichet Wayalun
+              </p>
+              <p class="text-xs sm:text-[13px] font-medium text-slate-800 dark:text-slate-200 mb-2">
+                Innovation & IoT Lead
+              </p>
+              <p class="text-[12px] sm:text-xs text-slate-500 dark:text-[#a0a5b5] leading-relaxed">
+                อาจารย์ผู้รับผิดชอบหลักสูตร ผู้เชี่ยวชาญด้าน Image Processing, Computer Graphics, Machine Learning และ IoT Embedded Systems
+              </p>
+            </div>
+
+            <!-- Member 4 -->
+            <div class="cyber-card assemble-item assemble-from-right assemble-delay-4 p-6 faculty-card-interactive rounded-2xl bg-white dark:bg-[#161b27] border border-slate-100 dark:border-[#252a36] shadow-[0_2px_12px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group">
+              <div class="faculty-avatar-ring w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4 bg-slate-100">
+                <img src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/faculty_chaisiri.png" alt="ดร.ชัยศิริ สนิทพลกลาง" class="w-full h-full object-cover"/>
+              </div>
+              <h3 class="font-medium text-[15px] sm:text-base text-slate-900 dark:text-[#dee2f2] leading-snug">
+                ดร.ชัยศิริ สนิทพลกลาง
+              </h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1 mb-2.5 font-normal">
+                Dr. Chaisiri Sanitpolklang
+              </p>
+              <p class="text-xs sm:text-[13px] font-medium text-slate-800 dark:text-slate-200 mb-2">
+                Machine Learning & Data Lead
+              </p>
+              <p class="text-[12px] sm:text-xs text-slate-500 dark:text-[#a0a5b5] leading-relaxed">
+                อาจารย์ประจำสาขาวิชา ผู้เชี่ยวชาญด้าน Machine Learning, Natural Language Processing, Data Mining และ Database Management
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Row 2: 3 Cards Centered -->
+          <div class="assemble-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            
+            <!-- Member 5 -->
+            <div class="cyber-card assemble-item assemble-from-left assemble-delay-1 p-6 faculty-card-interactive rounded-2xl bg-white dark:bg-[#161b27] border border-slate-100 dark:border-[#252a36] shadow-[0_2px_12px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group">
+              <div class="faculty-avatar-ring w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4 bg-slate-100">
+                <img src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/faculty_pusit.png" alt="ผศ.ภูสิต กุลเกษม" class="w-full h-full object-cover"/>
+              </div>
+              <h3 class="font-medium text-[15px] sm:text-base text-slate-900 dark:text-[#dee2f2] leading-snug">
+                ผศ.ภูสิต กุลเกษม
+              </h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1 mb-2.5 font-normal">
+                Asst. Prof. Pusit Kulkasem
+              </p>
+              <p class="text-xs sm:text-[13px] font-medium text-slate-800 dark:text-slate-200 mb-2">
+                Computer Architecture & HPC Lead
+              </p>
+              <p class="text-[12px] sm:text-xs text-slate-500 dark:text-[#a0a5b5] leading-relaxed">
+                อาจารย์ประจำสาขาวิชาและอดีตคณบดี ผู้เชี่ยวชาญด้าน Computer Architecture and Organization และ Parallel Computing
+              </p>
+            </div>
+
+            <!-- Member 6 -->
+            <div class="cyber-card assemble-item assemble-from-bottom assemble-delay-2 p-6 faculty-card-interactive rounded-2xl bg-white dark:bg-[#161b27] border border-slate-100 dark:border-[#252a36] shadow-[0_2px_12px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group">
+              <div class="faculty-avatar-ring w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4 bg-slate-100">
+                <img src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/faculty_jakarin.png" alt="ผศ.ดร.จักริน สุขสวัสดิ์ชน" class="w-full h-full object-cover"/>
+              </div>
+              <h3 class="font-medium text-[15px] sm:text-base text-slate-900 dark:text-[#dee2f2] leading-snug">
+                ผศ.ดร.จักริน สุขสวัสดิ์ชน
+              </h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1 mb-2.5 font-normal">
+                Asst. Prof. Dr. Jakarin Suksawatwhan
+              </p>
+              <p class="text-xs sm:text-[13px] font-medium text-slate-800 dark:text-slate-200 mb-2">
+                Web & Mobile Application Lead
+              </p>
+              <p class="text-[12px] sm:text-xs text-slate-500 dark:text-[#a0a5b5] leading-relaxed">
+                อาจารย์ประจำสาขาวิชา ผู้เชี่ยวชาญด้าน Web & Mobile Application Development, Data Analytics และ Machine Learning
+              </p>
+            </div>
+
+            <!-- Member 7 -->
+            <div class="cyber-card assemble-item assemble-from-right assemble-delay-3 p-6 faculty-card-interactive rounded-2xl bg-white dark:bg-[#161b27] border border-slate-100 dark:border-[#252a36] shadow-[0_2px_12px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group">
+              <div class="faculty-avatar-ring w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4 bg-slate-100">
+                <img src="https://nenenainaemak.duckdns.org/wp-content/uploads/2026/10/faculty_worawit.png" alt="ผศ.วรวิทย์ วีระพันธุ์" class="w-full h-full object-cover"/>
+              </div>
+              <h3 class="font-medium text-[15px] sm:text-base text-slate-900 dark:text-[#dee2f2] leading-snug">
+                ผศ.วรวิทย์ วีระพันธุ์
+              </h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1 mb-2.5 font-normal">
+                Asst. Prof. Worawit Werapan
+              </p>
+              <p class="text-xs sm:text-[13px] font-medium text-slate-800 dark:text-slate-200 mb-2">
+                Systems Architecture & Testing Lead
+              </p>
+              <p class="text-[12px] sm:text-xs text-slate-500 dark:text-[#a0a5b5] leading-relaxed">
+                รอง ผอ. สำนักคอมพิวเตอร์ และอาจารย์ประจำสาขาวิชา ผู้เชี่ยวชาญด้าน Object Oriented Analysis, Data Mining และ Software Testing
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: CONTACT & ADMISSION CALL TO ACTION -->
+    <section class="py-16 lg:py-24 bg-white dark:bg-[#0e131e] transition-colors duration-200" id="contact">
+      <div class="max-w-[1680px] mx-auto px-4 sm:px-8 lg:px-12">
+        <div class="reveal-scale rounded-3xl bg-slate-900 dark:bg-[#161b27] text-white p-8 lg:p-14 shadow-xl border dark:border-[#252a36]">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            <div class="lg:col-span-7 space-y-6">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-800 text-blue-300 font-mono text-xs font-semibold">
+                <span class="material-symbols-outlined text-[16px]">school</span>
+                <span>ADMISSIONS & INQUIRIES</span>
+              </div>
+              <h2 class="font-heading font-bold text-2xl sm:text-4xl lg:text-4xl leading-tight">
+                สนใจศึกษาต่อในหลักสูตร <br/>
+                <span class="text-blue-400">วิทยาการคอมพิวเตอร์ ม.บูรพา</span>
+              </h2>
+              <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl">
+                เปิดรับสมัครผ่านระบบ TCAS ประจำปีการศึกษา 2568 พร้อมรับคำปรึกษาแนวทางการเตรียมตัว 
+                คุณสมบัติการสมัคร และการยื่นแฟ้มสะสมผลงาน (Portfolio)
+              </p>
+              <div class="flex flex-wrap items-center gap-4 pt-2">
+                <a href="https://reg.buu.ac.th" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-all shadow-md active:scale-95">
+                  <span>เข้าสู่ระบบรับสมัคร ม.บูรพา</span>
+                  <span class="material-symbols-outlined text-[18px]">launch</span>
+                </a>
+                <button onclick="openContactDialog()" 
+                        class="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm border border-slate-700 transition-all">
+                  <span class="material-symbols-outlined text-[18px]">contact_support</span>
+                  <span>ส่งคำถามสอบถามข้อมูล</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Contact Box -->
+            <div class="lg:col-span-5 p-6 sm:p-8 rounded-2xl bg-slate-800/90 dark:bg-[#1b1f2b] border border-slate-700/80 dark:border-[#252a36] space-y-5">
+              <h3 class="font-heading font-bold text-lg text-white flex items-center gap-2 border-b border-slate-700 pb-3">
+                <span class="material-symbols-outlined text-blue-400">location_on</span>
+                <span>ข้อมูลติดต่อสาขาวิชา</span>
+              </h3>
+              <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+                <p class="leading-relaxed">
+                  คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา<br/>
+                  169 ถ.ลงหาดบางแสน ต.แสนสุข อ.เมือง จ.ชลบุรี 20131
+                </p>
+                <div class="space-y-2 pt-2 border-t border-slate-700">
+                  <p class="flex items-center gap-2 font-mono">
+                    <span class="material-symbols-outlined text-[18px] text-blue-400">call</span>
+                    <span>038-102-222 ต่อ 3000</span>
+                  </p>
+                  <p class="flex items-center gap-2 font-mono">
+                    <span class="material-symbols-outlined text-[18px] text-blue-400">mail</span>
+                    <span>cs@buu.ac.th</span>
+                  </p>
+                </div>
+              </div>
+              <div class="pt-3 border-t border-slate-700 flex items-center justify-between text-xs text-slate-400 font-mono">
+                <span>เวลาทำการ: 08:30 - 16:30 น.</span>
+                <span class="text-blue-400 font-semibold">จันทร์ - ศุกร์</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-50 dark:bg-[#090e19] border-t border-slate-200 dark:border-[#252a36] text-slate-600 dark:text-[#8c909f] text-xs sm:text-sm transition-colors duration-200">
+    <div class="max-w-[1680px] mx-auto px-4 sm:px-8 lg:px-12 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <div class="space-y-3">
+          <div class="flex items-center gap-2.5">
+            <img alt="BUU CS Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTgcD7B_wR98yDNe6oU_IyZcBQBE3LoWgl-6dP7aDldqP0co73IlL6qk23CVNTk7t_vMr2RF8nFK0CuST_XjtGAr0I3ydJH4uqxzKO4M8t_Wxtzbv-Fe4Tko0fP075VxvmX9vhLmmHhnUb73yAzgW_PByGcQSPF05UNnptjaDZQBsMUTsa6hXT6GKAuNMfcGVJ0G76kGYc_0Ry8Y-0G2ESXowF6PJT-0f1zEafHK3XNYrCiyAWBRViNA"/>
+            <span class="font-heading font-bold text-base text-slate-900 dark:text-[#dee2f2]">CS BUU</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-[#8c909f] leading-relaxed">
+            หลักสูตรวิทยาการคอมพิวเตอร์ คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา มุ่งสร้างบัณฑิตคุณภาพสูงที่พร้อมสำหรับการทำงานในอุตสาหกรรมเทคโนโลยีสารสนเทศ
+          </p>
+        </div>
+
+        <div class="space-y-3">
+          <p class="font-heading font-bold text-slate-900 dark:text-[#dee2f2] text-sm">เมนูหลัก</p>
+          <ul class="space-y-2 text-xs text-slate-600">
+            <li><a href="#" class="hover:text-brand-700 dark:hover:text-[#adc6ff] transition-colors">หน้าแรก</a></li>
+            <li><a href="#about-program" class="hover:text-brand-700 dark:hover:text-[#adc6ff] transition-colors">เกี่ยวกับหลักสูตร</a></li>
+            <li><a href="#news-activities" class="hover:text-brand-700 dark:hover:text-[#adc6ff] transition-colors">ข่าวสารและกิจกรรม</a></li>
+            <li><a href="#team" class="hover:text-brand-700 dark:hover:text-[#adc6ff] transition-colors">สมาชิกทีม / คณาจารย์</a></li>
+            <li><a href="#contact" class="hover:text-brand-700 dark:hover:text-[#adc6ff] transition-colors">ติดต่อเรา</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <p class="font-heading font-bold text-slate-900 dark:text-[#dee2f2] text-sm">การรับสมัคร</p>
+          <ul class="space-y-2 text-xs text-slate-600">
+            <li><a href="https://reg.buu.ac.th" target="_blank" rel="noopener noreferrer" class="hover:text-brand-700 dark:hover:text-[#adc6ff] transition-colors">ระบบรับสมัคร ม.บูรพา</a></li>
+            <li><a href="https://www.mytcas.com" target="_blank" rel="noopener noreferrer" class="hover:text-brand-700 dark:hover:text-[#adc6ff] transition-colors">myTCAS ระบบส่วนกลาง</a></li>
+            <li><a href="https://informatics.buu.ac.th" target="_blank" rel="noopener noreferrer" class="hover:text-brand-700 dark:hover:text-[#adc6ff] transition-colors">คณะวิทยาการสารสนเทศ</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <p class="font-heading font-bold text-slate-900 dark:text-[#dee2f2] text-sm">ติดต่อสำนักงาน</p>
+          <p class="text-xs text-slate-500 dark:text-[#8c909f] leading-relaxed">
+            คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา<br/>
+            โทร: 038-102-222 ต่อ 3000<br/>
+            อีเมล: cs@buu.ac.th<br/>
+            เปิดทำการ จันทร์ - ศุกร์ 08:30 - 16:30 น.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="mt-10 pt-6 border-t border-slate-200 dark:border-[#252a36] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-[#8c909f] font-mono">
+        <p>© 2024 สาขาวิชาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยบูรพา. สงวนลิขสิทธิ์.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:text-slate-800 dark:hover:text-[#dee2f2]">นโยบายความเป็นส่วนตัว</a>
+          <a href="#" class="hover:text-slate-800 dark:hover:text-[#dee2f2]">ข้อกำหนดการใช้งาน</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: NEWS DETAIL DIALOG -->
+  <div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md" id="news-modal">
+    <div class="modal-card-spring relative w-full max-w-2xl rounded-2xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] shadow-2xl p-6 sm:p-8 overflow-hidden">
+      <button class="absolute top-4 right-4 w-9 h-9 rounded-lg bg-slate-100 dark:bg-[#252a36] flex items-center justify-center text-slate-500 dark:text-[#dee2f2] hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#303541] transition-colors" id="close-modal-btn">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+      <div class="space-y-4">
+        <div class="relative w-full h-48 sm:h-64 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 hidden" id="modal-img-container">
+          <img id="modal-img" class="w-full h-full object-cover" src="" alt="News Image"/>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded bg-blue-50 border border-blue-200 text-brand-700 font-mono text-xs font-semibold" id="modal-category">หมวดหมู่</span>
+          <span class="font-mono text-xs text-slate-400" id="modal-date">วันที่</span>
+        </div>
+        <h3 class="font-heading font-bold text-xl sm:text-2xl text-slate-900 dark:text-[#dee2f2] leading-snug" id="modal-title">หัวข้อข่าว</h3>
+        <div class="flex items-center gap-2 font-mono text-xs text-slate-500 dark:text-[#c2c6d6] py-1.5 border-y border-slate-100 dark:border-[#252a36]">
+          <span class="material-symbols-outlined text-[16px] text-brand-700">account_circle</span>
+          <span id="modal-author">ผู้ประกาศ</span>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-[#c2c6d6] leading-relaxed" id="modal-body">
+          เนื้อหารายละเอียดข่าว
+        </p>
+        <div class="pt-4 flex justify-end">
+          <button class="px-5 py-2 rounded-lg bg-slate-100 dark:bg-[#252a36] text-slate-800 dark:text-[#dee2f2] font-medium text-xs hover:bg-slate-200 dark:hover:bg-[#303541] transition-colors" id="close-modal-footer-btn">
+            ปิดหน้าต่าง
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONTACT QUICK INQUIRY -->
+  <div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md" id="contact-dialog">
+    <div class="modal-card-spring relative w-full max-w-lg rounded-2xl bg-white dark:bg-[#161b27] border border-slate-200 dark:border-[#252a36] shadow-2xl p-6 sm:p-8 space-y-4">
+      <button class="absolute top-4 right-4 w-9 h-9 rounded-lg bg-slate-100 dark:bg-[#252a36] flex items-center justify-center text-slate-500 dark:text-[#dee2f2] hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#303541]" onclick="closeContactDialog()">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+      <div class="space-y-1">
+        <h3 class="font-heading font-bold text-xl text-slate-900 dark:text-[#dee2f2]">ส่งข้อความสอบถามหลักสูตร</h3>
+        <p class="text-xs text-slate-500">กรอกข้อมูลเพื่อให้เจ้าหน้าที่ฝ่ายวิชาการติดต่อกลับ</p>
+      </div>
+      <form class="space-y-3 pt-2" onsubmit="event.preventDefault(); alert('ขอบคุณสำหรับข้อความ เจ้าหน้าที่จะติดต่อกลับภายใน 24 ชม.'); closeContactDialog();">
+        <div>
+          <label class="block font-mono text-xs text-slate-700 dark:text-[#c2c6d6] mb-1">ชื่อ - นามสกุล</label>
+          <input class="w-full px-3.5 py-2 rounded-lg bg-slate-50 dark:bg-[#1b1f2b] border border-slate-200 dark:border-[#252a36] text-slate-900 dark:text-[#dee2f2] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white dark:focus:bg-[#161b27]" placeholder="ระบุชื่อผู้ติดต่อ" required type="text"/>
+        </div>
+        <div>
+          <label class="block font-mono text-xs text-slate-700 dark:text-[#c2c6d6] mb-1">อีเมลติดต่อ</label>
+          <input class="w-full px-3.5 py-2 rounded-lg bg-slate-50 dark:bg-[#1b1f2b] border border-slate-200 dark:border-[#252a36] text-slate-900 dark:text-[#dee2f2] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white dark:focus:bg-[#161b27]" placeholder="example@domain.com" required type="email"/>
+        </div>
+        <div>
+          <label class="block font-mono text-xs text-slate-700 dark:text-[#c2c6d6] mb-1">หัวข้อที่ต้องการสอบถาม</label>
+          <select class="w-full px-3.5 py-2 rounded-lg bg-slate-50 dark:bg-[#1b1f2b] border border-slate-200 dark:border-[#252a36] text-slate-900 dark:text-[#dee2f2] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white dark:focus:bg-[#161b27]">
+            <option>การรับสมัคร TCAS 68</option>
+            <option>การเทียบโอนและโครงสร้างหลักสูตร</option>
+            <option>ทุนการศึกษาและโครงการพิเศษ</option>
+            <option>การฝึกงานและสหกิจศึกษา</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-mono text-xs text-slate-700 dark:text-[#c2c6d6] mb-1">ข้อความเพิ่มเติม</label>
+          <textarea class="w-full px-3.5 py-2 rounded-lg bg-slate-50 dark:bg-[#1b1f2b] border border-slate-200 dark:border-[#252a36] text-slate-900 dark:text-[#dee2f2] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white dark:focus:bg-[#161b27]" placeholder="ระบุคำถามหรือข้อมูลที่ต้องการทราบ..." rows="3"></textarea>
+        </div>
+        <button class="w-full py-2.5 rounded-lg bg-slate-900 dark:bg-brand-600 text-white font-medium text-sm hover:bg-slate-800 dark:hover:bg-brand-700 transition-all shadow-sm" type="submit">
+          ส่งข้อความ
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+  <script>
+    (function() {
+      // --- DARK / LIGHT THEME CONTROLLER ---
+      const themeToggleBtn = document.getElementById('theme-toggle-btn');
+      const themeIcon = document.getElementById('theme-icon');
+
+      function applyTheme(isDark) {
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+          document.body.classList.add('dark');
+          document.body.classList.remove('light');
+          if (themeIcon) themeIcon.textContent = 'light_mode';
+          localStorage.setItem('buu_cs_theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+          document.body.classList.remove('dark');
+          document.body.classList.add('light');
+          if (themeIcon) themeIcon.textContent = 'dark_mode';
+          localStorage.setItem('buu_cs_theme', 'light');
+        }
+        if (window.updateThreeTheme) {
+          window.updateThreeTheme(isDark);
+        }
+      }
+
+      // Check stored preference or system default
+      const savedTheme = localStorage.getItem('buu_cs_theme');
+      const prefersDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
+      const initialDark = savedTheme ? (savedTheme === 'dark') : false;
+      applyTheme(initialDark);
+
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const isDark = document.documentElement.classList.contains('dark');
+          applyTheme(!isDark);
+        });
+      }
+
+      // --- ACTIVE NAVIGATION & SCROLLSPY CONTROLLER ---
+      const navLinks = document.querySelectorAll('#main-nav .nav-item');
+      const trackedSections = [
+        document.getElementById('hero-section'),
+        document.getElementById('about-program'),
+        document.getElementById('showcase-3d'),
+        document.getElementById('news-activities'),
+        document.getElementById('team'),
+        document.getElementById('contact')
+      ].filter(Boolean);
+
+      function setActiveNavLink(targetId) {
+        navLinks.forEach(link => {
+          const navTarget = link.getAttribute('data-nav') || link.getAttribute('href').replace('#', '');
+          const indicator = link.querySelector('.nav-indicator');
+          if (navTarget === targetId) {
+            link.classList.add('is-active', 'text-white', 'font-bold');
+            link.classList.remove('text-slate-200', 'font-medium');
+            if (indicator) {
+              indicator.style.width = '100%';
+              indicator.classList.remove('w-0');
+              indicator.classList.add('w-full');
+            }
+          } else {
+            link.classList.remove('is-active', 'text-white', 'font-bold');
+            link.classList.add('text-slate-200', 'font-medium');
+            if (indicator) {
+              indicator.style.width = '';
+              indicator.classList.remove('w-full');
+              indicator.classList.add('w-0');
+            }
+          }
+        });
+      }
+
+      // Mouseenter and mouseleave hover support
+      navLinks.forEach(link => {
+        const indicator = link.querySelector('.nav-indicator');
+        link.addEventListener('mouseenter', () => {
+          if (!link.classList.contains('is-active')) {
+            link.classList.add('text-white');
+            link.classList.remove('text-slate-200');
+            if (indicator) {
+              indicator.style.width = '100%';
+            }
+          }
+        });
+        link.addEventListener('mouseleave', () => {
+          if (!link.classList.contains('is-active')) {
+            link.classList.remove('text-white');
+            link.classList.add('text-slate-200');
+            if (indicator) {
+              indicator.style.width = '';
+            }
+          }
+        });
+      });
+
+      // Smooth Click Navigation with Offset for Sticky Header
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const targetId = link.getAttribute('data-nav') || link.getAttribute('href').replace('#', '');
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            e.preventDefault();
+            setActiveNavLink(targetId);
+            const headerOffset = 76;
+            const elementPosition = targetEl.getBoundingClientRect().top;
+            let offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            if (targetId === 'hero-section') {
+              offsetPosition = 0;
+            }
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+      // Brand Logo Smooth Navigation to Top
+      const brandLogoLink = document.getElementById('brand-logo-link');
+      if (brandLogoLink) {
+        brandLogoLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          setActiveNavLink('hero-section');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      // Hero CTA buttons link sync
+      const heroCtaLinks = document.querySelectorAll('#hero-section a[href^="#"]');
+      heroCtaLinks.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const href = btn.getAttribute('href');
+          if (href) {
+            const targetId = href.replace('#', '');
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+              e.preventDefault();
+              setActiveNavLink(targetId);
+              const headerOffset = 76;
+              const elementPosition = targetEl.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              });
+            }
+          }
+        });
+      });
+
+      // ScrollSpy: Update active nav indicator as user scrolls
+      let scrollSpyTimeout = null;
+      function updateScrollSpy() {
+        const scrollPosition = window.pageYOffset + 140;
+        let currentSectionId = 'hero-section';
+
+        trackedSections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (scrollPosition >= sectionTop - 60) {
+            currentSectionId = section.id;
+          }
+        });
+
+        // Near bottom of page fallback for last section (contact)
+        if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 90) {
+          currentSectionId = 'contact';
+        }
+
+        setActiveNavLink(currentSectionId);
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!scrollSpyTimeout) {
+          scrollSpyTimeout = setTimeout(() => {
+            updateScrollSpy();
+            scrollSpyTimeout = null;
+          }, 35);
+        }
+      }, { passive: true });
+
+      // News Filter Handling
+      const filterBtns = document.querySelectorAll('#news-filters .filter-btn');
+      const newsItems = document.querySelectorAll('.news-item');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => {
+            b.classList.remove('bg-slate-900', 'text-white', 'dark:bg-[#adc6ff]', 'dark:text-[#002e6a]');
+            b.classList.add('bg-slate-100', 'text-slate-700', 'dark:bg-[#161b27]', 'dark:text-[#c2c6d6]');
+          });
+          btn.classList.add('bg-slate-900', 'text-white', 'dark:bg-[#adc6ff]', 'dark:text-[#002e6a]');
+          btn.classList.remove('bg-slate-100', 'text-slate-700', 'dark:bg-[#161b27]', 'dark:text-[#c2c6d6]');
+
+          const category = btn.getAttribute('data-filter');
+
+          newsItems.forEach(item => {
+            const itemCategory = item.getAttribute('data-category');
+            if (category === 'all' || itemCategory === category) {
+              item.style.display = '';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Emil Kowalski Smooth Modal Logic (No scale(0), Spring Physics)
+      function openModal(modalEl) {
+        if (!modalEl) return;
+        modalEl.classList.add('is-visible');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal(modalEl) {
+        if (!modalEl) return;
+        modalEl.classList.remove('is-visible');
+        document.body.style.overflow = '';
+      }
+
+      const newsModal = document.getElementById('news-modal');
+      const contactDialog = document.getElementById('contact-dialog');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const closeModalFooterBtn = document.getElementById('close-modal-footer-btn');
+
+      document.querySelectorAll('.news-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const title = item.getAttribute('data-title');
+          const date = item.getAttribute('data-date');
+          const author = item.getAttribute('data-author');
+          const content = item.getAttribute('data-content');
+          const image = item.getAttribute('data-image');
+          const cat = item.getAttribute('data-category');
+
+          const modalTitle = document.getElementById('modal-title');
+          const modalDate = document.getElementById('modal-date');
+          const modalAuthor = document.getElementById('modal-author');
+          const modalContent = document.getElementById('modal-content');
+          const modalImg = document.getElementById('modal-img');
+          const modalImgContainer = document.getElementById('modal-img-container');
+          const modalCategory = document.getElementById('modal-category');
+
+          if (modalTitle) modalTitle.textContent = title;
+          if (modalDate) modalDate.textContent = date;
+          if (modalAuthor) modalAuthor.textContent = author;
+          if (modalContent) modalContent.textContent = content;
+
+          if (image ? (modalImg ? modalImgContainer : false) : false) {
+            modalImg.src = image;
+            modalImgContainer.classList.remove('hidden');
+          } else if (modalImgContainer) {
+            modalImgContainer.classList.add('hidden');
+          }
+
+          const catMap = {
+            'admission': 'ข่าวรับสมัคร',
+            'activity': 'กิจกรรมและผลงาน',
+            'guidance': 'กิจกรรมแนะแนว',
+            'announcement': 'ข่าวประชาสัมพันธ์'
+          };
+          if (modalCategory) modalCategory.textContent = catMap[cat] || 'ข่าวสาร';
+
+          openModal(newsModal);
+        });
+      });
+
+      if (closeModalBtn) closeModalBtn.addEventListener('click', () => closeModal(newsModal));
+      if (closeModalFooterBtn) closeModalFooterBtn.addEventListener('click', () => closeModal(newsModal));
+      if (newsModal) {
+        newsModal.addEventListener('click', (e) => {
+          if (e.target === newsModal) closeModal(newsModal);
+        });
+      }
+      if (contactDialog) {
+        contactDialog.addEventListener('click', (e) => {
+          if (e.target === contactDialog) closeModal(contactDialog);
+        });
+      }
+
+      // Quick Inquiry Trigger
+      window.openContactDialog = () => openModal(contactDialog);
+      window.closeContactDialog = () => closeModal(contactDialog);
+
+      // Accessibility: Escape key closes all open modals
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal(newsModal);
+          closeModal(contactDialog);
+        }
+      });
+
+      // Interactive Spotlight for Magnetic Cyber Cards
+      function initCardSpotlight() {
+        const cards = document.querySelectorAll('.cyber-card, .metric-card-interactive');
+        cards.forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+          }, { passive: true });
+        });
+      }
+
+      // Dynamic Animated Number Counters (Ease-Out Math)
+      function animateCounters() {
+        const counters = document.querySelectorAll('[data-counter-target]');
+        counters.forEach(counter => {
+          if (counter.dataset.counted === 'true') return;
+          counter.dataset.counted = 'true';
+          const target = parseInt(counter.dataset.counterTarget, 10);
+          const suffix = counter.dataset.counterSuffix || '';
+          const prefix = counter.dataset.counterPrefix || '';
+          const useComma = counter.dataset.counterComma === 'true';
+          const duration = 1200;
+          const start = performance.now();
+
+          function update(now) {
+            const elapsed = now - start;
+            const progress = Math.min(1, elapsed / duration);
+            // Emil Kowalski Ease-Out curve: 1 - Math.pow(1 - progress, 3)
+            const easeVal = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(easeVal * target);
+            const displayVal = useComma ? current.toLocaleString() : current;
+            counter.textContent = prefix + displayVal + suffix;
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            } else {
+              const finalVal = useComma ? target.toLocaleString() : target;
+              counter.textContent = prefix + finalVal + suffix;
+            }
+          }
+          requestAnimationFrame(update);
+        });
+      }
+
+      // Floating Back-to-Top HUD Button
+      function initFloatingHud() {
+        const hudBtn = document.getElementById('floating-back-top');
+        if (!hudBtn) return;
+
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 350) {
+            hudBtn.classList.add('is-active');
+          } else {
+            hudBtn.classList.remove('is-active');
+          }
+        }, { passive: true });
+
+        hudBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      // =================================================================
+      // CONTINUOUS SCROLL-DRIVEN 3D ASSEMBLY ENGINE (Interactive Scrubbing)
+      // Elements assemble, converge, and lock into position directly tracking user scroll!
+      // =================================================================
+      function initScrollDrivenAssembly() {
+        const assembleElements = document.querySelectorAll('.assemble-item');
+        const standardReveals = document.querySelectorAll('.reveal-on-scroll, .reveal-scale');
+
+        const vectorMap = {
+          'assemble-from-left': { x: -420, y: 120, z: -300, rx: 16, ry: 38, rz: -12, scale: 0.72 },
+          'assemble-wide-left': { x: -460, y: 130, z: -340, rx: 18, ry: 42, rz: -15, scale: 0.68 },
+          'assemble-from-right': { x: 420, y: 120, z: -300, rx: -16, ry: -38, rz: 12, scale: 0.72 },
+          'assemble-wide-right': { x: 460, y: 130, z: -340, rx: -18, ry: -42, rz: 15, scale: 0.68 },
+          'assemble-from-center': { x: 0, y: -260, z: -380, rx: 32, ry: 0, rz: 0, scale: 0.65 },
+          'assemble-wide-center': { x: 0, y: -280, z: -400, rx: 38, ry: 0, rz: 0, scale: 0.60 },
+          'assemble-from-top-left': { x: -320, y: -180, z: -240, rx: 26, ry: 24, rz: 0, scale: 0.72 },
+          'assemble-from-top-right': { x: 320, y: -180, z: -240, rx: 26, ry: -24, rz: 0, scale: 0.72 },
+          'assemble-from-bottom': { x: 0, y: 200, z: -200, rx: -26, ry: 0, rz: 0, scale: 0.75 }
+        };
+
+        const items = [];
+        assembleElements.forEach(function(el) {
+          let vec = vectorMap['assemble-from-bottom'];
+          for (var key in vectorMap) {
+            if (el.classList.contains(key)) {
+              vec = vectorMap[key];
+              break;
+            }
+          }
+
+          let stagger = 0;
+          for (let i = 1; i <= 8; i++) {
+            if (el.classList.contains('assemble-delay-' + i)) {
+              stagger = (i - 1) * 0.08;
+              break;
+            }
+          }
+
+          items.push({
+            el: el,
+            vec: vec,
+            stagger: stagger,
+            currentP: 0,
+            targetP: 0,
+            locked: false,
+            countersTriggered: false
+          });
+        });
+
+        let isLoopRunning = false;
+
+        function updateScrollMetrics() {
+          const vh = window.innerHeight;
+
+          // Standard reveal elements (Fade / Scale up)
+          standardReveals.forEach(function(el) {
+            const r = el.getBoundingClientRect();
+            if (r.top < vh * 0.90) {
+              el.classList.add('is-revealed');
+              if (el.querySelector ? el.querySelector('[data-counter-target]') : null) {
+                animateCounters();
+              }
+            } else if (r.top > vh * 1.05) {
+              el.classList.remove('is-revealed');
+            }
+          });
+
+          // Continuous calculation for 3D Assemble Items
+          items.forEach(function(item) {
+            const r = item.el.getBoundingClientRect();
+            // Start assembly when top enters viewport (vh * 0.96)
+            // Complete assembly when reaching comfortable viewing line (vh * 0.42)
+            const startY = vh * 0.96;
+            const endY = vh * 0.42;
+
+            let rawP = 0;
+            if (r.top <= endY) {
+              rawP = 1.0;
+            } else if (r.top >= startY) {
+              rawP = 0.0;
+            } else {
+              rawP = (startY - r.top) / (startY - endY);
+            }
+
+            // Apply rhythmic cascading stagger
+            let targetP = rawP;
+            if (item.stagger > 0) {
+              if (rawP < item.stagger) {
+                targetP = 0;
+              } else {
+                targetP = Math.min(1.0, (rawP - item.stagger) / (1.0 - item.stagger));
+              }
+            }
+            item.targetP = Math.max(0, Math.min(1.0, targetP));
+
+            // Trigger counter animation if inside metric cards
+            if (item.targetP > 0.65 ? !item.countersTriggered : false) {
+              item.countersTriggered = true;
+              if (item.el.querySelector ? item.el.querySelector('[data-counter-target]') : null) {
+                animateCounters();
+              }
+            }
+          });
+
+          if (!isLoopRunning) {
+            isLoopRunning = true;
+            requestAnimationFrame(renderAssembleFrame);
+          }
+        }
+
+        function renderAssembleFrame() {
+          let hasPendingMovement = false;
+
+          items.forEach(function(item) {
+            // Smooth lerp (0.16 = snappy, direct finger tracking with velvet smoothing)
+            const diff = item.targetP - item.currentP;
+            if (Math.abs(diff) > 0.002) {
+              item.currentP += diff * 0.16;
+              hasPendingMovement = true;
+            } else {
+              item.currentP = item.targetP;
+            }
+
+            const p = item.currentP;
+            const inv = 1 - p;
+            const vec = item.vec;
+
+            // Compute exact 3D coordinates based on scroll progress
+            const tx = (vec.x * inv).toFixed(1);
+            const ty = (vec.y * inv).toFixed(1);
+            const tz = (vec.z * inv).toFixed(1);
+            const rx = (vec.rx * inv).toFixed(1);
+            const ry = (vec.ry * inv).toFixed(1);
+            const rz = (vec.rz * inv).toFixed(1);
+            const sc = (vec.scale + (1 - vec.scale) * p).toFixed(3);
+            const op = Math.min(1, Math.max(0, p * 1.35)).toFixed(3);
+            const blurPx = (inv * 9).toFixed(1);
+            const bl = inv > 0.015 ? 'blur(' + blurPx + 'px)' : 'none';
+
+            item.el.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,' + tz + 'px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) rotateZ(' + rz + 'deg) scale(' + sc + ')';
+            item.el.style.opacity = op;
+            item.el.style.filter = bl;
+
+            // Flash neon lock edge when docking at 100%
+            if (p >= 0.98) {
+              if (!item.locked) {
+                item.locked = true;
+                item.el.classList.add('is-docked');
+              }
+            } else {
+              if (item.locked ? (p < 0.85) : false) {
+                item.locked = false;
+                item.el.classList.remove('is-docked');
+              }
+            }
+          });
+
+          if (hasPendingMovement) {
+            requestAnimationFrame(renderAssembleFrame);
+          } else {
+            isLoopRunning = false;
+          }
+        }
+
+        window.addEventListener('scroll', updateScrollMetrics, { passive: true });
+        window.addEventListener('resize', updateScrollMetrics, { passive: true });
+        // Initial setup
+        setTimeout(updateScrollMetrics, 120);
+        setTimeout(updateScrollMetrics, 450);
+      }
+
+      // Always return to top on refresh / reload
+      window.addEventListener('beforeunload', () => {
+        window.scrollTo(0, 0);
+      });
+      window.addEventListener('pageshow', (e) => {
+        if (e.persisted) window.scrollTo(0, 0);
+      });
+      window.addEventListener('load', () => {
+        setTimeout(() => window.scrollTo(0, 0), 15);
+      });
+
+      function initPreloader() {
+        const preloader = document.getElementById('site-preloader');
+        const bar = document.getElementById('preloader-bar');
+        const statusText = document.getElementById('preloader-status');
+        if (!preloader || !bar || !statusText) return;
+
+        let progress = 0;
+        const minDuration = 450; // Super fast & responsive loading (450ms)
+        const startTime = Date.now();
+
+        const stages = [
+          { p: 0, text: 'กำลังเชื่อมต่อระบบหลักสูตร...' },
+          { p: 40, text: 'กำลังจัดเตรียมข้อมูลสาขาวิชา...' },
+          { p: 75, text: 'กำลังเริ่มต้นระบบหลักสูตร...' },
+          { p: 100, text: 'พร้อมเข้าสู่ระบบหลักสูตร (100%)' }
+        ];
+
+        const interval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const ratio = Math.min(1, elapsed / minDuration);
+          progress = Math.min(98, Math.floor(ratio * 100));
+
+          let currentStage = stages[0];
+          for (let i = 0; i < stages.length; i++) {
+            if (progress >= stages[i].p) currentStage = stages[i];
+          }
+
+          bar.style.width = progress + '%';
+          if (progress < 100) {
+            statusText.textContent = `${currentStage.text} (${progress}%)`;
+          }
+        }, 15);
+
+        function finishPreloader() {
+          const elapsed = Date.now() - startTime;
+          const remaining = Math.max(0, minDuration - elapsed);
+
+          setTimeout(() => {
+            clearInterval(interval);
+            bar.style.width = '100%';
+            statusText.textContent = 'พร้อมเข้าสู่ระบบหลักสูตร (100%)';
+
+            setTimeout(() => {
+              preloader.style.transition = 'opacity 280ms var(--ease-out), transform 280ms var(--ease-out)';
+              preloader.style.opacity = '0';
+              preloader.style.transform = 'scale(1.02)';
+              preloader.style.pointerEvents = 'none';
+              setTimeout(() => {
+                if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+              }, 300);
+            }, 120);
+          }, remaining);
+        }
+
+        if (document.readyState === 'complete') {
+          finishPreloader();
+        } else {
+          window.addEventListener('load', finishPreloader);
+          setTimeout(finishPreloader, 900);
+        }
+      }
+
+      initPreloader();
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollDrivenAssembly);
+      } else {
+        initScrollDrivenAssembly();
+
+      initCardSpotlight();
+
+      initFloatingHud();
+      }
+    })();
+  
+    // =================================================================
+    // SECTION 3D: ULTRA-HIGH DEPTH 3D ENGINE (CLOSER CAMERA, DRAG-TO-ROTATE 360, 1400 PARTICLE SPHERE)
+    (function initUltra3DTechDimensions() {
+      if (typeof THREE === 'undefined') {
+        console.warn('Three.js not loaded, skipping 3D setup');
+        return;
+      }
+
+      function createRenderer(canvas) {
+        if (!canvas) return null;
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: true,
+          alpha: true,
+          powerPreference: 'high-performance'
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setClearColor(0x000000, 0);
+        return renderer;
+      }
+
+      // Closer camera position (5.0, 5.3, 5.0) -> Objects appear ~1.4x larger and fill the 335px card!
+      function createCamera(aspect) {
+        const camera = new THREE.PerspectiveCamera(36, aspect, 0.1, 100);
+        camera.position.set(5.1, 5.4, 5.1);
+        camera.lookAt(0, 0, 0);
+        return camera;
+      }
+
+      // Outlined 3D Box with Crisp Faces and Edges
+      function makeOutlinedBox(w, h, d, faceMat, edgeMat) {
+        const group = new THREE.Group();
+        const geo = new THREE.BoxGeometry(w, h, d);
+        const mesh = new THREE.Mesh(geo, faceMat);
+        group.add(mesh);
+        const edges = new THREE.EdgesGeometry(geo);
+        const lines = new THREE.LineSegments(edges, edgeMat);
+        group.add(lines);
+        return { group, mesh, lines };
+      }
+
+      // Dense Fibonacci Particle Sphere (1,400 Points with Depth Glow)
+      function createFibonacciParticleSphere(count, radius, colorHex, dotSize = 0.08) {
+        const geo = new THREE.BufferGeometry();
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+        const baseColor = new THREE.Color(colorHex);
+        const phi = Math.PI * (3.0 - Math.sqrt(5.0));
+
+        for (let i = 0; i < count; i++) {
+          const y = 1 - (i / (count - 1)) * 2;
+          const r = Math.sqrt(Math.max(0, 1 - y * y));
+          const theta = phi * i;
+          const x = Math.cos(theta) * r;
+          const z = Math.sin(theta) * r;
+
+          positions[i * 3] = x * radius;
+          positions[i * 3 + 1] = y * radius;
+          positions[i * 3 + 2] = z * radius;
+
+          // Multi-frequency brightness and color shift
+          const lum = 0.8 + 0.45 * Math.sin(i * 0.15);
+          colors[i * 3] = Math.min(1, baseColor.r * lum);
+          colors[i * 3 + 1] = Math.min(1, baseColor.g * lum);
+          colors[i * 3 + 2] = Math.min(1, baseColor.b * lum);
+        }
+
+        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const mat = new THREE.PointsMaterial({
+          size: dotSize,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.96
+        });
+
+        return new THREE.Points(geo, mat);
+      }
+
+      // Ambient Star Dust Field
+      function createStarDust(count, spread, colorHex) {
+        const geo = new THREE.BufferGeometry();
+        const pos = new Float32Array(count * 3);
+        for (let i = 0; i < count; i++) {
+          pos[i * 3] = (Math.random() - 0.5) * spread;
+          pos[i * 3 + 1] = (Math.random() - 0.5) * spread;
+          pos[i * 3 + 2] = (Math.random() - 0.5) * spread;
+        }
+        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        const mat = new THREE.PointsMaterial({
+          size: 0.05,
+          color: colorHex,
+          transparent: true,
+          opacity: 0.7
+        });
+        return new THREE.Points(geo, mat);
+      }
+
+      // FULL 3D INTERACTION ENGINE: Drag to Rotate 360 + Mouse Parallax + Perspective Tilt + Shadow Breathing
+      function setup3DCardInteraction(cardId, targetGroup, shadowId) {
+        const card = document.getElementById(cardId);
+        const shadow = document.getElementById(shadowId);
+        if (!card || !targetGroup) return null;
+
+        let isDragging = false;
+        let prevX = 0, prevY = 0;
+        let manualRotY = 0;
+        let manualRotX = 0;
+        let mouseTiltX = 0;
+        let mouseTiltY = 0;
+        let autoRotate = true;
+
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+
+          const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+          const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+          if (isDragging) {
+            const dx = e.clientX - prevX;
+            const dy = e.clientY - prevY;
+            manualRotY += dx * 0.018;
+            manualRotX += dy * 0.015;
+            prevX = e.clientX;
+            prevY = e.clientY;
+          } else {
+            mouseTiltY = normX * 0.65;
+            mouseTiltX = normY * 0.45;
+          }
+
+          // Card 3D tilt
+          const cardTiltX = -normY * 5;
+          const cardTiltY = normX * 5;
+          card.style.transform = `perspective(1200px) rotateX(${cardTiltX}deg) rotateY(${cardTiltY}deg) translateZ(8px)`;
+        }, { passive: true });
+
+        card.addEventListener('mousedown', (e) => {
+          isDragging = true;
+          autoRotate = false;
+          prevX = e.clientX;
+          prevY = e.clientY;
+        });
+
+        window.addEventListener('mouseup', () => {
+          if (isDragging) {
+            isDragging = false;
+            setTimeout(() => { autoRotate = true; }, 1200);
+          }
+        });
+
+        card.addEventListener('mouseleave', () => {
+          isDragging = false;
+          autoRotate = true;
+          mouseTiltX = 0;
+          mouseTiltY = 0;
+          card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+        }, { passive: true });
+
+        // Touch support
+        card.addEventListener('touchstart', (e) => {
+          if (e.touches.length === 1) {
+            isDragging = true;
+            autoRotate = false;
+            prevX = e.touches[0].clientX;
+            prevY = e.touches[0].clientY;
+          }
+        }, { passive: true });
+
+        card.addEventListener('touchmove', (e) => {
+          if (isDragging ? (e.touches.length === 1) : false) {
+            const dx = e.touches[0].clientX - prevX;
+            const dy = e.touches[0].clientY - prevY;
+            manualRotY += dx * 0.018;
+            manualRotX += dy * 0.015;
+            prevX = e.touches[0].clientX;
+            prevY = e.touches[0].clientY;
+          }
+        }, { passive: true });
+
+        card.addEventListener('touchend', () => {
+          isDragging = false;
+          setTimeout(() => { autoRotate = true; }, 1200);
+        });
+
+        return function updateInteraction(t) {
+          if (autoRotate ? !isDragging : false) {
+            manualRotY += 0.007;
+          }
+
+          targetGroup.rotation.y = manualRotY + mouseTiltY;
+          targetGroup.rotation.x = Math.max(-0.65, Math.min(0.65, manualRotX + mouseTiltX));
+
+          // Shadow breathing with 3D elevation
+          if (shadow) {
+            const floatY = Math.sin(t * 1.5);
+            const scale = 1 - floatY * 0.12;
+            const opacity = 0.85 - floatY * 0.15;
+            shadow.style.transform = `scale(${scale})`;
+            shadow.style.opacity = `${opacity}`;
+          }
+        };
+      }
+
+      // =================================================================
+      // SCENE 1: SOFTWARE & CLOUD ARCHITECTURE (Large Multi-Tier Lattice)
+      // =================================================================
+      const c1 = document.getElementById('canvas-3d-1');
+      if (!c1) return;
+      const r1 = createRenderer(c1);
+      const s1 = new THREE.Scene();
+      const cam1 = createCamera(c1.clientWidth / (c1.clientHeight || 1));
+      s1.add(new THREE.AmbientLight(0x0284c7, 0.8));
+      const l1 = new THREE.DirectionalLight(0x38bdf8, 1.3);
+      l1.position.set(6, 12, 6);
+      s1.add(l1);
+
+      const group1 = new THREE.Group();
+      s1.add(group1);
+
+      const slabFaceMat = new THREE.MeshStandardMaterial({
+        color: 0x0f172a,
+        roughness: 0.22,
+        metalness: 0.2,
+        transparent: true,
+        opacity: 0.75
+      });
+      const slabEdgeMat = new THREE.LineBasicMaterial({ color: 0x0284c7, transparent: true, opacity: 0.8 });
+
+      const slabs = [];
+      const slabSpacing = 0.72;
+      for (let i = 0; i < 3; i++) {
+        const slab = makeOutlinedBox(4.5, 0.22, 3.8, slabFaceMat, slabEdgeMat);
+        slab.group.position.y = (i - 1) * slabSpacing;
+        group1.add(slab.group);
+        slabs.push(slab);
+      }
+
+      // Active Glowing Cloud API Gateway Module (Electric Cyan)
+      const cyanMat = new THREE.MeshStandardMaterial({
+        color: 0x0284c7,
+        emissive: 0x0ea5e9,
+        emissiveIntensity: 1.5,
+        roughness: 0.1,
+        metalness: 0.05,
+        transparent: true,
+        opacity: 0.96
+      });
+      const cyanEdge = new THREE.LineBasicMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0.98 });
+      const activeCloudMod = makeOutlinedBox(1.85, 0.48, 1.6, cyanMat, cyanEdge);
+      activeCloudMod.group.position.set(-0.8, 1.0, -0.6);
+      group1.add(activeCloudMod.group);
+
+      // Microservice Sub-nodes
+      const darkNodeMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.3, transparent: true, opacity: 0.8 });
+      const secMod1 = makeOutlinedBox(1.35, 0.28, 1.15, darkNodeMat, slabEdgeMat);
+      secMod1.group.position.set(1.2, 0.9, -0.75);
+      group1.add(secMod1.group);
+
+      const secMod2 = makeOutlinedBox(2.0, 0.28, 1.0, darkNodeMat, slabEdgeMat);
+      secMod2.group.position.set(0.7, 0.9, 0.7);
+      group1.add(secMod2.group);
+
+      // 4 Glowing Vertical Data Conduits (Connecting all 3 levels)
+      const busGeo = new THREE.CylinderGeometry(0.045, 0.045, 1.9, 8);
+      const busMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.9 });
+      [
+        [-1.85, -0.05, -1.5],
+        [1.85, -0.05, -1.5],
+        [-1.85, -0.05, 1.5],
+        [1.85, -0.05, 1.5]
+      ].forEach(([bx, by, bz]) => {
+        const bus = new THREE.Mesh(busGeo, busMat);
+        bus.position.set(bx, by, bz);
+        group1.add(bus);
+      });
+
+      const p1 = new THREE.PointLight(0x0ea5e9, 3.8, 8);
+      p1.position.set(-0.8, 1.3, -0.6);
+      s1.add(p1);
+
+      const dust1 = createStarDust(70, 7, 0x0284c7);
+      group1.add(dust1);
+
+      const update1 = setup3DCardInteraction('card-3d-1', group1, 'shadow-1');
+
+      // =================================================================
+      // SCENE 2: AI QUANTUM CORE (FIBONACCI PARTICLE SPHERE & QUANTUM CYLINDER)
+      // Exactly matching User Image 2 with 1,400 glowing quantum points!
+      // =================================================================
+      const c2 = document.getElementById('canvas-3d-2');
+      const r2 = createRenderer(c2);
+      const s2 = new THREE.Scene();
+      const cam2 = createCamera(c2.clientWidth / (c2.clientHeight || 1));
+      s2.add(new THREE.AmbientLight(0x7c3aed, 0.9));
+      const l2 = new THREE.DirectionalLight(0xc084fc, 1.3);
+      l2.position.set(8, 14, 8);
+      s2.add(l2);
+
+      const group2 = new THREE.Group();
+      s2.add(group2);
+
+      // 1. Central Fibonacci Particle Sphere (1,400 Dense Glowing Points!)
+      const particleSphere = createFibonacciParticleSphere(1400, 1.35, 0xa855f7, 0.075);
+      group2.add(particleSphere);
+
+      // Inner glowing core sphere
+      const innerCoreGeo = new THREE.SphereGeometry(0.7, 20, 20);
+      const innerCoreMat = new THREE.MeshStandardMaterial({
+        color: 0x9333ea,
+        emissive: 0xa855f7,
+        emissiveIntensity: 1.7,
+        roughness: 0.1,
+        transparent: true,
+        opacity: 0.85
+      });
+      const innerCore = new THREE.Mesh(innerCoreGeo, innerCoreMat);
+      group2.add(innerCore);
+
+      const corePointLight = new THREE.PointLight(0xc084fc, 4.2, 9);
+      corePointLight.position.set(0, 0, 0);
+      s2.add(corePointLight);
+
+      // 2. Surrounding Cylindrical Data Chamber (Matching User Reference Image 2)
+      const cylGroup = new THREE.Group();
+      group2.add(cylGroup);
+
+      const ringRadius = 2.25;
+      const ringLineMat = new THREE.LineBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.65 });
+
+      function createCircleLine(r, yPos) {
+        const segments = 54;
+        const pts = [];
+        for (let i = 0; i <= segments; i++) {
+          const theta = (i / segments) * Math.PI * 2;
+          pts.push(new THREE.Vector3(Math.cos(theta) * r, yPos, Math.sin(theta) * r));
+        }
+        const g = new THREE.BufferGeometry().setFromPoints(pts);
+        return new THREE.Line(g, ringLineMat);
+      }
+
+      // Horizontal concentric rings (Top, Upper, Middle, Lower, Bottom, Cap Dome)
+      cylGroup.add(createCircleLine(ringRadius, 1.25));
+      cylGroup.add(createCircleLine(ringRadius, 0.45));
+      cylGroup.add(createCircleLine(ringRadius, -0.45));
+      cylGroup.add(createCircleLine(ringRadius, -1.25));
+      cylGroup.add(createCircleLine(ringRadius * 0.78, 1.52)); // Top dome cap
+      cylGroup.add(createCircleLine(ringRadius * 0.78, -1.52)); // Bottom dome cap
+
+      // 10 Vertical structural struts
+      const strutGeo = new THREE.CylinderGeometry(0.018, 0.018, 2.5, 6);
+      const strutMat = new THREE.MeshBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.55 });
+      for (let i = 0; i < 10; i++) {
+        const angle = (i / 10) * Math.PI * 2;
+        const strut = new THREE.Mesh(strutGeo, strutMat);
+        strut.position.set(Math.cos(angle) * ringRadius, 0, Math.sin(angle) * ringRadius);
+        cylGroup.add(strut);
+      }
+
+      // 3. Orbiting Columnar Server Racks (16 Vertical Columns arranged radially)
+      const serverColumns = [];
+      const colFace = new THREE.MeshStandardMaterial({
+        color: 0x1e1b4b,
+        roughness: 0.3,
+        metalness: 0.2,
+        transparent: true,
+        opacity: 0.75
+      });
+      const colEdge = new THREE.LineBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.9 });
+
+      const numCols = 16;
+      const colRadius = 2.05;
+      for (let i = 0; i < numCols; i++) {
+        const angle = (i / numCols) * Math.PI * 2;
+        const colHeight = 0.6 + ((i % 4) * 0.2);
+        const yOffset = ((i % 2 === 0) ? 0.38 : -0.38);
+
+        const colBox = makeOutlinedBox(0.24, colHeight, 0.24, colFace, colEdge);
+        const cx = Math.cos(angle) * colRadius;
+        const cz = Math.sin(angle) * colRadius;
+        colBox.group.position.set(cx, yOffset, cz);
+        colBox.group.lookAt(0, yOffset, 0);
+        cylGroup.add(colBox.group);
+        serverColumns.push({ colBox, baseAngle: angle, yOffset });
+      }
+
+      // 4. Ambient Star Dust Field
+      const dust2 = createStarDust(110, 8, 0xc084fc);
+      group2.add(dust2);
+
+      const update2 = setup3DCardInteraction('card-3d-2', group2, 'shadow-2');
+
+      // =================================================================
+      // SCENE 3: CYBER SECURITY & ZERO TRUST (3D Geodesic Shield Dome & Radar)
+      // =================================================================
+      const c3 = document.getElementById('canvas-3d-3');
+      const r3 = createRenderer(c3);
+      const s3 = new THREE.Scene();
+      const cam3 = createCamera(c3.clientWidth / (c3.clientHeight || 1));
+      s3.add(new THREE.AmbientLight(0xd97706, 0.8));
+      const l3 = new THREE.DirectionalLight(0xfbbf24, 1.3);
+      l3.position.set(8, 12, 8);
+      s3.add(l3);
+
+      const group3 = new THREE.Group();
+      s3.add(group3);
+
+      const baseSecP = makeOutlinedBox(4.6, 0.22, 4.6, slabFaceMat, new THREE.LineBasicMaterial({ color: 0xd97706, transparent: true, opacity: 0.7 }));
+      baseSecP.group.position.y = -0.9;
+      group3.add(baseSecP.group);
+
+      const matrixBoxes = [];
+      const mSize = 0.98;
+      const mSpacing = 1.25;
+      const mOffset = -mSpacing;
+
+      const amberGoldMat = new THREE.MeshStandardMaterial({
+        color: 0xd97706,
+        emissive: 0xf59e0b,
+        emissiveIntensity: 1.5,
+        roughness: 0.1,
+        metalness: 0.05,
+        transparent: true,
+        opacity: 0.96
+      });
+      const amberGoldEdge = new THREE.LineBasicMaterial({ color: 0xfef08a, transparent: true, opacity: 0.98 });
+      const secNodeEdge = new THREE.LineBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.65 });
+
+      for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 3; col++) {
+          const isCore = (row === 1) ? (col === 2) : false;
+          const fMat = isCore ? amberGoldMat : darkNodeMat;
+          const eMat = isCore ? amberGoldEdge : secNodeEdge;
+          const hMult = isCore ? 1.45 : 0.85;
+
+          const box = makeOutlinedBox(mSize, mSize * hMult, mSize, fMat, eMat);
+          const px = mOffset + col * mSpacing;
+          const pz = mOffset + row * mSpacing;
+          const py = -0.45 + (mSize * hMult) / 2;
+
+          box.group.position.set(px, py, pz);
+          group3.add(box.group);
+          matrixBoxes.push({ box, origY: py, row, col, isCore });
+        }
+      }
+
+      // 3D Geodesic Shield Dome (Hexagonal wireframe dome)
+      const domeGeo = new THREE.IcosahedronGeometry(2.45, 2);
+      const domeEdges = new THREE.EdgesGeometry(domeGeo);
+      const domeMat = new THREE.LineBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.55 });
+      const shieldDome = new THREE.LineSegments(domeEdges, domeMat);
+      shieldDome.position.y = 0.2;
+      group3.add(shieldDome);
+
+      const radarRing = createCircleLine(2.55, -0.68);
+      group3.add(radarRing);
+
+      const p3 = new THREE.PointLight(0xf59e0b, 3.8, 8);
+      p3.position.set(mOffset + 2 * mSpacing, 1.2, mOffset + 1 * mSpacing);
+      s3.add(p3);
+
+      const dust3 = createStarDust(70, 7, 0xf59e0b);
+      group3.add(dust3);
+
+      const update3 = setup3DCardInteraction('card-3d-3', group3, 'shadow-3');
+
+      // Resize Handler
+      function resizeViewports() {
+        [
+          { c: c1, r: r1, cam: cam1 },
+          { c: c2, r: r2, cam: cam2 },
+          { c: c3, r: r3, cam: cam3 }
+        ].forEach(({ c, r, cam }) => {
+          if (!c || !r || !cam) return;
+          const width = c.parentElement ? c.parentElement.clientWidth : 350;
+          const height = c.parentElement ? c.parentElement.clientHeight : 335;
+          if (c.width !== width || c.height !== height) {
+            r.setSize(width, height, false);
+            cam.aspect = width / height;
+            cam.updateProjectionMatrix();
+          }
+        });
+      }
+
+      window.addEventListener('resize', resizeViewports, { passive: true });
+
+      // Real-Time Scroll Velocity & Inertia Physics Engine
+      let lastScrollY = window.pageYOffset;
+      let scrollVelocity = 0;
+      let scrollVelocityDamped = 0;
+
+      window.addEventListener('scroll', () => {
+        const currentY = window.pageYOffset;
+        scrollVelocity = currentY - lastScrollY;
+        lastScrollY = currentY;
+
+
+      }, { passive: true });
+      setTimeout(resizeViewports, 250);
+
+      // Main 60FPS Animation Loop with Continuous Scroll-Driven 3D Scrubbing & Physics
+      const clock = new THREE.Clock();
+      function animateAll() {
+        requestAnimationFrame(animateAll);
+        const t = clock.getElapsedTime();
+
+        // Smooth scroll velocity damping
+        scrollVelocityDamped += (scrollVelocity - scrollVelocityDamped) * 0.12;
+        scrollVelocity *= 0.86; // Friction decay
+
+        // Dynamic 3D Scroll Physics Tilt
+        const scrollTiltX = Math.max(-0.45, Math.min(0.45, -scrollVelocityDamped * 0.012));
+        const scrollSpinBoost = scrollVelocityDamped * 0.0025;
+
+        // Continuous Scroll-Driven Progress for Section 3D (Models rotate, expand and react to user scroll!)
+        let p3D = 0;
+        const sec3D = document.getElementById('showcase-3d');
+        if (sec3D) {
+          const r3D = sec3D.getBoundingClientRect();
+          const vh = window.innerHeight;
+          p3D = Math.max(0, Math.min(1, (vh - r3D.top) / (vh + r3D.height)));
+        }
+
+        // SCENE 1: Multi-tier Software Cloud Architecture
+        // 3D slabs rotate 360 and physically expand apart as you scroll down
+        const scrollAngle1 = (p3D - 0.5) * Math.PI * 2.8;
+        group1.rotation.y = scrollAngle1;
+        const expand1 = Math.sin(p3D * Math.PI) * 0.45;
+        group1.position.y = Math.sin(t * 1.5) * 0.08;
+        slabs.forEach((s, idx) => {
+          s.group.position.y = (idx - 1) * (slabSpacing + expand1) + Math.sin(t * 1.8 + idx * 0.8) * 0.035;
+        });
+        activeCloudMod.group.position.y = 1.0 + Math.sin(t * 2.2) * 0.06;
+        dust1.rotation.y = t * 0.08;
+        if (update1) update1(t);
+        group1.rotation.x += scrollTiltX * 0.4;
+        r1.render(s1, cam1);
+
+        // SCENE 2: AI & Data Science
+        // Fibonacci particle sphere expands and spins in direct proportion to user scroll
+        particleSphere.rotation.y = t * 0.25 + p3D * Math.PI * 5.5 + scrollSpinBoost * 2;
+        const sphereScale = 0.86 + Math.sin(p3D * Math.PI) * 0.32;
+        particleSphere.scale.set(sphereScale, sphereScale, sphereScale);
+        group2.rotation.x += scrollTiltX * 0.4;
+        particleSphere.rotation.x = Math.sin(t * 0.25) * 0.18;
+        innerCore.rotation.y = -t * 0.5;
+        innerCore.scale.setScalar(1 + Math.sin(t * 2.5) * 0.06);
+        corePointLight.intensity = 3.6 + Math.sin(t * 3.5) * 0.8;
+        cylGroup.rotation.y = -t * 0.15;
+        dust2.rotation.y = t * 0.06;
+        group2.position.y = Math.sin(t * 1.4) * 0.08;
+        if (update2) update2(t);
+        r2.render(s2, cam2);
+
+        // SCENE 3: Cyber Security & Zero Trust
+        // Shield dome and radar sweep with scroll; matrix nodes ripple in a 3D wave
+        shieldDome.rotation.y = t * 0.12 + p3D * Math.PI * 4.0;
+        shieldDome.rotation.x = Math.sin(t * 0.3) * 0.08;
+        radarRing.rotation.y = -t * 0.55 - p3D * Math.PI * 4.8;
+        dust3.rotation.y = t * 0.08;
+        group3.position.y = Math.sin(t * 1.3) * 0.07;
+        matrixBoxes.forEach(({ box, origY, isCore, row, col }) => {
+          const scrollWave = Math.sin(p3D * Math.PI * 2.4 + (row + col) * 0.75) * 0.22;
+          if (isCore) {
+            box.group.position.y = origY + scrollWave + Math.sin(t * 2.6) * 0.09;
+          } else {
+            box.group.position.y = origY + scrollWave + Math.sin(t * 1.6 + row * 0.5 + col * 0.4) * 0.025;
+          }
+        });
+        if (update3) update3(t);
+        group3.rotation.x += scrollTiltX * 0.4;
+        r3.render(s3, cam3);
+      }
+      animateAll();
+    })();
+    </script>
+
+  <!-- FLOATING QUICK HUD: BACK TO TOP -->
+
+  <button id="floating-back-top" class="floating-hud-btn" aria-label="กลับสู่ด้านบน" title="กลับสู่ด้านบน">
+
+    <span class="material-symbols-outlined text-[24px]">keyboard_arrow_up</span>
+
+  </button>
+
+</body>
+</html>
+
+<!-- /wp:html -->

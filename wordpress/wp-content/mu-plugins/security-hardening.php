@@ -59,3 +59,7 @@ add_filter('get_bloginfo_rss', function($val, $show) {
     if ($show === 'version') return '';
     return $val;
 }, 10, 2);
+
+// 4. PRESERVE INLINE JAVASCRIPT IN FULL HTML PAGES (Prevent wptexturize entity corruption)
+remove_filter('the_content', 'wptexturize');
+
