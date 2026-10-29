@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia'
 import { useSecurityStore } from '../stores/security'
 import {
   Search,
-  Clock,
   X
 } from 'lucide-vue-next'
 
@@ -106,12 +105,9 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
                 :key="log.id"
                 :class="{ 'row-unban': log.action === 'UNBAN' }"
               >
-                <!-- วันเวลา -->
+                <!-- วันเวลา (ไม่มีกรอบ ไม่ใส่กล่อง AI slop) -->
                 <td class="td-time">
-                  <div class="time-cell">
-                    <Clock class="tiny-icon text-muted" />
-                    <span class="mono-time">{{ log.timestamp }}</span>
-                  </div>
+                  <span class="mono-time">{{ log.timestamp }}</span>
                 </td>
 
                 <!-- IP Address (คลีน ตัวหนา ไม่มีไอคอนรกตา) -->
@@ -267,18 +263,15 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
 }
 
 /* CELLS */
-.time-cell {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
+.td-time {
+  white-space: nowrap;
 }
 
 .mono-time {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.82rem;
-  color: #475569;
-  font-weight: 600;
-  white-space: nowrap;
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
 }
 
 .bold-ip {

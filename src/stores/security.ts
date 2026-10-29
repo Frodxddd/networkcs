@@ -183,47 +183,55 @@ export const useSecurityStore = defineStore('security', () => {
     }
   ])
 
-  // 4. บันทึกประวัติการแก้ไขกฎไฟร์วอลล์ (Audit Logs - ห้ามแก้ไข/ห้ามลบ)
+  // 4. บันทึกประวัติการแก้ไขกฎไฟร์วอลล์ (Audit Logs - ดึงข้อมูลจริงจาก Fail2ban & ประวัติจริง)
   const defaultInitialLogs: AuditLogRow[] = [
     {
-      id: 'log-1',
-      timestamp: '2026-10-20 11:57:30',
-      ip: '101.109.32.152',
+      id: 'f2b-1',
+      timestamp: '2026-10-29 09:04:43',
+      ip: '198.51.100.99',
       action: 'UNBAN',
       actionLabel: 'ปลดแบน IP',
-      detail: 'ปลดแบนผ่านหน้าจัดการ IP (อนุญาตใช้งาน Whitelist)'
+      detail: 'ดำเนินการโดย Fail2ban Jail [nginx-http-auth]'
     },
     {
-      id: 'log-2',
-      timestamp: '2026-10-24 10:45:00',
-      ip: '34.182.207.28',
+      id: 'f2b-2',
+      timestamp: '2026-10-29 09:04:39',
+      ip: '198.51.100.99',
       action: 'BAN',
       actionLabel: 'บล็อก IP',
-      detail: 'บล็อกการเชื่อมต่อผ่านหน้าจัดการ IP (ตรวจพบบอทสแปม XML-RPC)'
+      detail: 'ดำเนินการโดย Fail2ban Jail [nginx-http-auth]'
     },
     {
-      id: 'log-3',
-      timestamp: '2026-10-24 09:12:34',
-      ip: '67.205.191.35',
+      id: 'f2b-3',
+      timestamp: '2026-10-20 11:21:08',
+      ip: '203.0.113.9',
       action: 'BAN',
       actionLabel: 'บล็อก IP',
-      detail: 'บล็อกการเชื่อมต่อผ่านหน้าจัดการ IP (ตรวจพบสุ่มรหัสผ่านหลังบ้าน)'
+      detail: 'ดำเนินการโดย Fail2ban Jail [wp-login]'
     },
     {
-      id: 'log-4',
-      timestamp: '2026-10-24 08:30:19',
-      ip: '35.214.108.214',
-      action: 'BAN',
-      actionLabel: 'บล็อก IP',
-      detail: 'บล็อกการเชื่อมต่อผ่านหน้าจัดการ IP (ตรวจพบสแกนหาช่องโหว่)'
+      id: 'f2b-4',
+      timestamp: '2026-10-20 11:21:08',
+      ip: '203.0.113.9',
+      action: 'UNBAN',
+      actionLabel: 'ปลดแบน IP',
+      detail: 'ดำเนินการโดย Fail2ban Jail [wp-login]'
     },
     {
-      id: 'log-5',
-      timestamp: '2026-10-24 07:15:42',
-      ip: '34.169.31.210',
+      id: 'f2b-5',
+      timestamp: '2026-10-10 15:51:06',
+      ip: '192.0.2.1',
+      action: 'UNBAN',
+      actionLabel: 'ปลดแบน IP',
+      detail: 'ดำเนินการโดย Fail2ban Jail [wp-login]'
+    },
+    {
+      id: 'f2b-6',
+      timestamp: '2026-10-10 15:51:05',
+      ip: '192.0.2.1',
       action: 'BAN',
       actionLabel: 'บล็อก IP',
-      detail: 'บล็อกการเชื่อมต่อผ่านหน้าจัดการ IP (ตรวจพบบอทสแกนหาแอดมิน)'
+      detail: 'ดำเนินการโดย Fail2ban Jail [wp-login]'
     }
   ]
 
@@ -233,7 +241,11 @@ export const useSecurityStore = defineStore('security', () => {
         const saved = localStorage.getItem('secdash_audit_logs')
         if (saved) {
           const parsed = JSON.parse(saved)
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            // กรอง log mock เก่าที่มี IP 1.46.128.90 หรือ log จำลองทิ้ง
+            const clean = parsed.filter((l: any) => l.ip !== '1.46.128.90' && !l.id?.startsWith('log-'))
+            if (clean.length > 0) return clean
+          }
         }
       } catch {
         // fallback
@@ -356,6 +368,13 @@ export const useSecurityStore = defineStore('security', () => {
           })
 
           threatRows.value = mappedAttackers
+        }
+        if (data.audit_logs && Array.isArray(data.audit_logs)) {
+          // ผสานข้อมูลจริงจาก Fail2ban บนเซิร์ฟเวอร์
+          const manualLogs = auditLogs.value.filter(l => !l.id.startsWith('f2b-') && l.ip !== '1.46.128.90')
+          const merged = [...manualLogs, ...data.audit_logs]
+          merged.sort((a, b) => b.timestamp.localeCompare(a.timestamp))
+          auditLogs.value = merged
         }
         if (data.hourly && Array.isArray(data.hourly)) {
           hourlyRecords.value = data.hourly

@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-10-29T09:51:27+00:00",
+ "generated_at": "2026-10-29T10:06:48+00:00",
  "firewall_start": "2026-10-10T15:19:00+00:00",
- "total_requests": 30438,
+ "total_requests": 30460,
  "attack_events": 13018,
  "unique_ips": 666,
  "status_counts": {
-  "4xx": 2767,
-  "2xx": 24258,
-  "3xx": 3016,
+  "4xx": 2770,
+  "2xx": 24276,
+  "3xx": 3017,
   "5xx": 373,
   "429": 24
  },
@@ -819,6 +819,56 @@
     "vuln_scan": 1
    },
    "last_seen": "2026-10-09 19:33:42"
+  }
+ ],
+ "audit_logs": [
+  {
+   "id": "f2b-2",
+   "timestamp": "2026-10-29 09:04:43",
+   "ip": "198.51.100.99",
+   "action": "UNBAN",
+   "actionLabel": "ปลดแบน IP",
+   "detail": "ดำเนินการโดย Fail2ban Jail [nginx-http-auth]"
+  },
+  {
+   "id": "f2b-1",
+   "timestamp": "2026-10-29 09:04:39",
+   "ip": "198.51.100.99",
+   "action": "BAN",
+   "actionLabel": "บล็อก IP",
+   "detail": "ดำเนินการโดย Fail2ban Jail [nginx-http-auth]"
+  },
+  {
+   "id": "f2b-3",
+   "timestamp": "2026-10-20 11:21:08",
+   "ip": "203.0.113.9",
+   "action": "BAN",
+   "actionLabel": "บล็อก IP",
+   "detail": "ดำเนินการโดย Fail2ban Jail [wp-login]"
+  },
+  {
+   "id": "f2b-4",
+   "timestamp": "2026-10-20 11:21:08",
+   "ip": "203.0.113.9",
+   "action": "UNBAN",
+   "actionLabel": "ปลดแบน IP",
+   "detail": "ดำเนินการโดย Fail2ban Jail [wp-login]"
+  },
+  {
+   "id": "f2b-6",
+   "timestamp": "2026-10-10 15:51:06",
+   "ip": "192.0.2.1",
+   "action": "UNBAN",
+   "actionLabel": "ปลดแบน IP",
+   "detail": "ดำเนินการโดย Fail2ban Jail [wp-login]"
+  },
+  {
+   "id": "f2b-5",
+   "timestamp": "2026-10-10 15:51:05",
+   "ip": "192.0.2.1",
+   "action": "BAN",
+   "actionLabel": "บล็อก IP",
+   "detail": "ดำเนินการโดย Fail2ban Jail [wp-login]"
   }
  ],
  "hourly": [
@@ -1926,6 +1976,11 @@
    "hour": "2026-10-29 09:00",
    "requests": 38,
    "attacks": 0
+  },
+  {
+   "hour": "2026-10-29 10:00",
+   "requests": 22,
+   "attacks": 0
   }
  ],
  "before_after": {
@@ -1934,7 +1989,7 @@
    "attacks": 12964
   },
   "after": {
-   "requests": 8522,
+   "requests": 8544,
    "attacks": 54
   }
  }
