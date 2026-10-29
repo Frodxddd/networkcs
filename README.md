@@ -21,18 +21,26 @@
 ## 📂 โครงสร้างไดเรกทอรี (Directory Structure)
 
 ```text
-secdash-ui/
+networkdashboard/
+├── wordpress/                    # ไฟล์แกนหลักและปลั๊กอินความปลอดภัยของเว็บ WordPress
+│   ├── wp-content/
+│   │   └── mu-plugins/           # Must-Use Security Plugins (Zero-Trust, Anti-Enumeration, Strict CORS)
+│   ├── wp-config.safe.php        # ไฟล์ตั้งค่า WordPress ฉบับปลอดภัย (เซ็นเซอร์รหัสผ่าน/คีย์ทั้งหมด)
+│   └── index.php
+├── configs/                      # ไฟล์คอนฟิกเซิร์ฟเวอร์และระบบเครือข่ายความปลอดภัย
+│   ├── nginx/                    # คอนฟิก Nginx Reverse Proxy (Frontend & Backend, Security Headers)
+│   ├── fail2ban/                 # คอนฟิก Jail & Filters ตรวจจับการบุกรุก
+│   └── iptables/                 # สคริปต์เซ็ตอัปไฟร์วอลล์ iptables และ ipset th_allow
+├── server/                       # Backend API & Automation Scripts บนเซิร์ฟเวอร์
+│   ├── main.py                   # FastAPI Firewall Control API (/api/unban, /api/ban, /api/logs)
+│   ├── analyze-logs.py           # สคริปต์ประมวลผล Nginx Access Log เป็น JSON
+│   ├── secdash-ai.py             # สคริปต์เชื่อมต่อ AI วิเคราะห์แนวโน้มภัยคุกคาม
+│   └── nginx/secdash.conf        # Nginx Configuration Snippet
 ├── src/                          # Frontend Source Code (Vue 3 + TypeScript)
 │   ├── components/               # UI Components (Charts, Modals, Navbar, KPIs)
 │   ├── views/                    # หน้าจอหลัก (DashboardView, UnbanView, AuditLogs)
 │   ├── stores/                   # สถานะระบบ Pinia (security.ts)
 │   └── composables/              # Logic Hooks (useToast, etc.)
-├── server/                       # Backend API & Automation Scripts บนเซิร์ฟเวอร์
-│   ├── main.py                   # FastAPI Firewall Control API (/api/unban, /api/ban, /api/logs)
-│   ├── analyze-logs.py           # สคริปต์ประมวลผล Nginx Access Log เป็น JSON
-│   ├── secdash-ai.py             # สคริปต์เชื่อมต่อ AI วิเคราะห์แนวโน้มภัยคุกคาม
-│   └── nginx/
-│       └── secdash.conf          # Nginx Configuration Snippet
 ├── docs/                         # เอกสารประกอบโครงงาน
 │   └── REPORT_REVISION_GUIDE.md  # บทวิเคราะห์และข้อเสนอแนะการปรับปรุงรายงานโครงงาน
 └── package.json                  # การตั้งค่า Dependencies ของโปรเจกต์

@@ -40,3 +40,36 @@ __screenshots__/
 
 test-results/
 playwright-report/
+
+# ==============================================================================
+# SECURITY & ZERO-TRUST EXCLUSION RULES (DO NOT COMMIT SECRETS OR PASSWORDS)
+# ==============================================================================
+# Private Keys & Certificates
+*.pem
+*.key
+*.crt
+*.pfx
+*.pkcs12
+
+# WordPress Sensitive Files
+wp-config.php
+!wp-config.safe.php
+!wp-config-sample.php
+wordpress/wp-content/uploads/
+wordpress/wp-content/upgrade/
+wordpress/wp-content/cache/
+
+# Passwords, Secrets, Auth Tokens & Databases
+*.sql
+*.sqlite
+*.dump
+.htpasswd*
+.env
+.env.*
+*.secret
+
+# Logs & Raw Dumps
+*.log
+*.log.*
+*.jsonl
+
