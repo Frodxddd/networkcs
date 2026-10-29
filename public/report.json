@@ -1,15 +1,50 @@
 {
- "generated_at": "2026-10-21T10:05:02+00:00",
+ "generated_at": "2026-10-26T14:02:10+00:00",
  "firewall_start": "2026-10-10T15:19:00+00:00",
- "total_requests": 27902,
- "attack_events": 12996,
+ "total_requests": 29659,
+ "attack_events": 13010,
+ "unique_ips": 660,
+ "status_counts": {
+  "4xx": 2650,
+  "2xx": 23706,
+  "3xx": 2922,
+  "5xx": 373,
+  "429": 8
+ },
  "by_category": {
+  "user_enumeration": 22,
   "vuln_scan": 1317,
   "xmlrpc_abuse": 10833,
-  "login_failed": 822,
-  "user_enumeration": 20,
+  "login_failed": 834,
   "login_ratelimited": 4
  },
+ "top_targets": [
+  {
+   "path": "/xmlrpc.php",
+   "count": 10833,
+   "name": "XML-RPC Abuse"
+  },
+  {
+   "path": "/wp-login.php",
+   "count": 834,
+   "name": "WordPress Brute Force"
+  },
+  {
+   "path": "Vuln Probing",
+   "count": 1317,
+   "name": "Vulnerability Scanning"
+  },
+  {
+   "path": "User Enumeration",
+   "count": 22,
+   "name": "Author / User Enum"
+  },
+  {
+   "path": "Rate Limited",
+   "count": 4,
+   "name": "Rate Limit Exceeded"
+  }
+ ],
  "top_attackers": [
   {
    "ip": "34.182.207.28",
@@ -38,24 +73,6 @@
    }
   },
   {
-   "ip": "34.169.31.210",
-   "hits": 183,
-   "severity": "high",
-   "types": {
-    "xmlrpc_abuse": 181,
-    "user_enumeration": 2
-   }
-  },
-  {
-   "ip": "146.148.44.249",
-   "hits": 183,
-   "severity": "high",
-   "types": {
-    "xmlrpc_abuse": 181,
-    "user_enumeration": 2
-   }
-  },
-  {
    "ip": "136.86.194.86",
    "hits": 183,
    "severity": "high",
@@ -66,6 +83,24 @@
   },
   {
    "ip": "34.135.56.67",
+   "hits": 183,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 181,
+    "user_enumeration": 2
+   }
+  },
+  {
+   "ip": "34.169.31.210",
+   "hits": 183,
+   "severity": "high",
+   "types": {
+    "xmlrpc_abuse": 181,
+    "user_enumeration": 2
+   }
+  },
+  {
+   "ip": "146.148.44.249",
    "hits": 183,
    "severity": "high",
    "types": {
@@ -106,7 +141,7 @@
    }
   },
   {
-   "ip": "89.126.211.166",
+   "ip": "45.43.60.98",
    "hits": 82,
    "severity": "medium",
    "types": {
@@ -122,7 +157,7 @@
    }
   },
   {
-   "ip": "45.43.60.98",
+   "ip": "89.126.211.166",
    "hits": 82,
    "severity": "medium",
    "types": {
@@ -135,6 +170,46 @@
    "severity": "medium",
    "types": {
     "vuln_scan": 69
+   }
+  },
+  {
+   "ip": "59.3.43.121",
+   "hits": 60,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 60
+   }
+  },
+  {
+   "ip": "39.114.167.228",
+   "hits": 41,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 41
+   }
+  },
+  {
+   "ip": "165.99.207.153",
+   "hits": 41,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 41
+   }
+  },
+  {
+   "ip": "43.155.202.36",
+   "hits": 41,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 41
+   }
+  },
+  {
+   "ip": "89.126.214.24",
+   "hits": 41,
+   "severity": "medium",
+   "types": {
+    "vuln_scan": 41
    }
   }
  ],
@@ -958,6 +1033,216 @@
    "hour": "2026-10-21 09:00",
    "requests": 1,
    "attacks": 0
+  },
+  {
+   "hour": "2026-10-21 10:00",
+   "requests": 14,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-21 11:00",
+   "requests": 27,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-21 12:00",
+   "requests": 24,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-21 13:00",
+   "requests": 61,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-21 14:00",
+   "requests": 31,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-21 15:00",
+   "requests": 21,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 01:00",
+   "requests": 5,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 02:00",
+   "requests": 68,
+   "attacks": 2
+  },
+  {
+   "hour": "2026-10-22 03:00",
+   "requests": 20,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 04:00",
+   "requests": 24,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 08:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 10:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 13:00",
+   "requests": 81,
+   "attacks": 3
+  },
+  {
+   "hour": "2026-10-22 14:00",
+   "requests": 196,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 15:00",
+   "requests": 16,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 16:00",
+   "requests": 14,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-22 17:00",
+   "requests": 46,
+   "attacks": 4
+  },
+  {
+   "hour": "2026-10-22 18:00",
+   "requests": 156,
+   "attacks": 3
+  },
+  {
+   "hour": "2026-10-22 19:00",
+   "requests": 4,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-23 06:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-23 07:00",
+   "requests": 3,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-23 08:00",
+   "requests": 22,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-23 09:00",
+   "requests": 4,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-23 11:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-23 13:00",
+   "requests": 53,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-24 04:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-24 05:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-24 06:00",
+   "requests": 30,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-24 08:00",
+   "requests": 62,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-24 14:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-24 17:00",
+   "requests": 44,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-24 19:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-25 06:00",
+   "requests": 1,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-25 07:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-25 09:00",
+   "requests": 2,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-25 15:00",
+   "requests": 16,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-25 17:00",
+   "requests": 4,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-26 05:00",
+   "requests": 19,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-26 09:00",
+   "requests": 50,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-26 11:00",
+   "requests": 105,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-26 12:00",
+   "requests": 358,
+   "attacks": 0
+  },
+  {
+   "hour": "2026-10-26 13:00",
+   "requests": 160,
+   "attacks": 2
   }
  ],
  "before_after": {
@@ -966,8 +1251,8 @@
    "attacks": 12964
   },
   "after": {
-   "requests": 5986,
-   "attacks": 32
+   "requests": 7743,
+   "attacks": 46
   }
  }
 }

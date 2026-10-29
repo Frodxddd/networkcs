@@ -1,0 +1,519 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1020" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#070a12"/>
+    </linearGradient>
+    
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+    </linearGradient>
+    
+    <linearGradient id="accentCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+
+    <linearGradient id="accentPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+
+    <linearGradient id="accentEmerald" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <linearGradient id="accentRose" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#f43f5e"/>
+    </linearGradient>
+
+    <linearGradient id="accentAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowEmerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrowRose" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f43f5e"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-weight: 800; font-size: 25px; fill: #ffffff; letter-spacing: -0.5px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 13.5px; fill: #94a3b8; }
+    .badge { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .layer-title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 14.5px; fill: #e2e8f0; }
+    .box-title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13.5px; fill: #f8fafc; }
+    .box-sub { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 500; font-size: 11.5px; fill: #94a3b8; }
+    .code-text { font-family: 'Consolas', 'Courier New', monospace; font-size: 11px; fill: #38bdf8; }
+    .item-text { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11.5px; fill: #cbd5e1; }
+    .stat-val { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 800; font-size: 17px; fill: #38bdf8; }
+    .stat-lbl { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #64748b; text-transform: uppercase; font-weight: 600; }
+  </style>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bgGrad)" />
+
+  <!-- Grid overlay -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40"/>
+    </pattern>
+    <rect width="100%" height="100%" fill="url(#grid)" />
+  </g>
+
+  <!-- HEADER -->
+  <g transform="translate(60, 42)">
+    <rect x="-10" y="-8" width="56" height="56" rx="14" fill="#0284c7" fill-opacity="0.2" stroke="#0ea5e9" stroke-width="1.5"/>
+    <path d="M 18 10 L 8 15 L 8 27 C 8 34 18 39 18 39 C 18 39 28 34 28 27 L 28 15 Z" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M 13 24 L 17 28 L 24 20" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <text x="60" y="18" class="title">สถาปัตยกรรมระบบความปลอดภัยเว็บเซิร์ฟเวอร์ &amp; การวิเคราะห์ภัยคุกคามด้วย AI</text>
+    <text x="60" y="38" class="subtitle">Multi-Tier Defense Architecture with GeoIP, Reverse Proxy Micro-Caching, Rate Limiting &amp; Automated AI SecOps</text>
+    
+    <!-- Status Badges -->
+    <g transform="translate(1080, 2)">
+      <rect x="0" y="0" width="130" height="28" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <circle cx="14" cy="14" r="4" fill="#10b981"/>
+      <text x="26" y="18" class="badge" fill="#cbd5e1">Azure B2als_v2</text>
+
+      <rect x="140" y="0" width="120" height="28" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <circle cx="154" cy="14" r="4" fill="#38bdf8"/>
+      <text x="166" y="18" class="badge" fill="#cbd5e1">Live In-Prod</text>
+
+      <rect x="270" y="0" width="120" height="28" rx="6" fill="#065f46" fill-opacity="0.4" stroke="#10b981" stroke-width="1"/>
+      <text x="330" y="18" class="badge" fill="#34d399" text-anchor="middle">Block 99.4%</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- ZONE 1: EXTERNAL INBOUND (Left Column)      -->
+  <!-- ========================================== -->
+  <g transform="translate(50, 115)">
+    <!-- Container Box -->
+    <rect width="250" height="690" rx="16" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)"/>
+    <rect width="250" height="42" rx="16" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="26" class="layer-title">1. ผู้ใช้และภัยคุกคามภายนอก</text>
+    
+    <!-- User Box (Legitimate) -->
+    <g transform="translate(15, 60)">
+      <rect width="220" height="175" rx="12" fill="#0f172a" stroke="#059669" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#065f46" fill-opacity="0.5"/>
+      <!-- User Icon -->
+      <circle cx="26" cy="22" r="5" fill="#34d399"/>
+      <path d="M 18 34 C 18 29 22 28 26 28 C 30 28 34 29 34 34" fill="none" stroke="#34d399" stroke-width="2"/>
+      
+      <text x="48" y="24" class="box-title" fill="#34d399">ผู้ใช้งานทั่วไป (ไทย)</text>
+      <text x="48" y="38" class="box-sub">Legitimate Thai Users</text>
+      
+      <line x1="12" y1="50" x2="208" y2="50" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="72" class="item-text">• IP อยู่ในประเทศไทย (TH CIDR)</text>
+      <text x="14" y="94" class="item-text">• HTTPS Browser (TLS 1.2/1.3)</text>
+      <text x="14" y="116" class="item-text">• เข้าชมเนื้อหา WordPress ทั่วไป</text>
+      <text x="14" y="138" class="item-text">• ผู้ดูแลระบบเข้าหน้า /wp-admin</text>
+      <text x="14" y="160" class="code-text" fill="#34d399">nenenainaemak.duckdns.org</text>
+    </g>
+
+    <!-- Attacker Box -->
+    <g transform="translate(15, 260)">
+      <rect width="220" height="240" rx="12" fill="#0f172a" stroke="#e11d48" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#881337" fill-opacity="0.5"/>
+      <!-- Skull / Bug Icon -->
+      <circle cx="26" cy="22" r="5" fill="#f43f5e"/>
+      <path d="M 20 28 L 32 28 M 22 34 L 30 34 M 23 23 L 24 23 M 28 23 L 29 23" stroke="#f43f5e" stroke-width="1.5"/>
+
+      <text x="48" y="24" class="box-title" fill="#f43f5e">บอตและผู้โจมตีทั่วโลก</text>
+      <text x="48" y="38" class="box-sub">Global Attackers &amp; Scanners</text>
+      
+      <line x1="12" y1="50" x2="208" y2="50" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="72" class="item-text">• บอตยิง XML-RPC (10,833 ครั้ง)</text>
+      <text x="14" y="94" class="item-text">• สแกนหาช่องโหว่ (1,317 ครั้ง)</text>
+      <text x="14" y="116" class="item-text">• Brute-force ล็อกอิน (834 ครั้ง)</text>
+      <text x="14" y="138" class="item-text">• สุ่มหาชื่อ User (?author=) (22 ครั้ง)</text>
+      <text x="14" y="160" class="item-text">• IP ต่างประเทศ (US, CN, RU, etc.)</text>
+      
+      <rect x="12" y="175" width="196" height="52" rx="6" fill="#1e1b2e" stroke="#4c1d95" stroke-width="1"/>
+      <text x="20" y="195" class="code-text" fill="#f43f5e">Top: 34.182.207.x (10,100 hits)</text>
+      <text x="20" y="214" class="box-sub" fill="#a78bfa">สถิติสะสมก่อน Firewall: 59.2%</text>
+    </g>
+
+    <!-- DNS Box -->
+    <g transform="translate(15, 520)">
+      <rect width="220" height="150" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#0369a1" fill-opacity="0.3"/>
+      <text x="26" y="30" font-family="sans-serif" font-size="14" fill="#38bdf8" text-anchor="middle" font-weight="bold">@</text>
+
+      <text x="48" y="24" class="box-title" fill="#38bdf8">DuckDNS Dynamic DNS</text>
+      <text x="48" y="38" class="box-sub">Domain Name Resolution</text>
+      
+      <line x1="12" y1="50" x2="208" y2="50" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="72" class="item-text">• ชี้โดเมนมายัง Azure Public IP</text>
+      <text x="14" y="94" class="item-text">• Cron อัปเดต IP อัตโนมัติ</text>
+      <text x="14" y="116" class="item-text">• DNS-01 Challenge สำหรับ SSL</text>
+      <text x="14" y="136" class="code-text" fill="#38bdf8">nenenainaemak.duckdns.org</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- ZONE 2: PERIMETER & KERNEL (Col 2)          -->
+  <!-- ========================================== -->
+  <g transform="translate(330, 115)">
+    <!-- Container Box -->
+    <rect width="270" height="690" rx="16" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)"/>
+    <rect width="270" height="42" rx="16" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="26" class="layer-title">2. ขอบเขตเครือข่าย &amp; Linux Kernel</text>
+
+    <!-- Azure NSG Box -->
+    <g transform="translate(15, 58)">
+      <rect width="240" height="135" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.2"/>
+      <text x="14" y="25" class="box-title" fill="#38bdf8">Azure Network Security Group</text>
+      <text x="14" y="42" class="box-sub">Cloud Perimeter Firewall (Inbound)</text>
+      
+      <line x1="12" y1="50" x2="228" y2="50" stroke="#1e293b" stroke-width="1"/>
+      <g transform="translate(14, 62)">
+        <rect x="0" y="0" width="65" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+        <text x="32" y="16" class="code-text" text-anchor="middle">Port 22</text>
+        <rect x="75" y="0" width="65" height="24" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+        <text x="107" y="16" class="code-text" text-anchor="middle" fill="#10b981">Port 80</text>
+        <rect x="150" y="0" width="65" height="24" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+        <text x="182" y="16" class="code-text" text-anchor="middle" fill="#10b981">Port 443</text>
+      </g>
+      <text x="14" y="108" class="item-text">• Region: Indonesia Central</text>
+      <text x="14" y="125" class="item-text">• VM: nw-server (B2als_v2, Ubuntu 24)</text>
+    </g>
+
+    <!-- iptables GeoIP Whitelist Box -->
+    <g transform="translate(15, 210)">
+      <rect width="240" height="255" rx="12" fill="#0f172a" stroke="#d97706" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#78350f" fill-opacity="0.5"/>
+      <text x="26" y="30" font-family="sans-serif" font-size="14" fill="#fbbf24" text-anchor="middle" font-weight="bold">TH</text>
+
+      <text x="48" y="24" class="box-title" fill="#fbbf24">iptables + GeoIP (ipset)</text>
+      <text x="48" y="38" class="box-sub">Kernel-Level Traffic Whitelist</text>
+      
+      <line x1="12" y1="50" x2="228" y2="50" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="72" class="item-text">• <tspan fill="#34d399" font-weight="bold">th_allow ipset</tspan>: 1,195 CIDRs</text>
+      <text x="14" y="94" class="item-text">• Policy: <tspan fill="#f43f5e" font-weight="bold">INPUT DROP</tspan></text>
+      <text x="14" y="116" class="item-text">• Allow ESTABLISHED, RELATED</text>
+      <text x="14" y="138" class="item-text">• Ports 22, 80, 443 รับเฉพาะไทย</text>
+      
+      <!-- DROP Box Visual -->
+      <rect x="12" y="152" width="216" height="52" rx="6" fill="#450a0a" stroke="#991b1b" stroke-width="1"/>
+      <text x="22" y="172" class="code-text" fill="#fca5a5">Non-TH IP → DROP ทันที</text>
+      <text x="22" y="190" class="item-text" fill="#f87171">สกัดการโจมตีลดเหลือ 0.6% (สำเร็จ 99.4%)</text>
+      
+      <text x="14" y="222" class="box-sub">• อัปเดต ipset ทุกวันอาทิตย์ (cron)</text>
+      <text x="14" y="240" class="box-sub">• ใช้ ipset swap ไร้ช่วงสะดุด</text>
+    </g>
+
+    <!-- Fail2ban Box -->
+    <g transform="translate(15, 482)">
+      <rect width="240" height="190" rx="12" fill="#0f172a" stroke="#7c3aed" stroke-width="1.5"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#4c1d95" fill-opacity="0.5"/>
+      <text x="26" y="30" font-family="sans-serif" font-size="14" fill="#c084fc" text-anchor="middle" font-weight="bold">F2B</text>
+
+      <text x="48" y="24" class="box-title" fill="#c084fc">fail2ban Intrusion Defense</text>
+      <text x="48" y="38" class="box-sub">Active IP Banning System</text>
+      
+      <line x1="12" y1="50" x2="228" y2="50" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="70" class="item-text">• <tspan fill="#38bdf8" font-weight="bold">[sshd]</tspan> maxretry 4 (กัน brute-force)</text>
+      <text x="14" y="92" class="item-text">• <tspan fill="#fbbf24" font-weight="bold">[wp-login]</tspan> maxretry 6 ใน 10 นาที</text>
+      <text x="14" y="112" class="code-text" fill="#c084fc">POST /wp-login.php (200|429)</text>
+      <text x="14" y="132" class="item-text">• แบน IP ลง iptables นาน 1 ชม.</text>
+      <text x="14" y="152" class="item-text">• ข้าม IP ผู้ดูแลด้วย ignoreip</text>
+      <text x="14" y="172" class="code-text" fill="#34d399">f2b-wp-login: 119 matches</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- ZONE 3: NGINX REVERSE PROXY (Col 3)         -->
+  <!-- ========================================== -->
+  <g transform="translate(630, 115)">
+    <!-- Container Box -->
+    <rect width="280" height="690" rx="16" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)"/>
+    <rect width="280" height="42" rx="16" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="26" class="layer-title">3. Nginx Reverse Proxy (Frontend :443)</text>
+
+    <!-- TLS Termination -->
+    <g transform="translate(15, 55)">
+      <rect width="250" height="110" rx="10" fill="#0f172a" stroke="#059669" stroke-width="1.2"/>
+      <text x="14" y="22" class="box-title" fill="#34d399">TLS 1.2 / 1.3 &amp; Security Headers</text>
+      <line x1="12" y1="32" x2="238" y2="32" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="52" class="item-text">• Let's Encrypt ECC Certificate (acme.sh)</text>
+      <text x="14" y="72" class="item-text">• HTTP 80 → HTTPS 443 (301 Redirect)</text>
+      <text x="14" y="92" class="code-text" fill="#38bdf8">HSTS: max-age=31536000 always</text>
+    </g>
+
+    <!-- Security Filters & Rate Limiting -->
+    <g transform="translate(15, 180)">
+      <rect width="250" height="195" rx="10" fill="#0f172a" stroke="#e11d48" stroke-width="1.5"/>
+      <text x="14" y="22" class="box-title" fill="#f43f5e">กฎป้องกัน &amp; ควบคุมความถี่ (WAF)</text>
+      <line x1="12" y1="32" x2="238" y2="32" stroke="#1e293b" stroke-width="1"/>
+      
+      <rect x="12" y="42" width="226" height="40" rx="6" fill="#1e1b2e" stroke="#881337" stroke-width="1"/>
+      <text x="20" y="58" class="code-text" fill="#f43f5e">location = /xmlrpc.php { return 403; }</text>
+      <text x="20" y="74" class="box-sub">ตัดช่องทางสแกน &amp; DDoS (10,833 ครั้ง)</text>
+
+      <rect x="12" y="90" width="226" height="40" rx="6" fill="#1e1b2e" stroke="#881337" stroke-width="1"/>
+      <text x="20" y="106" class="code-text" fill="#f43f5e">if ($args ~* "(^|&amp;)author=") { return 403; }</text>
+      <text x="20" y="122" class="box-sub">ตัดการสุ่มดูชื่อบัญชีผู้ใช้ (22 ครั้ง)</text>
+
+      <rect x="12" y="138" width="226" height="45" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+      <text x="20" y="154" class="code-text" fill="#38bdf8">limit_req zone=wplogin 10r/m;</text>
+      <text x="20" y="170" class="box-sub">จำกัดการล็อกอิน /wp-login (burst=5 429)</text>
+    </g>
+
+    <!-- Micro-caching -->
+    <g transform="translate(15, 390)">
+      <rect width="250" height="135" rx="10" fill="#0f172a" stroke="#0284c7" stroke-width="1.2"/>
+      <text x="14" y="22" class="box-title" fill="#38bdf8">FastCGI Proxy Micro-Cache (wpcache)</text>
+      <line x1="12" y1="32" x2="238" y2="32" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="50" class="item-text">• Zone: 20MB, Max Size: 200MB (inactive 60m)</text>
+      <text x="14" y="70" class="item-text">• Cache Valid 200, 301, 302: 10m</text>
+      <text x="14" y="90" class="item-text">• ข้าม Cache: POST, Query, Logged-in Cookie</text>
+      <text x="14" y="112" class="code-text" fill="#10b981">ความเร็ว: HIT 0.005s vs MISS 0.05s (เร็ว 10x)</text>
+    </g>
+
+    <!-- SecDash Basic Auth Endpoint -->
+    <g transform="translate(15, 540)">
+      <rect width="250" height="135" rx="10" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="14" y="22" class="box-title" fill="#a78bfa">Protected SecDash Gateway</text>
+      <line x1="12" y1="32" x2="238" y2="32" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="50" class="code-text" fill="#c084fc">location ^~ /secdash/ { ... }</text>
+      <text x="14" y="70" class="item-text">• ป้องกันด้วย HTTP Basic Authentication</text>
+      <text x="14" y="90" class="item-text">• htpasswd-secdash (รหัสผ่านเดายาก)</text>
+      <text x="14" y="112" class="code-text" fill="#f43f5e">Unauthenticated Request → HTTP 401</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- ZONE 4: BACKEND & DATABASE (Col 4)          -->
+  <!-- ========================================== -->
+  <g transform="translate(940, 115)">
+    <!-- Container Box -->
+    <rect width="270" height="340" rx="16" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)"/>
+    <rect width="270" height="42" rx="16" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="26" class="layer-title">4. แอปพลิเคชัน &amp; ฐานข้อมูล</text>
+
+    <!-- Internal Nginx Backend -->
+    <g transform="translate(15, 55)">
+      <rect width="240" height="85" rx="10" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.2"/>
+      <text x="14" y="22" class="box-title" fill="#38bdf8">Nginx Backend Server</text>
+      <text x="14" y="40" class="code-text" fill="#38bdf8">listen 127.0.0.1:8080;</text>
+      <text x="14" y="60" class="box-sub">• รับทราฟฟิกเฉพาะภายในเครื่อง</text>
+      <text x="14" y="75" class="box-sub">• set_real_ip_from 127.0.0.1 (IP จริงคงอยู่)</text>
+    </g>
+
+    <!-- PHP-FPM & WordPress Core -->
+    <g transform="translate(15, 150)">
+      <rect width="240" height="95" rx="10" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.2"/>
+      <text x="14" y="22" class="box-title" fill="#c084fc">PHP-FPM 8.3.6 &amp; WordPress 7.1.3</text>
+      <text x="14" y="42" class="code-text" fill="#a78bfa">unix:/run/php/php8.3-fpm.sock</text>
+      <text x="14" y="62" class="item-text">• Document Root: /var/www/wordpress</text>
+      <text x="14" y="80" class="item-text">• HTTPS helper: proxy-https.php</text>
+    </g>
+
+    <!-- MySQL Database -->
+    <g transform="translate(15, 255)">
+      <rect width="240" height="70" rx="10" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2"/>
+      <text x="14" y="22" class="box-title" fill="#fbbf24">MySQL Database 8.0.46</text>
+      <text x="14" y="42" class="code-text" fill="#fbbf24">127.0.0.1:3306 (Local Only)</text>
+      <text x="14" y="60" class="box-sub">• ฐานข้อมูล wordpress (ปิดไม่ให้ภายนอกเข้าถึง)</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- ZONE 5: SECOPS & AI PIPELINE (Col 4 Bot)    -->
+  <!-- ========================================== -->
+  <g transform="translate(940, 475)">
+    <!-- Container Box -->
+    <rect width="610" height="330" rx="16" fill="url(#cardGrad)" stroke="#8b5cf6" stroke-width="1.5" filter="url(#dropShadow)"/>
+    <rect width="610" height="42" rx="16" fill="#1e1b2e" stroke="#4c1d95" stroke-width="1"/>
+    
+    <circle cx="28" cy="21" r="6" fill="#c084fc"/>
+    <text x="42" y="26" class="layer-title" fill="#e9d5ff">5. ระบบอัตโนมัติ SecOps &amp; การวิเคราะห์ความปลอดภัยด้วย AI</text>
+
+    <!-- Sub-step 1: Log Parsing -->
+    <g transform="translate(20, 58)">
+      <rect width="170" height="250" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="1.2"/>
+      <rect x="10" y="10" width="24" height="24" rx="4" fill="#0369a1" fill-opacity="0.3"/>
+      <text x="22" y="27" class="code-text" fill="#38bdf8" text-anchor="middle">5m</text>
+
+      <text x="42" y="22" class="box-title" fill="#38bdf8">analyze-logs.py</text>
+      <text x="42" y="36" class="box-sub">Cron: 5 * * * * (ชม.)</text>
+      
+      <line x1="10" y1="46" x2="160" y2="46" stroke="#1e293b" stroke-width="1"/>
+      <text x="12" y="66" class="item-text">• อ่าน access.log* (.gz)</text>
+      <text x="12" y="86" class="item-text">• กรอง IP 127.0.0.1 ออก</text>
+      <text x="12" y="106" class="item-text">• แยก 5 หมวดหมู่โจมตี</text>
+      <text x="12" y="126" class="item-text">• นับสถิติ 2xx, 3xx, 4xx, 5xx</text>
+      <text x="12" y="146" class="item-text">• แยก Before/After Firewall</text>
+      <text x="12" y="166" class="item-text">• หา Top 20 Attackers</text>
+      
+      <rect x="10" y="185" width="150" height="52" rx="6" fill="#1e293b" stroke="#0284c7" stroke-width="1"/>
+      <text x="16" y="205" class="code-text" fill="#38bdf8">report.json</text>
+      <text x="16" y="224" class="box-sub">29,701 reqs | 660 IPs</text>
+    </g>
+
+    <!-- Sub-step 2: AI Analyzer -->
+    <g transform="translate(210, 58)">
+      <rect width="185" height="250" rx="12" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+      <rect x="10" y="10" width="24" height="24" rx="4" fill="#6d28d9" fill-opacity="0.3"/>
+      <text x="22" y="27" class="code-text" fill="#c084fc" text-anchor="middle">10m</text>
+
+      <text x="42" y="22" class="box-title" fill="#c084fc">secdash-ai.py</text>
+      <text x="42" y="36" class="box-sub">Cron: 10 * * * * (ชม.)</text>
+      
+      <line x1="10" y1="46" x2="175" y2="46" stroke="#1e293b" stroke-width="1"/>
+      <text x="12" y="66" class="item-text">• <tspan fill="#38bdf8">Privacy Masking</tspan>: IP .x</text>
+      <text x="12" y="86" class="item-text">• Anomaly (Mean + 3*Std)</text>
+      <text x="12" y="106" class="item-text">• <tspan fill="#fbbf24">Dual-Engine AI:</tspan></text>
+      <text x="16" y="124" class="code-text" fill="#a78bfa">1. gpt-4o-mini (Cloud AI)</text>
+      <text x="16" y="140" class="code-text" fill="#94a3b8">2. Gemini 3.8 Flash (Fallback)</text>
+      <text x="16" y="156" class="code-text" fill="#94a3b8">3. Rule-based (Offline)</text>
+      <text x="12" y="176" class="item-text">• <tspan fill="#34d399">harden()</tspan> ตัดคำหลอน AI</text>
+      
+      <rect x="10" y="185" width="165" height="52" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+      <text x="16" y="205" class="code-text" fill="#c084fc">ai_report.json</text>
+      <text x="16" y="224" class="box-sub">Risk: LOW | Source: AI</text>
+    </g>
+
+    <!-- Sub-step 3: SecDash UI -->
+    <g transform="translate(415, 58)">
+      <rect width="175" height="250" rx="12" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+      <rect x="10" y="10" width="24" height="24" rx="4" fill="#065f46" fill-opacity="0.3"/>
+      <!-- UI Icon -->
+      <path d="M 16 17 L 28 17 M 16 22 L 28 22 M 16 27 L 22 27" stroke="#34d399" stroke-width="2"/>
+
+      <text x="42" y="22" class="box-title" fill="#34d399">SecDash Web UI</text>
+      <text x="42" y="36" class="box-sub">Vue 3 + Vite + Tailwind</text>
+      
+      <line x1="10" y1="46" x2="165" y2="46" stroke="#1e293b" stroke-width="1"/>
+      <text x="12" y="66" class="item-text">• Single Page Application</text>
+      <text x="12" y="86" class="item-text">• Deployment: /var/lib/secdash</text>
+      <text x="12" y="106" class="item-text">• สถิติ KPI แบบเรียลไทม์</text>
+      <text x="12" y="126" class="item-text">• AI Threat Briefing (ไทย)</text>
+      <text x="12" y="146" class="item-text">• กราฟแนวโน้มรายชั่วโมง</text>
+      <text x="12" y="166" class="item-text">• ตารางจัดอันดับการโจมตี</text>
+
+      <rect x="10" y="185" width="155" height="52" rx="6" fill="#064e3b" fill-opacity="0.4" stroke="#059669" stroke-width="1"/>
+      <text x="16" y="205" class="code-text" fill="#34d399">/secdash/ Endpoint</text>
+      <text x="16" y="224" class="box-sub" fill="#6ee7b7">Secured by Basic Auth</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- CONNECTOR FLOW ARROWS                      -->
+  <!-- ========================================== -->
+  <g>
+    <!-- Legitimate Flow: Zone 1 -> Zone 2 (Azure NSG) -->
+    <path d="M 235 255 L 290 255 L 290 220 L 345 220" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowEmerald)"/>
+    <text x="290" y="210" class="badge" fill="#34d399" text-anchor="middle">HTTPS :443</text>
+
+    <!-- Attacker Flow: Zone 1 -> Zone 2 (GeoIP Drop) -->
+    <path d="M 235 480 L 285 480 L 285 420 L 345 420" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="4,4" marker-end="url(#arrowRose)"/>
+    <text x="290" y="445" class="badge" fill="#f43f5e" text-anchor="middle">Foreign IPs</text>
+
+    <!-- Zone 2 (iptables TH allow) -> Zone 3 (Nginx Frontend) -->
+    <path d="M 585 300 L 645 300" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+    <text x="615" y="290" class="badge" fill="#38bdf8" text-anchor="middle">PASS TH</text>
+
+    <!-- Zone 3 (Nginx Frontend) -> Zone 4 (Backend 127.0.0.1:8080) -->
+    <path d="M 895 240 L 950 240" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+    <text x="922" y="230" class="badge" fill="#38bdf8" text-anchor="middle">proxy_pass</text>
+
+    <!-- Zone 4 (PHP-FPM) -> MySQL -->
+    <path d="M 1060 360 L 1060 370" fill="none" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)"/>
+
+    <!-- Nginx Access Logs -> analyze-logs.py -->
+    <path d="M 770 790 L 770 820 L 920 820 L 920 630 L 955 630" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrowCyan)"/>
+    <text x="850" y="815" class="code-text" fill="#38bdf8">access.log*</text>
+
+    <!-- analyze-logs.py -> secdash-ai.py -->
+    <path d="M 1130 630 L 1145 630" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+    <!-- secdash-ai.py -> SecDash UI -->
+    <path d="M 1335 630 L 1350 630" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrowEmerald)"/>
+
+    <!-- SecDash UI -> Served via Nginx Protected Endpoint -->
+    <path d="M 1355 680 L 905 680" fill="none" stroke="#a78bfa" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowPurple)"/>
+    <text x="1100" y="672" class="badge" fill="#c084fc" text-anchor="middle">alias /var/lib/secdash/ via /secdash/</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- BOTTOM STATS SUMMARY BAR                   -->
+  <!-- ========================================== -->
+  <g transform="translate(50, 835)">
+    <rect width="1500" height="135" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)"/>
+    
+    <text x="30" y="30" class="box-title" fill="#38bdf8">สรุปผลการดำเนินงานด้านความปลอดภัยจริงบนเซิร์ฟเวอร์ (Verified Production Metrics - Oct 2026)</text>
+
+    <!-- Stat 1: Total Reqs -->
+    <g transform="translate(30, 50)">
+      <rect width="210" height="65" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <text x="20" y="28" class="stat-val">29,701</text>
+      <text x="20" y="48" class="stat-lbl">คำขอทั้งหมด (Total Requests)</text>
+    </g>
+
+    <!-- Stat 2: Total Attacks -->
+    <g transform="translate(260, 50)">
+      <rect width="210" height="65" rx="8" fill="#1e293b" stroke="#881337" stroke-width="1"/>
+      <text x="20" y="28" class="stat-val" fill="#f43f5e">13,010</text>
+      <text x="20" y="48" class="stat-lbl" fill="#fca5a5">เหตุการณ์โจมตี (Attacks)</text>
+    </g>
+
+    <!-- Stat 3: Unique Attackers -->
+    <g transform="translate(490, 50)">
+      <rect width="210" height="65" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <text x="20" y="28" class="stat-val" fill="#fbbf24">660 IPs</text>
+      <text x="20" y="48" class="stat-lbl">IP ผู้ไม่ประสงค์ดี (Unique IPs)</text>
+    </g>
+
+    <!-- Stat 4: Before Firewall -->
+    <g transform="translate(720, 50)">
+      <rect width="230" height="65" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <text x="20" y="28" class="stat-val" fill="#f43f5e">59.2% (12,964)</text>
+      <text x="20" y="48" class="stat-lbl">ก่อน Firewall (21,916 คำขอ)</text>
+    </g>
+
+    <!-- Stat 5: After Firewall -->
+    <g transform="translate(970, 50)">
+      <rect width="230" height="65" rx="8" fill="#1e293b" stroke="#059669" stroke-width="1"/>
+      <text x="20" y="28" class="stat-val" fill="#34d399">0.6% (46)</text>
+      <text x="20" y="48" class="stat-lbl">หลัง Firewall (7,785 คำขอ)</text>
+    </g>
+
+    <!-- Stat 6: Defense Efficiency -->
+    <g transform="translate(1220, 50)">
+      <rect width="250" height="65" rx="8" fill="#064e3b" fill-opacity="0.4" stroke="#10b981" stroke-width="1.5"/>
+      <text x="20" y="28" class="stat-val" fill="#34d399">99.4% Block Rate</text>
+      <text x="20" y="48" class="stat-lbl" fill="#6ee7b7">ประสิทธิภาพการสกัดกั้นสำเร็จ</text>
+    </g>
+  </g>
+</svg>

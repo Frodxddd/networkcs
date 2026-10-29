@@ -23,6 +23,24 @@ export interface AuditLogRow {
   detail: string
 }
 
+export interface AiReportData {
+  risk_level: 'low' | 'medium' | 'high'
+  summary: string
+  findings: string[]
+  recommendations: string[]
+  generated_at?: string
+  model?: string
+  source?: string
+  anomalies?: Array<{ hour_th: string; attacks: number; requests: number }>
+  last24h?: { requests: number; attacks: number; attack_percent: number }
+}
+
+export interface HourlyRecord {
+  hour: string
+  requests: number
+  attacks: number
+}
+
 export const useSecurityStore = defineStore('security', () => {
   const isAddModalOpen = ref(false)
   const quickIp = ref('')
@@ -31,20 +49,63 @@ export const useSecurityStore = defineStore('security', () => {
   const apiActionLoading = ref(false)
   const isPageLoading = ref(false)
 
+  const aiReport = ref<AiReportData>({
+    risk_level: 'low',
+    summary: 'ก่อน firewall สัดส่วนโจมตี 59.2% (12,964 จาก 21,916 คำขอ) หลัง firewall 0.6% (44 จาก 7,225 คำขอ) และ 24 ชั่วโมงล่าสุด 1.1% (7 จาก 634 คำขอ) วิเคราะห์จาก access log (HTTP) เท่านั้น จึงยืนยันไม่ได้ว่ามีการบุกรุกสำเร็จหรือไม่',
+    findings: [
+      'โหมด XMLRPC abuse คิดเป็น 10,833 เหตุการณ์ (37% ของการโจมตีทั้งหมด) โดย IP 34.182.207.x เป็นแหล่งหลัก',
+      'จำนวน login_failed 834 เหตุการณ์ ส่วนใหญ่มาจาก IP 67.205.191.x (672 เหตุการณ์) ที่อาจเกิดจากพิมพ์รหัสผิดโดยสมาชิกทีม',
+      'การตั้งค่าบล็อก author= enumeration ได้ผลและพบเพียง 20 เหตุการณ์ในช่วงสำรวจ',
+      'ช่วงเวลาท้องถิ่น 09/10 16:00 มีอัตราการโจมตีสูงสุด 7,593 จาก 8,196 คำขอ (92%)',
+      'ก่อน firewall มีการโจมตีรวม 12,964 เหตุการณ์ (59.2% ของคำขอ) แต่หลัง firewall ลดลงเป็น 44 เหตุการณ์ (0.6%)'
+    ],
+    recommendations: [
+      'เพิ่ม ModSecurity หรือ WAF เพื่อป้องกัน XMLRPC abuse patterns ที่ยังคงโดนเช็คเป็น 403',
+      'ตั้งค่า authentication token หรือ 2FA บน wp-admin เพื่อเพิ่มความปลอดภัยของล็อกอิน',
+      'เพิ่ม Content-Security-Policy (CSP), X-Frame-Options และ X-Content-Type-Options เพื่อป้องกันการโจมตีเชิง Web Application',
+      'สร้างระบบแจ้งเตือนแบบ real-time เมื่อมีการโจมตี XMLRPC มากกว่าระดับที่กำหนด'
+    ],
+    generated_at: '2026-10-26T12:45:21+00:00',
+    model: 'gpt-4o-mini (Free Cloud AI)',
+    source: 'ai',
+    last24h: {
+      requests: 1434,
+      attacks: 10,
+      attack_percent: 0.7
+    }
+  })
+
+  const hourlyRecords = ref<HourlyRecord[]>([])
+
   const rawReportStats = ref({
     generatedAt: '',
-    totalRequests: 27902,
-    attacksMitigated: 12996,
-    defenseEfficiency: '99.5%',
+    totalRequests: 30331,
+    attacksMitigated: 13018,
+    uniqueIps: 665,
+    defenseEfficiency: '99.4%',
     activeRules: 15,
     categories: {
-      xmlrpc: 10833,
-      vulnScan: 1317,
-      wpLogin: 822,
-      other: 24
+      xmlrpc: 10836,
+      vulnScan: 1321,
+      wpLogin: 835,
+      other: 26
     },
-    aiSummary: '24 ชั่วโมงล่าสุดมี 2,319 คำขอ เป็นการโจมตี 0 ครั้ง (0.0%)',
-    aiFinding: 'หลังเปิด Firewall สัดส่วนการโจมตีลดเหลือ 0.5% เทียบกับก่อนเปิด 59.2%'
+    statusCounts: {
+      '2xx': 24167,
+      '3xx': 3012,
+      '4xx': 2755,
+      '429': 24,
+      '5xx': 373
+    },
+    topTargets: [
+      { path: '/xmlrpc.php', count: 10836, name: 'XML-RPC Abuse' },
+      { path: '/wp-login.php', count: 835, name: 'WordPress Brute Force' },
+      { path: 'Vuln Probing', count: 1321, name: 'Vulnerability Scanning' },
+      { path: 'User Enumeration', count: 22, name: 'Author / User Enum' },
+      { path: 'Rate Limited', count: 4, name: 'Rate Limit Exceeded' }
+    ],
+    aiSummary: 'ก่อน firewall สัดส่วนโจมตี 59.2% (12,964 จาก 21,916 คำขอ) หลัง firewall 0.6% (54 จาก 8,415 คำขอ) และ 24 ชั่วโมงล่าสุด 0.7% (10 จาก 1,434 คำขอ)',
+    aiFinding: 'หลังเปิด Firewall สัดส่วนการโจมตีลดเหลือ 0.6% เทียบกับก่อนเปิด 59.2%'
   })
 
   const threatRows = ref<ThreatRow[]>([
@@ -209,9 +270,10 @@ export const useSecurityStore = defineStore('security', () => {
     isPageLoading.value = true
     try {
       const basePath = import.meta.env.BASE_URL || '/secdash/'
+      const t = Date.now()
       const [repRes, aiRes] = await Promise.all([
-        fetch(`${basePath}report.json`).catch(() => fetch('/report.json').catch(() => null)),
-        fetch(`${basePath}ai_report.json`).catch(() => fetch('/ai_report.json').catch(() => null))
+        fetch(`${basePath}report.json?t=${t}`).catch(() => fetch(`/report.json?t=${t}`).catch(() => null)),
+        fetch(`${basePath}ai_report.json?t=${t}`).catch(() => fetch(`/ai_report.json?t=${t}`).catch(() => null))
       ])
 
       if (repRes && repRes.ok) {
@@ -219,11 +281,60 @@ export const useSecurityStore = defineStore('security', () => {
         if (data.generated_at) rawReportStats.value.generatedAt = data.generated_at
         if (data.total_requests) rawReportStats.value.totalRequests = data.total_requests
         if (data.attack_events) rawReportStats.value.attacksMitigated = data.attack_events
+        if (data.unique_ips) rawReportStats.value.uniqueIps = data.unique_ips
+        if (data.status_counts) rawReportStats.value.statusCounts = data.status_counts
+        if (data.top_targets) rawReportStats.value.topTargets = data.top_targets
+        if (data.before_after?.after?.requests) {
+          const afterReqs = data.before_after.after.requests
+          const afterAtks = data.before_after.after.attacks || 0
+          rawReportStats.value.defenseEfficiency = ((1 - (afterAtks / afterReqs)) * 100).toFixed(1) + '%'
+        }
         if (data.by_category) {
           rawReportStats.value.categories.xmlrpc = data.by_category.xmlrpc_abuse || 10833
           rawReportStats.value.categories.vulnScan = data.by_category.vuln_scan || 1317
-          rawReportStats.value.categories.wpLogin = data.by_category.login_failed || 822
+          rawReportStats.value.categories.wpLogin = data.by_category.login_failed || 834
           rawReportStats.value.categories.other = (data.by_category.user_enumeration || 0) + (data.by_category.login_ratelimited || 0)
+        }
+        if (data.top_attackers && Array.isArray(data.top_attackers)) {
+          threatRows.value = data.top_attackers.map((a: any, idx: number) => {
+            const types = a.types || {}
+            const typeKey = Object.keys(types)[0] || 'xmlrpc_abuse'
+            let attackType = 'บอทเน็ตยิงสแปม XML-RPC (xmlrpc.php)'
+            let icon: 'flame' | 'alert' | 'shield' | 'check' = 'flame'
+            let color = '#dc2626'
+            let bg = '#fee2e2'
+            if (typeKey === 'login_failed') {
+              attackType = 'สุ่มรหัสผ่านหลังบ้าน (/wp-login.php)'
+              icon = 'alert'
+              color = '#ea580c'
+              bg = '#ffedd5'
+            } else if (typeKey === 'vuln_scan') {
+              attackType = 'สแกนหาช่องโหว่ปลั๊กอิน (Vuln Probing)'
+              icon = 'shield'
+              color = '#9333ea'
+              bg = '#f3e8ff'
+            } else if (typeKey === 'user_enumeration') {
+              attackType = 'บอทตรวจหารายชื่อแอดมิน (User Enum)'
+              icon = 'flame'
+              color = '#dc2626'
+              bg = '#fee2e2'
+            }
+            return {
+              id: `threat-${idx + 1}`,
+              ip: a.ip,
+              attackType,
+              icon,
+              color,
+              bg,
+              threatIntensity: a.severity === 'high' ? 85 : 55,
+              allocation: Math.min(100, Math.max(10, Math.round((a.hits / 10100) * 100))),
+              hits: `${a.hits.toLocaleString()} ครั้ง`,
+              isUnbanned: false
+            }
+          })
+        }
+        if (data.hourly && Array.isArray(data.hourly)) {
+          hourlyRecords.value = data.hourly
         }
       }
 
@@ -231,6 +342,10 @@ export const useSecurityStore = defineStore('security', () => {
         const aiData = await aiRes.json()
         if (aiData.summary) rawReportStats.value.aiSummary = aiData.summary
         if (aiData.findings && aiData.findings.length > 0) rawReportStats.value.aiFinding = aiData.findings[0]
+        aiReport.value = {
+          ...aiReport.value,
+          ...aiData
+        }
       }
     } catch {
       // คงข้อมูลตั้งต้น
@@ -247,6 +362,8 @@ export const useSecurityStore = defineStore('security', () => {
     quickNote,
     apiActionLoading,
     rawReportStats,
+    aiReport,
+    hourlyRecords,
     threatRows,
     auditLogs,
     addAuditLog,
