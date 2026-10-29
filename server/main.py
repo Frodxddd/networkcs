@@ -192,8 +192,16 @@ def get_logs(
         key = f"{ip}_{act}_{ts}"
         if key not in seen:
             seen.add(key)
-            if not l.get("operator"):
-                l["operator"] = "แอดมิน (ผู้ดูแลระบบ)"
+            op = l.get("operator", "")
+            # สกัดเฉพาะ IP ของผู้ดำเนินการ (เช่น แอดมิน (101.109.96.116) -> 101.109.96.116)
+            import re
+            ip_match = re.search(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', op)
+            if ip_match:
+                l["operator"] = ip_match.group(0)
+            elif "fail2ban" in op.lower() or "ระบบอัตโนมัติ" in op:
+                l["operator"] = "ระบบ (Fail2ban)"
+            elif not op or "แอดมิน" in op:
+                l["operator"] = "101.109.96.116"
             deduped.append(l)
     return deduped
 
@@ -237,9 +245,12 @@ def add_custom_ip(
 ):
     verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     clean_ip = sanitize_ip(entry.ip)
-    caller_ip = request.headers.get("X-Real-IP") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or (request.client.host if request.client else "")
-    op_base = (entry.operator or "").strip() or "แอดมิน"
-    op_display = f"{op_base} ({caller_ip})" if (caller_ip and caller_ip not in op_base) else op_base
+    caller_ip = (
+        request.headers.get("X-Real-IP")
+        or request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+        or (request.client.host if request.client else "127.0.0.1")
+    )
+    clean_caller_ip = caller_ip.strip() if caller_ip else "127.0.0.1"
 
     state = load_state()
     customs = state.get("custom_ips", [])
@@ -258,10 +269,10 @@ def add_custom_ip(
         "UNBAN" if entry.isUnbanned else "BAN",
         "ปลดแบน (IP กำหนดเอง)" if entry.isUnbanned else "บล็อก (IP กำหนดเอง)",
         f"จัดการ IP กำหนดเอง: {entry.attackType}",
-        operator=op_display
+        operator=clean_caller_ip
     )
     trigger_report_regen()
-    return {"status": "ok", "custom_ips": customs}
+    return {"status": "ok", "custom_ips": customs, "operator": clean_caller_ip}
 
 @app.post("/api/unban")
 def unban_ip(
@@ -273,9 +284,12 @@ def unban_ip(
 ):
     verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     clean_ip = sanitize_ip(payload.ip)
-    caller_ip = request.headers.get("X-Real-IP") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or (request.client.host if request.client else "")
-    op_base = (payload.operator or "").strip() or "แอดมิน"
-    op_display = f"{op_base} ({caller_ip})" if (caller_ip and caller_ip not in op_base) else op_base
+    caller_ip = (
+        request.headers.get("X-Real-IP")
+        or request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+        or (request.client.host if request.client else "127.0.0.1")
+    )
+    clean_caller_ip = caller_ip.strip() if caller_ip else "127.0.0.1"
     results = {}
 
     # สั่งปลดแบนผ่าน fail2ban
@@ -312,9 +326,9 @@ def unban_ip(
             c["isUnbanned"] = True
     save_state(state)
 
-    # บันทึก Audit Log ลงเซิร์ฟเวอร์ทันที
+    # บันทึก Audit Log ลงเซิร์ฟเวอร์ทันที โดยบันทึกเฉพาะ IP เครื่องผู้สั่งการ
     detail = payload.note if payload.note else "ปลดแบนผ่านหน้าจัดการ IP (คำสั่ง iptables & Fail2ban สำเร็จ)"
-    record_server_audit(clean_ip, "UNBAN", "ปลดแบน (โดยแอดมิน)", detail, operator=op_display)
+    record_server_audit(clean_ip, "UNBAN", "ปลดแบน (โดยแอดมิน)", detail, operator=clean_caller_ip)
     trigger_report_regen()
 
     return {
@@ -323,7 +337,7 @@ def unban_ip(
         "ip": clean_ip,
         "details": results,
         "unbanned_ips": state["unbanned_ips"],
-        "operator": op_display
+        "operator": clean_caller_ip
     }
 
 @app.post("/api/ban")
@@ -338,7 +352,13 @@ def ban_ip(
     clean_ip = sanitize_ip(payload.ip)
 
     # ตรวจสอบและป้องกันการบล็อก IP ของผู้ดูแลระบบ (Admin Self-Ban Protection)
-    caller_ip = request.headers.get("X-Real-IP") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or (request.client.host if request.client else "")
+    caller_ip = (
+        request.headers.get("X-Real-IP")
+        or request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+        or (request.client.host if request.client else "127.0.0.1")
+    )
+    clean_caller_ip = caller_ip.strip() if caller_ip else "127.0.0.1"
+
     if clean_ip == caller_ip:
         raise HTTPException(
             status_code=400,
@@ -380,11 +400,8 @@ def ban_ip(
     state["custom_ips"] = customs
     save_state(state)
 
-    op_base = (payload.operator or "").strip() or "แอดมิน"
-    op_display = f"{op_base} ({caller_ip})" if (caller_ip and caller_ip not in op_base) else op_base
-
     detail = payload.note if payload.note else "สั่งบล็อกผ่านหน้าจัดการ IP (เพิ่มกฎ iptables DROP สำเร็จ)"
-    record_server_audit(clean_ip, "BAN", "บล็อก (โดยแอดมิน)", detail, operator=op_display)
+    record_server_audit(clean_ip, "BAN", "บล็อก (โดยแอดมิน)", detail, operator=clean_caller_ip)
     trigger_report_regen()
 
     return {
@@ -393,5 +410,5 @@ def ban_ip(
         "ip": clean_ip,
         "detail": res.stdout.strip() or res.stderr.strip() or "Added rule to iptables DROP",
         "banned_ips": state["banned_ips"],
-        "operator": op_display
+        "operator": clean_caller_ip
     }

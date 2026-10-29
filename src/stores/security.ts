@@ -383,7 +383,7 @@ export const useSecurityStore = defineStore('security', () => {
     const newLog: AuditLogRow = {
       id: `audit-${Date.now()}`,
       timestamp,
-      operator: entry.operator || currentOperator.value,
+      operator: entry.operator || clientIp.value || '101.109.96.116',
       ...entry
     }
     auditLogs.value.unshift(newLog)
@@ -625,7 +625,7 @@ export const useSecurityStore = defineStore('security', () => {
             const key = l.id || `f2b-${l.ip}-${l.timestamp}`
             logMap.set(key, {
               ...l,
-              operator: l.operator || 'ระบบอัตโนมัติ (Fail2ban Engine)'
+              operator: l.operator || 'ระบบ (Fail2ban)'
             })
           })
         }
@@ -636,7 +636,7 @@ export const useSecurityStore = defineStore('security', () => {
           const key = `admin-${l.ip}-${l.action}-${tsMinute}`
           logMap.set(key, {
             ...l,
-            operator: l.operator || 'แอดมิน (ผู้ดูแลระบบ)'
+            operator: l.operator || clientIp.value || '101.109.96.116'
           })
         })
 
@@ -648,7 +648,7 @@ export const useSecurityStore = defineStore('security', () => {
             if (!logMap.has(key)) {
               logMap.set(key, {
                 ...l,
-                operator: l.operator || 'แอดมิน (ผู้ดูแลระบบ)'
+                operator: l.operator || clientIp.value || '101.109.96.116'
               })
             }
           })

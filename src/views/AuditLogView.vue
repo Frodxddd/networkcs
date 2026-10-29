@@ -5,7 +5,7 @@ import { useSecurityStore } from '../stores/security'
 import {
   Search,
   X,
-  UserCheck,
+  Laptop,
   Bot
 } from 'lucide-vue-next'
 
@@ -19,6 +19,16 @@ const isSystemOperator = (op?: string) => {
   if (!op) return false
   const s = op.toLowerCase()
   return s.includes('fail2ban') || s.includes('ระบบอัตโนมัติ') || s.includes('system') || s.includes('engine')
+}
+
+const formatOperatorIp = (op?: string) => {
+  if (!op) return '101.109.96.116'
+  const match = op.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/)
+  if (match) return match[0]
+  if (isSystemOperator(op)) {
+    return 'ระบบ (Fail2ban)'
+  }
+  return op
 }
 
 const filteredLogs = computed(() => {
@@ -103,10 +113,10 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
             <thead>
               <tr>
                 <th class="th-time">วันเวลา (TIMESTAMP)</th>
-                <th class="th-ip">IP ADDRESS</th>
+                <th class="th-ip">เป้าหมาย IP</th>
                 <th class="th-action-col">การดำเนินการ</th>
-                <th class="th-operator">ผู้ดำเนินการ (OPERATOR)</th>
-                <th class="th-detail">การแก้ไขในหน้าจัดการ IP</th>
+                <th class="th-operator">IP ผู้แก้ไข (OPERATOR IP)</th>
+                <th class="th-detail">รายละเอียดการแก้ไข</th>
               </tr>
             </thead>
             <tbody>
@@ -136,15 +146,15 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
                   </span>
                 </td>
 
-                <!-- ผู้ดำเนินการ (Operator Badge) -->
+                <!-- IP ผู้แก้ไข (OPERATOR IP) -->
                 <td class="td-operator">
                   <span
                     class="operator-pill"
                     :class="isSystemOperator(log.operator) ? 'operator-system' : 'operator-admin'"
                   >
                     <Bot v-if="isSystemOperator(log.operator)" class="tiny-icon" />
-                    <UserCheck v-else class="tiny-icon" />
-                    <span class="operator-name">{{ log.operator || 'แอดมิน (ผู้ดูแลระบบ)' }}</span>
+                    <Laptop v-else class="tiny-icon" />
+                    <span class="mono bold-operator-ip">{{ formatOperatorIp(log.operator) }}</span>
                   </span>
                 </td>
 
@@ -302,6 +312,13 @@ const banCount = computed(() => auditLogs.value.filter(l => l.action === 'BAN').
   color: #0f172a;
   font-size: 0.9rem;
   white-space: nowrap;
+}
+
+.bold-operator-ip {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: -0.01em;
 }
 
 .th-operator {

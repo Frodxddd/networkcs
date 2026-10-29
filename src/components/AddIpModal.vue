@@ -215,27 +215,6 @@ const handleAddSubmit = async () => {
             />
           </div>
 
-          <!-- ระบุชื่อผู้ดำเนินการ / รหัสนิสิต -->
-          <div class="form-group">
-            <label class="form-label" for="operator-input">
-              ชื่อผู้ดำเนินการ / รหัสนิสิต (Operator ID)
-            </label>
-            <div class="password-input-wrap">
-              <User class="password-input-icon text-muted" />
-              <input
-                id="operator-input"
-                v-model="addOperatorInput"
-                type="text"
-                placeholder="เช่น นิสิต 67160058 หรือ แอดมิน..."
-                class="form-input"
-                @keyup.enter="handleAddSubmit"
-              />
-            </div>
-            <span class="form-hint">
-              ระบุตัวตนผู้สั่งการเพื่อบันทึกลงในตารางประวัติการแก้ไข (Audit Log)
-            </span>
-          </div>
-
           <!-- ฟิลด์รหัสผ่าน Admin สำหรับการจัดการกฎ IP -->
           <div class="form-group">
             <label class="form-label" for="ban-pwd-input">

@@ -569,26 +569,6 @@ const closeAdminAuthModal = () => {
             </div>
           </div>
 
-          <!-- ช่องระบุชื่อผู้ดำเนินการ / รหัสนิสิต -->
-          <div class="form-group admin-auth-group" style="margin-bottom: 0.85rem;">
-            <label class="form-label font-medium">
-              ชื่อผู้ดำเนินการ / รหัสนิสิต (Operator ID):
-            </label>
-            <div class="password-input-wrap">
-              <User class="password-input-icon text-muted" />
-              <input
-                v-model="operatorInput"
-                type="text"
-                class="form-input admin-password-input"
-                placeholder="เช่น นิสิต 67160058 หรือ แอดมิน..."
-                @keyup.enter="handleVerifyAdminSubmit"
-              />
-            </div>
-            <span class="form-hint">
-              ระบุตัวตนผู้สั่งการเพื่อบันทึกลงในตารางประวัติการแก้ไข (Audit Log)
-            </span>
-          </div>
-
           <!-- ช่องกรอกรหัสผ่าน Admin -->
           <div class="form-group admin-auth-group">
             <label class="form-label font-medium">
