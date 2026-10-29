@@ -50,7 +50,9 @@ export const useSecurityStore = defineStore('security', () => {
   const quickNote = ref('')
   const apiActionLoading = ref(false)
   const isPageLoading = ref(false)
-  const clientIp = ref('')
+  const clientIp = ref(
+    (typeof window !== 'undefined' && window.localStorage?.getItem('secdash_client_ip')) || ''
+  )
 
   const aiReport = ref<AiReportData>({
     risk_level: 'low',
@@ -477,6 +479,9 @@ export const useSecurityStore = defineStore('security', () => {
             const serverState = await stateRes.json()
             if (serverState.client_ip) {
               clientIp.value = serverState.client_ip
+              if (typeof window !== 'undefined' && window.localStorage) {
+                localStorage.setItem('secdash_client_ip', serverState.client_ip)
+              }
             }
             if (Array.isArray(serverState.unbanned_ips)) {
               serverState.unbanned_ips.forEach((ip: string) => unbannedIps.value.add(ip))
@@ -490,7 +495,12 @@ export const useSecurityStore = defineStore('security', () => {
             const ipRes = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(3000) }).catch(() => null)
             if (ipRes && ipRes.ok) {
               const ipData = await ipRes.json()
-              if (ipData.ip) clientIp.value = ipData.ip
+              if (ipData.ip) {
+                clientIp.value = ipData.ip
+                if (typeof window !== 'undefined' && window.localStorage) {
+                  localStorage.setItem('secdash_client_ip', ipData.ip)
+                }
+              }
             }
           } catch {}
         }

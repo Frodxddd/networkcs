@@ -400,7 +400,8 @@ const closeUnbanConfirmModal = () => {
 
                   <!-- ประเภททราฟฟิก -->
                   <td class="td-type">
-                    <span class="type-text">{{ row.attackType }}</span>
+                    <span v-if="clientIp && row.ip === clientIp" class="type-text self-admin-type">อุปกรณ์ผู้ดูแลระบบ (Admin)</span>
+                    <span v-else class="type-text">{{ row.attackType }}</span>
                   </td>
 
                   <!-- จำนวนที่ตรวจพบ -->
@@ -1096,6 +1097,15 @@ const closeUnbanConfirmModal = () => {
   border: 1px dashed #334155 !important;
 }
 
+.self-admin-type {
+  color: #2563eb !important;
+  font-weight: 600;
+}
+
+:global(.careops-app.dark-mode) .self-admin-type {
+  color: #60a5fa !important;
+}
+
 .bold-ip {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
@@ -1141,6 +1151,15 @@ const closeUnbanConfirmModal = () => {
   background: #1e293b !important;
   color: #64748b !important;
   border: 1px dashed #334155 !important;
+}
+
+.self-admin-type {
+  color: #2563eb !important;
+  font-weight: 600;
+}
+
+:global(.careops-app.dark-mode) .self-admin-type {
+  color: #60a5fa !important;
 }
 
 .bold-ip {
