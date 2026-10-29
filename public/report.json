@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-10-29T10:54:17+00:00",
+ "generated_at": "2026-10-29T11:10:26+00:00",
  "firewall_start": "2026-10-10T15:19:00+00:00",
- "total_requests": 30529,
+ "total_requests": 30558,
  "attack_events": 13018,
  "unique_ips": 666,
  "status_counts": {
-  "4xx": 2780,
-  "2xx": 24332,
-  "3xx": 3020,
+  "4xx": 2782,
+  "2xx": 24358,
+  "3xx": 3021,
   "5xx": 373,
   "429": 24
  },
@@ -372,7 +372,7 @@
     "vuln_scan": 2
    },
    "last_seen": "2026-10-28 12:14:19",
-   "is_unbanned": false
+   "is_unbanned": true
   },
   {
    "ip": "206.81.12.187",
@@ -908,7 +908,15 @@
  ],
  "audit_logs": [
   {
-   "id": "f2b-2",
+   "id": "audit-1793272211869",
+   "timestamp": "2026-10-29 11:10:11",
+   "ip": "67.205.191.35",
+   "action": "UNBAN",
+   "actionLabel": "ปลดแบน (โดยแอดมิน)",
+   "detail": "ปลดแบนผ่านหน้าจัดการ IP (คำสั่ง iptables & Fail2ban สำเร็จ)"
+  },
+  {
+   "id": "f2b-3",
    "timestamp": "2026-10-29 09:04:43",
    "ip": "198.51.100.99",
    "action": "UNBAN",
@@ -916,7 +924,7 @@
    "detail": "ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [nginx-http-auth]"
   },
   {
-   "id": "f2b-1",
+   "id": "f2b-2",
    "timestamp": "2026-10-29 09:04:39",
    "ip": "198.51.100.99",
    "action": "BAN",
@@ -924,7 +932,7 @@
    "detail": "ระบบตรวจพบพฤติกรรมผิดปกติและบล็อกอัตโนมัติ • Jail [nginx-http-auth]"
   },
   {
-   "id": "f2b-3",
+   "id": "f2b-4",
    "timestamp": "2026-10-20 11:21:08",
    "ip": "203.0.113.9",
    "action": "BAN",
@@ -932,7 +940,7 @@
    "detail": "ระบบตรวจพบพฤติกรรมผิดปกติและบล็อกอัตโนมัติ • Jail [wp-login]"
   },
   {
-   "id": "f2b-4",
+   "id": "f2b-5",
    "timestamp": "2026-10-20 11:21:08",
    "ip": "203.0.113.9",
    "action": "UNBAN",
@@ -940,7 +948,7 @@
    "detail": "ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [wp-login]"
   },
   {
-   "id": "f2b-6",
+   "id": "f2b-7",
    "timestamp": "2026-10-10 15:51:06",
    "ip": "192.0.2.1",
    "action": "UNBAN",
@@ -948,7 +956,7 @@
    "detail": "ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [wp-login]"
   },
   {
-   "id": "f2b-5",
+   "id": "f2b-6",
    "timestamp": "2026-10-10 15:51:05",
    "ip": "192.0.2.1",
    "action": "BAN",
@@ -2066,6 +2074,11 @@
    "hour": "2026-10-29 10:00",
    "requests": 91,
    "attacks": 0
+  },
+  {
+   "hour": "2026-10-29 11:00",
+   "requests": 29,
+   "attacks": 0
   }
  ],
  "before_after": {
@@ -2074,7 +2087,7 @@
    "attacks": 12964
   },
   "after": {
-   "requests": 8613,
+   "requests": 8642,
    "attacks": 54
   }
  }
