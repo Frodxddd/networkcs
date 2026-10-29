@@ -242,9 +242,9 @@ export const useSecurityStore = defineStore('security', () => {
         if (saved) {
           const parsed = JSON.parse(saved)
           if (Array.isArray(parsed) && parsed.length > 0) {
-            // กรอง log mock เก่าที่มี IP 1.46.128.90 หรือ log จำลอง หรือ f2b เก่าที่ label ไม่ตรงทิ้ง
-            const clean = parsed.filter((l: any) => l.ip !== '1.46.128.90' && !l.id?.startsWith('log-') && !l.id?.startsWith('f2b-'))
-            if (clean.length > 0) return [...clean, ...defaultInitialLogs]
+            // กรองเฉพาะ mock IP เก่า 1.46.128.90 ทิ้ง รักษา log ของผู้ใช้ไว้ทั้งหมด
+            const clean = parsed.filter((l: any) => l.ip !== '1.46.128.90')
+            if (clean.length > 0) return clean
           }
         }
       } catch {
@@ -252,6 +252,48 @@ export const useSecurityStore = defineStore('security', () => {
       }
     }
     return defaultInitialLogs
+  }
+
+  // จัดการ Custom Threat Rows ที่ผู้ใช้เพิ่มเองผ่านแดชบอร์ด
+  const loadCustomThreatRows = (): ThreatRow[] => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const saved = localStorage.getItem('secdash_custom_threats')
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed)) return parsed
+        }
+      } catch {}
+    }
+    return []
+  }
+
+  const customThreatRows = ref<ThreatRow[]>(loadCustomThreatRows())
+
+  function addCustomThreatRow(row: ThreatRow) {
+    customThreatRows.value = [row, ...customThreatRows.value.filter(r => r.ip !== row.ip)]
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        localStorage.setItem('secdash_custom_threats', JSON.stringify(customThreatRows.value))
+      } catch {}
+    }
+    // ซิงค์ส่งขึ้นเซิร์ฟเวอร์
+    try {
+      const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
+      fetch(`${origin}/api/custom-ip`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
+        },
+        body: JSON.stringify({
+          ip: row.ip,
+          attackType: row.attackType,
+          isUnbanned: row.isUnbanned,
+          hits: row.hits
+        })
+      }).catch(() => null)
+    } catch {}
   }
 
   // จัดการรายชื่อ IP ที่ถูกปลดแบน เพื่อคงสถานะถาวรไม่ให้หายเมื่อรีเฟรชหน้าจอ
@@ -295,7 +337,7 @@ export const useSecurityStore = defineStore('security', () => {
     const timestamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
     
     const newLog: AuditLogRow = {
-      id: `log-${Date.now()}`,
+      id: `audit-${Date.now()}`,
       timestamp,
       ...entry
     }
@@ -310,12 +352,15 @@ export const useSecurityStore = defineStore('security', () => {
       }
     }
 
-    // ซิงค์ส่งขึ้นเซิร์ฟเวอร์แบบ Background (ถ้ามี API endpoint บนเซิร์ฟเวอร์)
+    // ซิงค์ส่งขึ้นเซิร์ฟเวอร์แบบ Background
     try {
       const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
       fetch(`${origin}/api/logs`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
+        },
         body: JSON.stringify(newLog)
       }).catch(() => null)
     } catch {
@@ -424,8 +469,38 @@ export const useSecurityStore = defineStore('security', () => {
             }
           })
 
-          threatRows.value = mappedAttackers
+          // รวม customThreatRows ที่แอดมินเพิ่มเองเข้าไปในตารางเสมอเพื่อไม่ให้หายหลังรีเฟรช
+          const customList = customThreatRows.value.slice()
+          const customMap = new Map(customList.map(r => [r.ip, r]))
+          customList.forEach(c => {
+            c.isUnbanned = unbannedIps.value.has(c.ip)
+          })
+
+          const mergedAttackers = [
+            ...customList,
+            ...mappedAttackers.filter(a => !customMap.has(a.ip))
+          ]
+          threatRows.value = mergedAttackers
         }
+
+        // ซิงค์ audit logs จาก Server API
+        try {
+          const logsRes = await fetch(`${origin}/api/logs`).catch(() => null)
+          if (logsRes && logsRes.ok) {
+            const serverLogs = await logsRes.json()
+            if (Array.isArray(serverLogs) && serverLogs.length > 0) {
+              const existingIds = new Set(auditLogs.value.map(l => l.id))
+              const newServerLogs = serverLogs.filter((l: any) => !existingIds.has(l.id))
+              if (newServerLogs.length > 0) {
+                auditLogs.value = [...newServerLogs, ...auditLogs.value].sort((a, b) => b.timestamp.localeCompare(a.timestamp))
+                if (typeof window !== 'undefined' && window.localStorage) {
+                  localStorage.setItem('secdash_audit_logs', JSON.stringify(auditLogs.value))
+                }
+              }
+            }
+          }
+        } catch {}
+
         if (data.audit_logs && Array.isArray(data.audit_logs)) {
           // ผสานข้อมูลจริงจาก Fail2ban บนเซิร์ฟเวอร์
           const manualLogs = auditLogs.value.filter(l => !l.id.startsWith('f2b-') && l.ip !== '1.46.128.90')
@@ -465,6 +540,8 @@ export const useSecurityStore = defineStore('security', () => {
     aiReport,
     hourlyRecords,
     threatRows,
+    customThreatRows,
+    addCustomThreatRow,
     auditLogs,
     unbannedIps,
     markIpUnbanned,

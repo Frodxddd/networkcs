@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useSecurityStore } from '../stores/security'
+import { useSecurityStore, type ThreatRow } from '../stores/security'
 import { useToast } from '../composables/useToast'
 import {
   Ban,
@@ -44,27 +44,30 @@ const handleAddSubmit = async () => {
     const nowFormatted = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
     const nowMs = now.getTime()
 
+    const newThreat: ThreatRow = {
+      id: `threat-${Date.now()}`,
+      ip,
+      attackType: quickNote.value || (isUnban ? 'ผู้สมัคร TCAS 68 / อาจารย์ ม.บูรพา' : 'บล็อกด้วยตนเองผ่านแดชบอร์ด'),
+      icon: isUnban ? 'check' : 'alert',
+      color: isUnban ? '#059669' : '#dc2626',
+      bg: isUnban ? '#d1fae5' : '#fee2e2',
+      threatIntensity: isUnban ? 15 : 75,
+      allocation: 30,
+      hits: isUnban ? '0 ครั้ง (อนุญาต)' : '1 ครั้ง (บล็อก)',
+      isUnbanned: isUnban,
+      lastSeen: nowFormatted,
+      lastSeenRaw: nowMs
+    }
+
     const existing = threatRows.value.find(r => r.ip === ip)
     if (existing) {
       existing.isUnbanned = isUnban
       existing.lastSeen = nowFormatted
       existing.lastSeenRaw = nowMs
     } else {
-      threatRows.value.unshift({
-        id: `threat-${Date.now()}`,
-        ip,
-        attackType: quickNote.value || (isUnban ? 'ผู้สมัคร TCAS 68 / อาจารย์ ม.บูรพา' : 'บล็อกด้วยตนเองผ่านแดชบอร์ด'),
-        icon: isUnban ? 'check' : 'alert',
-        color: isUnban ? '#059669' : '#dc2626',
-        bg: isUnban ? '#d1fae5' : '#fee2e2',
-        threatIntensity: isUnban ? 15 : 75,
-        allocation: 30,
-        hits: isUnban ? '0 ครั้ง (อนุญาต)' : '1 ครั้ง (บล็อก)',
-        isUnbanned: isUnban,
-        lastSeen: nowFormatted,
-        lastSeenRaw: nowMs
-      })
+      threatRows.value.unshift(newThreat)
     }
+    securityStore.addCustomThreatRow(newThreat)
 
     securityStore.addAuditLog({
       ip,
