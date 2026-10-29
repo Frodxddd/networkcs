@@ -87,38 +87,47 @@ const toggleUnbanRow = async (row: ThreatRow) => {
     const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
     const res = await fetch(`${origin}/api/${targetAction}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
+      },
       body: JSON.stringify({ ip: row.ip })
     })
+
     if (!res.ok) {
-      console.warn(`API responded with ${res.status}`)
+      const errData = await res.json().catch(() => ({}))
+      throw new Error(errData.detail || `เซิร์ฟเวอร์ตอบกลับสถานะ ${res.status}`)
     }
-  } catch {
-    // Fallback
-  } finally {
-    apiActionLoading.value = false
+
+    // อัปเดตสถานะเมื่อคำสั่งลบ/เพิ่มกฎ iptables และ fail2ban ทำงานสำเร็จจริงบนเซิร์ฟเวอร์
     row.isUnbanned = !row.isUnbanned
     const now = new Date()
     const pad = (n: number) => n.toString().padStart(2, '0')
     row.lastSeen = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
     row.lastSeenRaw = now.getTime()
+
     if (row.isUnbanned) {
       securityStore.addAuditLog({
         ip: row.ip,
         action: 'UNBAN',
-        actionLabel: 'ปลดแบน IP',
-        detail: `ปลดแบนผ่านหน้าจัดการ IP (${row.attackType})`
+        actionLabel: 'ปลดแบน (โดยแอดมิน)',
+        detail: `ปลดแบนผ่านหน้าจัดการ IP (คำสั่งลบ iptables DROP และ Fail2ban สำเร็จจริง)`
       })
-      showToast('success', `ปลดแบน IP ${row.ip} เรียบร้อย`, `ลบกฎ iptables DROP บนเซิร์ฟเวอร์แล้ว • ${row.attackType}`)
+      showToast('success', `ปลดแบน IP ${row.ip} เรียบร้อย`, `ระบบได้ลบกฎบล็อกออกจาก iptables DROP และ Fail2ban บนเซิร์ฟเวอร์จริงแล้ว`)
     } else {
       securityStore.addAuditLog({
         ip: row.ip,
         action: 'BAN',
-        actionLabel: 'บล็อก IP',
-        detail: `สั่งบล็อกซ้ำผ่านหน้าจัดการ IP (${row.attackType})`
+        actionLabel: 'บล็อก (โดยแอดมิน)',
+        detail: `สั่งบล็อกผ่านหน้าจัดการ IP (เพิ่มกฎ iptables DROP สำเร็จจริง)`
       })
-      showToast('info', `บล็อก IP ${row.ip} เรียบร้อย`, `เพิ่มกฎ iptables DROP บนเซิร์ฟเวอร์แล้ว • ${row.attackType}`)
+      showToast('info', `บล็อก IP ${row.ip} เรียบร้อย`, `ระบบได้เพิ่มกฎ iptables DROP บนเซิร์ฟเวอร์จริงแล้ว`)
     }
+  } catch (err: any) {
+    console.error('API Error in toggleUnbanRow:', err)
+    showToast('error', `เกิดข้อผิดพลาดในการ${targetAction === 'unban' ? 'ปลดแบน' : 'บล็อก'}`, err?.message || 'ไม่สามารถส่งคำสั่งไปยังเซิร์ฟเวอร์ได้')
+  } finally {
+    apiActionLoading.value = false
   }
 }
 

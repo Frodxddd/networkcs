@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-10-29T10:10:29+00:00",
+ "generated_at": "2026-10-29T10:25:02+00:00",
  "firewall_start": "2026-10-10T15:19:00+00:00",
- "total_requests": 30460,
+ "total_requests": 30497,
  "attack_events": 13018,
  "unique_ips": 666,
  "status_counts": {
-  "4xx": 2770,
-  "2xx": 24276,
-  "3xx": 3017,
+  "4xx": 2778,
+  "2xx": 24303,
+  "3xx": 3019,
   "5xx": 373,
   "429": 24
  },
@@ -827,48 +827,48 @@
    "timestamp": "2026-10-29 09:04:43",
    "ip": "198.51.100.99",
    "action": "UNBAN",
-   "actionLabel": "ปลดแบน IP",
-   "detail": "ดำเนินการโดย Fail2ban Jail [nginx-http-auth]"
+   "actionLabel": "หมดเวลาแบน (Auto)",
+   "detail": "ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [nginx-http-auth]"
   },
   {
    "id": "f2b-1",
    "timestamp": "2026-10-29 09:04:39",
    "ip": "198.51.100.99",
    "action": "BAN",
-   "actionLabel": "บล็อก IP",
-   "detail": "ดำเนินการโดย Fail2ban Jail [nginx-http-auth]"
+   "actionLabel": "บล็อกอัตโนมัติ (Fail2ban)",
+   "detail": "ระบบตรวจพบพฤติกรรมผิดปกติและบล็อกอัตโนมัติ • Jail [nginx-http-auth]"
   },
   {
    "id": "f2b-3",
    "timestamp": "2026-10-20 11:21:08",
    "ip": "203.0.113.9",
    "action": "BAN",
-   "actionLabel": "บล็อก IP",
-   "detail": "ดำเนินการโดย Fail2ban Jail [wp-login]"
+   "actionLabel": "บล็อกอัตโนมัติ (Fail2ban)",
+   "detail": "ระบบตรวจพบพฤติกรรมผิดปกติและบล็อกอัตโนมัติ • Jail [wp-login]"
   },
   {
    "id": "f2b-4",
    "timestamp": "2026-10-20 11:21:08",
    "ip": "203.0.113.9",
    "action": "UNBAN",
-   "actionLabel": "ปลดแบน IP",
-   "detail": "ดำเนินการโดย Fail2ban Jail [wp-login]"
+   "actionLabel": "หมดเวลาแบน (Auto)",
+   "detail": "ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [wp-login]"
   },
   {
    "id": "f2b-6",
    "timestamp": "2026-10-10 15:51:06",
    "ip": "192.0.2.1",
    "action": "UNBAN",
-   "actionLabel": "ปลดแบน IP",
-   "detail": "ดำเนินการโดย Fail2ban Jail [wp-login]"
+   "actionLabel": "หมดเวลาแบน (Auto)",
+   "detail": "ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [wp-login]"
   },
   {
    "id": "f2b-5",
    "timestamp": "2026-10-10 15:51:05",
    "ip": "192.0.2.1",
    "action": "BAN",
-   "actionLabel": "บล็อก IP",
-   "detail": "ดำเนินการโดย Fail2ban Jail [wp-login]"
+   "actionLabel": "บล็อกอัตโนมัติ (Fail2ban)",
+   "detail": "ระบบตรวจพบพฤติกรรมผิดปกติและบล็อกอัตโนมัติ • Jail [wp-login]"
   }
  ],
  "hourly": [
@@ -1979,7 +1979,7 @@
   },
   {
    "hour": "2026-10-29 10:00",
-   "requests": 22,
+   "requests": 59,
    "attacks": 0
   }
  ],
@@ -1989,7 +1989,7 @@
    "attacks": 12964
   },
   "after": {
-   "requests": 8544,
+   "requests": 8581,
    "attacks": 54
   }
  }

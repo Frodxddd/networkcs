@@ -22,15 +22,20 @@ const handleAddSubmit = async () => {
 
   try {
     const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
-    await fetch(`${origin}/api/${quickActionType.value}`, {
+    const res = await fetch(`${origin}/api/${quickActionType.value}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
+      },
       body: JSON.stringify({ ip, note: quickNote.value })
     })
-  } catch {
-    // API Fallback
-  } finally {
-    apiActionLoading.value = false
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}))
+      throw new Error(errData.detail || `เซิร์ฟเวอร์ตอบกลับสถานะ ${res.status}`)
+    }
+
     isAddModalOpen.value = false
 
     const now = new Date()
@@ -63,20 +68,25 @@ const handleAddSubmit = async () => {
     securityStore.addAuditLog({
       ip,
       action: isUnban ? 'UNBAN' : 'BAN',
-      actionLabel: isUnban ? 'ปลดแบน IP' : 'บล็อก IP',
+      actionLabel: isUnban ? 'ปลดแบน (โดยแอดมิน)' : 'บล็อก (โดยแอดมิน)',
       detail: quickNote.value
         ? `${isUnban ? 'ปลดแบน IP' : 'บล็อก IP'}: ${quickNote.value}`
-        : (isUnban ? 'ปลดแบนผ่านหน้าจัดการ IP (เพิ่มสิทธิ์ Whitelist)' : 'บล็อกผ่านหน้าจัดการ IP')
+        : (isUnban ? 'ปลดแบนผ่านหน้าจัดการ IP (คำสั่งสำเร็จจริง)' : 'บล็อกผ่านหน้าจัดการ IP (คำสั่งสำเร็จจริง)')
     })
 
     if (isUnban) {
-      showToast('success', `บันทึกการปลดแบน IP ${ip} สำเร็จ`, 'อัปเดตกฎไฟร์วอลล์ Whitelist เรียบร้อยแล้ว')
+      showToast('success', `ปลดแบน IP ${ip} สำเร็จ`, 'ระบบได้ลบกฎบล็อกออกจาก iptables DROP และ Fail2ban บนเซิร์ฟเวอร์จริงแล้ว')
     } else {
-      showToast('info', `บันทึกการบล็อก IP ${ip} สำเร็จ`, 'เพิ่มกฎ iptables DROP เรียบร้อยแล้ว')
+      showToast('info', `บล็อก IP ${ip} สำเร็จ`, 'ระบบได้เพิ่มกฎ iptables DROP บนเซิร์ฟเวอร์จริงแล้ว')
     }
 
     quickIp.value = ''
     quickNote.value = ''
+  } catch (err: any) {
+    console.error('API Error in AddIpModal:', err)
+    showToast('error', `เกิดข้อผิดพลาดในการ${isUnban ? 'ปลดแบน' : 'บล็อก'}`, err?.message || 'ไม่สามารถส่งคำสั่งไปยังเซิร์ฟเวอร์ได้')
+  } finally {
+    apiActionLoading.value = false
   }
 }
 </script>

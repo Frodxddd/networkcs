@@ -186,52 +186,52 @@ export const useSecurityStore = defineStore('security', () => {
   // 4. บันทึกประวัติการแก้ไขกฎไฟร์วอลล์ (Audit Logs - ดึงข้อมูลจริงจาก Fail2ban & ประวัติจริง)
   const defaultInitialLogs: AuditLogRow[] = [
     {
-      id: 'f2b-1',
+      id: 'f2b-2',
       timestamp: '2026-10-29 09:04:43',
       ip: '198.51.100.99',
       action: 'UNBAN',
-      actionLabel: 'ปลดแบน IP',
-      detail: 'ดำเนินการโดย Fail2ban Jail [nginx-http-auth]'
+      actionLabel: 'หมดเวลาแบน (Auto)',
+      detail: 'ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [nginx-http-auth]'
     },
     {
-      id: 'f2b-2',
+      id: 'f2b-1',
       timestamp: '2026-10-29 09:04:39',
       ip: '198.51.100.99',
       action: 'BAN',
-      actionLabel: 'บล็อก IP',
-      detail: 'ดำเนินการโดย Fail2ban Jail [nginx-http-auth]'
+      actionLabel: 'บล็อกอัตโนมัติ (Fail2ban)',
+      detail: 'ระบบตรวจพบพฤติกรรมผิดปกติและบล็อกอัตโนมัติ • Jail [nginx-http-auth]'
     },
     {
       id: 'f2b-3',
       timestamp: '2026-10-20 11:21:08',
       ip: '203.0.113.9',
       action: 'BAN',
-      actionLabel: 'บล็อก IP',
-      detail: 'ดำเนินการโดย Fail2ban Jail [wp-login]'
+      actionLabel: 'บล็อกอัตโนมัติ (Fail2ban)',
+      detail: 'ระบบตรวจพบพฤติกรรมผิดปกติและบล็อกอัตโนมัติ • Jail [wp-login]'
     },
     {
       id: 'f2b-4',
       timestamp: '2026-10-20 11:21:08',
       ip: '203.0.113.9',
       action: 'UNBAN',
-      actionLabel: 'ปลดแบน IP',
-      detail: 'ดำเนินการโดย Fail2ban Jail [wp-login]'
-    },
-    {
-      id: 'f2b-5',
-      timestamp: '2026-10-10 15:51:06',
-      ip: '192.0.2.1',
-      action: 'UNBAN',
-      actionLabel: 'ปลดแบน IP',
-      detail: 'ดำเนินการโดย Fail2ban Jail [wp-login]'
+      actionLabel: 'หมดเวลาแบน (Auto)',
+      detail: 'ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [wp-login]'
     },
     {
       id: 'f2b-6',
+      timestamp: '2026-10-10 15:51:06',
+      ip: '192.0.2.1',
+      action: 'UNBAN',
+      actionLabel: 'หมดเวลาแบน (Auto)',
+      detail: 'ระบบ Fail2ban ปลดอัตโนมัติหลังครบกำหนดเวลาแบน • Jail [wp-login]'
+    },
+    {
+      id: 'f2b-5',
       timestamp: '2026-10-10 15:51:05',
       ip: '192.0.2.1',
       action: 'BAN',
-      actionLabel: 'บล็อก IP',
-      detail: 'ดำเนินการโดย Fail2ban Jail [wp-login]'
+      actionLabel: 'บล็อกอัตโนมัติ (Fail2ban)',
+      detail: 'ระบบตรวจพบพฤติกรรมผิดปกติและบล็อกอัตโนมัติ • Jail [wp-login]'
     }
   ]
 
@@ -242,9 +242,9 @@ export const useSecurityStore = defineStore('security', () => {
         if (saved) {
           const parsed = JSON.parse(saved)
           if (Array.isArray(parsed) && parsed.length > 0) {
-            // กรอง log mock เก่าที่มี IP 1.46.128.90 หรือ log จำลองทิ้ง
-            const clean = parsed.filter((l: any) => l.ip !== '1.46.128.90' && !l.id?.startsWith('log-'))
-            if (clean.length > 0) return clean
+            // กรอง log mock เก่าที่มี IP 1.46.128.90 หรือ log จำลอง หรือ f2b เก่าที่ label ไม่ตรงทิ้ง
+            const clean = parsed.filter((l: any) => l.ip !== '1.46.128.90' && !l.id?.startsWith('log-') && !l.id?.startsWith('f2b-'))
+            if (clean.length > 0) return [...clean, ...defaultInitialLogs]
           }
         }
       } catch {
