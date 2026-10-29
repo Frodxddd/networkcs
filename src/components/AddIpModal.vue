@@ -8,7 +8,7 @@ import {
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
-const { isAddModalOpen, quickIp, quickActionType, quickNote, apiActionLoading, threatRows } = storeToRefs(securityStore)
+const { isAddModalOpen, quickIp, quickActionType, quickNote, apiActionLoading, threatRows, clientIp } = storeToRefs(securityStore)
 const { showToast } = useToast()
 
 const handleAddSubmit = async () => {
@@ -16,10 +16,16 @@ const handleAddSubmit = async () => {
     showToast('error', 'กรุณาระบุ IP Address', 'ตัวอย่าง: 1.46.128.90 หรือ 34.182.207.28')
     return
   }
-  apiActionLoading.value = true
   const ip = quickIp.value.trim()
   const isUnban = quickActionType.value === 'unban'
 
+  // ระบบป้องกัน Admin Self-Ban (ห้ามบล็อก IP ตัวเอง)
+  if (!isUnban && clientIp.value && ip === clientIp.value) {
+    showToast('error', 'ไม่อนุญาตให้บล็อก IP ของคุณเอง', `IP ${ip} คือ IP ของคุณที่กำลังใช้งานระบบอยู่ หากบล็อกจะทำให้ถูกตัดขาดจากเซิร์ฟเวอร์`)
+    return
+  }
+
+  apiActionLoading.value = true
   try {
     const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
     const res = await fetch(`${origin}/api/${quickActionType.value}`, {
@@ -28,7 +34,8 @@ const handleAddSubmit = async () => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
       },
-      body: JSON.stringify({ ip, note: quickNote.value })
+      body: JSON.stringify({ ip, note: quickNote.value }),
+      signal: AbortSignal.timeout(8000)
     })
 
     if (!res.ok) {
@@ -88,7 +95,11 @@ const handleAddSubmit = async () => {
     quickNote.value = ''
   } catch (err: any) {
     console.error('API Error in AddIpModal:', err)
-    showToast('error', `เกิดข้อผิดพลาดในการ${isUnban ? 'ปลดแบน' : 'บล็อก'}`, err?.message || 'ไม่สามารถส่งคำสั่งไปยังเซิร์ฟเวอร์ได้')
+    if (err.name === 'TimeoutError' || err.message?.includes('aborted') || err.message?.includes('timeout')) {
+      showToast('error', 'การเชื่อมต่อใช้เวลานานเกินไป (Timeout)', 'เซิร์ฟเวอร์ไม่ตอบสนองภายใน 8 วินาที')
+    } else {
+      showToast('error', `เกิดข้อผิดพลาดในการ${isUnban ? 'ปลดแบน' : 'บล็อก'}`, err?.message || 'ไม่สามารถส่งคำสั่งไปยังเซิร์ฟเวอร์ได้')
+    }
   } finally {
     apiActionLoading.value = false
   }

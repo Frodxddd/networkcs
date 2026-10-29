@@ -22,7 +22,7 @@ import {
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
-const { threatRows, isAddModalOpen, apiActionLoading, isPageLoading } = storeToRefs(securityStore)
+const { threatRows, isAddModalOpen, apiActionLoading, isPageLoading, clientIp } = storeToRefs(securityStore)
 const { showToast } = useToast()
 
 const ipSearchQuery = ref('')
@@ -81,8 +81,15 @@ const filteredThreatRows = computed(() => {
 })
 
 const toggleUnbanRow = async (row: ThreatRow) => {
-  apiActionLoading.value = true
   const targetAction = row.isUnbanned ? 'ban' : 'unban'
+
+  // ระบบป้องกัน Admin Self-Ban (ห้ามบล็อก IP ตัวเอง)
+  if (targetAction === 'ban' && clientIp.value && row.ip === clientIp.value) {
+    showToast('error', 'ไม่อนุญาตให้บล็อก IP ของคุณเอง', `IP ${row.ip} คือ IP ของคุณที่กำลังใช้งานอยู่ หากบล็อกจะทำให้ตัดขาดจากการเข้าถึงเซิร์ฟเวอร์`)
+    return
+  }
+
+  apiActionLoading.value = true
   try {
     const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
     const res = await fetch(`${origin}/api/${targetAction}`, {
@@ -91,7 +98,8 @@ const toggleUnbanRow = async (row: ThreatRow) => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
       },
-      body: JSON.stringify({ ip: row.ip })
+      body: JSON.stringify({ ip: row.ip }),
+      signal: AbortSignal.timeout(8000)
     })
 
     if (!res.ok) {
@@ -127,7 +135,11 @@ const toggleUnbanRow = async (row: ThreatRow) => {
     }
   } catch (err: any) {
     console.error('API Error in toggleUnbanRow:', err)
-    showToast('error', `เกิดข้อผิดพลาดในการ${targetAction === 'unban' ? 'ปลดแบน' : 'บล็อก'}`, err?.message || 'ไม่สามารถส่งคำสั่งไปยังเซิร์ฟเวอร์ได้')
+    if (err.name === 'TimeoutError' || err.message?.includes('aborted') || err.message?.includes('timeout')) {
+      showToast('error', 'การเชื่อมต่อใช้เวลานานเกินไป (Timeout)', 'เซิร์ฟเวอร์ไม่ตอบสนองภายใน 8 วินาที (หากเป็น IP ของตนเอง อาจเกิดจากกฎไฟร์วอลล์บล็อกอยู่)')
+    } else {
+      showToast('error', `เกิดข้อผิดพลาดในการ${targetAction === 'unban' ? 'ปลดแบน' : 'บล็อก'}`, err?.message || 'ไม่สามารถส่งคำสั่งไปยังเซิร์ฟเวอร์ได้')
+    }
   } finally {
     apiActionLoading.value = false
   }
@@ -171,8 +183,11 @@ const handleActionClick = (row: ThreatRow) => {
 const handleConfirmUnbanSubmit = async () => {
   if (!isUnbanInputMatch.value || !unbanConfirmRow.value || apiActionLoading.value) return
   const row = unbanConfirmRow.value
-  await toggleUnbanRow(row)
-  closeUnbanConfirmModal()
+  try {
+    await toggleUnbanRow(row)
+  } finally {
+    closeUnbanConfirmModal()
+  }
 }
 
 const closeUnbanConfirmModal = () => {
@@ -372,7 +387,10 @@ const closeUnbanConfirmModal = () => {
                 >
                   <!-- IP Address -->
                   <td class="td-ip">
-                    <span class="mono bold-ip">{{ row.ip }}</span>
+                    <div class="ip-cell-flex">
+                      <span class="mono bold-ip">{{ row.ip }}</span>
+                      <span v-if="clientIp && row.ip === clientIp" class="self-ip-badge" title="IP อินเทอร์เน็ตปัจจุบันของคุณ">คุณ (Current)</span>
+                    </div>
                   </td>
 
                   <!-- วันเวลาล่าสุด (ไม่มีกรอบ ไม่ใส่กล่อง AI slop) -->
@@ -417,6 +435,16 @@ const closeUnbanConfirmModal = () => {
                   <!-- ปุ่ม Action ปลดแบน / บล็อกซ้ำ -->
                   <td class="td-action text-right">
                     <button
+                      v-if="row.isUnbanned && clientIp && row.ip === clientIp"
+                      class="action-pill-btn disabled-self-btn"
+                      disabled
+                      title="ไม่สามารถบล็อก IP ปัจจุบันของคุณเองได้ เพื่อป้องกันการถูกตัดการเชื่อมต่อจากเซิร์ฟเวอร์"
+                    >
+                      <ShieldAlert class="tiny-icon" />
+                      <span>ห้ามบล็อกตัวเอง</span>
+                    </button>
+                    <button
+                      v-else
                       class="action-pill-btn"
                       :class="row.isUnbanned ? 'reban-btn' : 'unban-btn'"
                       :disabled="apiActionLoading"
@@ -1029,6 +1057,45 @@ const closeUnbanConfirmModal = () => {
 /* ==========================================================
    IP ADDRESS CELL & TYPOGRAPHY
    ========================================================== */
+.ip-cell-flex {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.self-ip-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 9999px;
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  letter-spacing: 0.02em;
+}
+
+:global(.careops-app.dark-mode) .self-ip-badge {
+  background: rgba(37, 99, 235, 0.2);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.disabled-self-btn {
+  background: #f1f5f9 !important;
+  color: #94a3b8 !important;
+  border: 1px dashed #cbd5e1 !important;
+  cursor: not-allowed !important;
+  opacity: 0.85;
+}
+
+:global(.careops-app.dark-mode) .disabled-self-btn {
+  background: #1e293b !important;
+  color: #64748b !important;
+  border: 1px dashed #334155 !important;
+}
+
 .bold-ip {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
@@ -1037,7 +1104,46 @@ const closeUnbanConfirmModal = () => {
   letter-spacing: -0.01em;
 }
 
-:global(.careops-app.dark-mode) .bold-ip {
+:global(.careops-app.dark-mode) .ip-cell-flex {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.self-ip-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 9999px;
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  letter-spacing: 0.02em;
+}
+
+:global(.careops-app.dark-mode) .self-ip-badge {
+  background: rgba(37, 99, 235, 0.2);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.disabled-self-btn {
+  background: #f1f5f9 !important;
+  color: #94a3b8 !important;
+  border: 1px dashed #cbd5e1 !important;
+  cursor: not-allowed !important;
+  opacity: 0.85;
+}
+
+:global(.careops-app.dark-mode) .disabled-self-btn {
+  background: #1e293b !important;
+  color: #64748b !important;
+  border: 1px dashed #334155 !important;
+}
+
+.bold-ip {
   color: #f8fafc;
 }
 

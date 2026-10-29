@@ -50,6 +50,7 @@ export const useSecurityStore = defineStore('security', () => {
   const quickNote = ref('')
   const apiActionLoading = ref(false)
   const isPageLoading = ref(false)
+  const clientIp = ref('')
 
   const aiReport = ref<AiReportData>({
     risk_level: 'low',
@@ -469,7 +470,32 @@ export const useSecurityStore = defineStore('security', () => {
             }
           })
 
-          // รวม customThreatRows ที่แอดมินเพิ่มเองเข้าไปในตารางเสมอเพื่อไม่ให้หายหลังรีเฟรช
+          // ซิงค์ state และ client IP จาก Server API
+        try {
+          const stateRes = await fetch(`${origin}/api/state`, { signal: AbortSignal.timeout(4000) }).catch(() => null)
+          if (stateRes && stateRes.ok) {
+            const serverState = await stateRes.json()
+            if (serverState.client_ip) {
+              clientIp.value = serverState.client_ip
+            }
+            if (Array.isArray(serverState.unbanned_ips)) {
+              serverState.unbanned_ips.forEach((ip: string) => unbannedIps.value.add(ip))
+            }
+          }
+        } catch {}
+
+        // สำรองหา client IP ผ่าน ipify หาก server ไม่ได้ส่งกลับมา
+        if (!clientIp.value) {
+          try {
+            const ipRes = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(3000) }).catch(() => null)
+            if (ipRes && ipRes.ok) {
+              const ipData = await ipRes.json()
+              if (ipData.ip) clientIp.value = ipData.ip
+            }
+          } catch {}
+        }
+
+        // รวม customThreatRows ที่แอดมินเพิ่มเองเข้าไปในตารางเสมอเพื่อไม่ให้หายหลังรีเฟรช
           const customList = customThreatRows.value.slice()
           const customMap = new Map(customList.map(r => [r.ip, r]))
           customList.forEach(c => {
@@ -536,6 +562,7 @@ export const useSecurityStore = defineStore('security', () => {
     quickActionType,
     quickNote,
     apiActionLoading,
+    clientIp,
     rawReportStats,
     aiReport,
     hourlyRecords,
