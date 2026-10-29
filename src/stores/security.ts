@@ -254,6 +254,39 @@ export const useSecurityStore = defineStore('security', () => {
     return defaultInitialLogs
   }
 
+  // จัดการรายชื่อ IP ที่ถูกปลดแบน เพื่อคงสถานะถาวรไม่ให้หายเมื่อรีเฟรชหน้าจอ
+  const loadUnbannedIps = (): Set<string> => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const saved = localStorage.getItem('secdash_unbanned_ips')
+        if (saved) {
+          const arr = JSON.parse(saved)
+          if (Array.isArray(arr)) return new Set(arr)
+        }
+      } catch {}
+    }
+    return new Set<string>()
+  }
+
+  const unbannedIps = ref<Set<string>>(loadUnbannedIps())
+
+  function markIpUnbanned(ip: string, unbanned: boolean) {
+    if (unbanned) {
+      unbannedIps.value.add(ip)
+    } else {
+      unbannedIps.value.delete(ip)
+    }
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        localStorage.setItem('secdash_unbanned_ips', JSON.stringify([...unbannedIps.value]))
+      } catch {}
+    }
+    const row = threatRows.value.find(r => r.ip === ip)
+    if (row) {
+      row.isUnbanned = unbanned
+    }
+  }
+
   const auditLogs = ref<AuditLogRow[]>(loadAuditLogs())
 
   function addAuditLog(entry: Omit<AuditLogRow, 'id' | 'timestamp'>) {
@@ -295,10 +328,25 @@ export const useSecurityStore = defineStore('security', () => {
     try {
       const basePath = import.meta.env.BASE_URL || '/secdash/'
       const t = Date.now()
-      const [repRes, aiRes] = await Promise.all([
+      const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
+      const [repRes, aiRes, stateRes] = await Promise.all([
         fetch(`${basePath}report.json?t=${t}`).catch(() => fetch(`/report.json?t=${t}`).catch(() => null)),
-        fetch(`${basePath}ai_report.json?t=${t}`).catch(() => fetch(`/ai_report.json?t=${t}`).catch(() => null))
+        fetch(`${basePath}ai_report.json?t=${t}`).catch(() => fetch(`/ai_report.json?t=${t}`).catch(() => null)),
+        fetch(`${origin}/api/state`).catch(() => null)
       ])
+
+      // 1. ซิงค์สถานะ unbanned จาก server state API
+      if (stateRes && stateRes.ok) {
+        try {
+          const stateData = await stateRes.json()
+          if (Array.isArray(stateData.unbanned_ips)) {
+            stateData.unbanned_ips.forEach((ip: string) => unbannedIps.value.add(ip))
+            if (typeof window !== 'undefined' && window.localStorage) {
+              localStorage.setItem('secdash_unbanned_ips', JSON.stringify([...unbannedIps.value]))
+            }
+          }
+        } catch {}
+      }
 
       if (repRes && repRes.ok) {
         const data = await repRes.json()
@@ -351,6 +399,15 @@ export const useSecurityStore = defineStore('security', () => {
             } else {
               rawTime = Date.now() - (idx + 1) * 3600000 * 24
             }
+            // ตรวจสอบว่า IP นี้ถูกปลดแบนหรือไม่ (จำสถานะถาวร)
+            const isUnbanned = unbannedIps.value.has(a.ip) || a.is_unbanned === true
+            if (isUnbanned) {
+              unbannedIps.value.add(a.ip)
+              icon = 'check'
+              color = '#059669'
+              bg = '#d1fae5'
+            }
+
             return {
               id: `threat-${idx + 1}`,
               ip: a.ip,
@@ -361,7 +418,7 @@ export const useSecurityStore = defineStore('security', () => {
               threatIntensity: a.severity === 'high' ? 85 : 55,
               allocation: Math.min(100, Math.max(10, Math.round((a.hits / 10100) * 100))),
               hits: `${a.hits.toLocaleString()} ครั้ง`,
-              isUnbanned: false,
+              isUnbanned,
               lastSeen: lastSeenStr,
               lastSeenRaw: rawTime
             }
@@ -409,6 +466,8 @@ export const useSecurityStore = defineStore('security', () => {
     hourlyRecords,
     threatRows,
     auditLogs,
+    unbannedIps,
+    markIpUnbanned,
     addAuditLog,
     fetchReportData
   }

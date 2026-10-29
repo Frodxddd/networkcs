@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-10-29T10:25:02+00:00",
+ "generated_at": "2026-10-29T10:53:04+00:00",
  "firewall_start": "2026-10-10T15:19:00+00:00",
- "total_requests": 30497,
+ "total_requests": 30529,
  "attack_events": 13018,
  "unique_ips": 666,
  "status_counts": {
-  "4xx": 2778,
-  "2xx": 24303,
-  "3xx": 3019,
+  "4xx": 2780,
+  "2xx": 24332,
+  "3xx": 3020,
   "5xx": 373,
   "429": 24
  },
@@ -54,7 +54,8 @@
     "xmlrpc_abuse": 10097,
     "user_enumeration": 3
    },
-   "last_seen": "2026-10-09 09:40:50"
+   "last_seen": "2026-10-09 09:40:50",
+   "is_unbanned": false
   },
   {
    "ip": "67.205.191.35",
@@ -64,7 +65,8 @@
     "user_enumeration": 9,
     "login_failed": 672
    },
-   "last_seen": "2026-10-08 15:06:07"
+   "last_seen": "2026-10-08 15:06:07",
+   "is_unbanned": false
   },
   {
    "ip": "35.214.108.214",
@@ -73,7 +75,8 @@
    "types": {
     "vuln_scan": 207
    },
-   "last_seen": "2026-10-09 17:55:46"
+   "last_seen": "2026-10-09 17:55:46",
+   "is_unbanned": false
   },
   {
    "ip": "34.169.31.210",
@@ -83,7 +86,8 @@
     "xmlrpc_abuse": 181,
     "user_enumeration": 2
    },
-   "last_seen": "2026-10-08 12:49:09"
+   "last_seen": "2026-10-08 12:49:09",
+   "is_unbanned": false
   },
   {
    "ip": "146.148.44.249",
@@ -93,7 +97,8 @@
     "xmlrpc_abuse": 181,
     "user_enumeration": 2
    },
-   "last_seen": "2026-10-08 16:15:12"
+   "last_seen": "2026-10-08 16:15:12",
+   "is_unbanned": false
   },
   {
    "ip": "136.86.194.86",
@@ -103,7 +108,8 @@
     "xmlrpc_abuse": 181,
     "user_enumeration": 2
    },
-   "last_seen": "2026-10-07 14:02:08"
+   "last_seen": "2026-10-07 14:02:08",
+   "is_unbanned": false
   },
   {
    "ip": "34.135.56.67",
@@ -113,7 +119,8 @@
     "xmlrpc_abuse": 181,
     "user_enumeration": 2
    },
-   "last_seen": "2026-10-07 16:03:43"
+   "last_seen": "2026-10-07 16:03:43",
+   "is_unbanned": false
   },
   {
    "ip": "45.138.12.51",
@@ -122,7 +129,8 @@
    "types": {
     "vuln_scan": 138
    },
-   "last_seen": "2026-10-07 23:53:29"
+   "last_seen": "2026-10-07 23:53:29",
+   "is_unbanned": false
   },
   {
    "ip": "91.92.242.37",
@@ -131,7 +139,8 @@
    "types": {
     "vuln_scan": 126
    },
-   "last_seen": "2026-10-06 05:56:51"
+   "last_seen": "2026-10-06 05:56:51",
+   "is_unbanned": false
   },
   {
    "ip": "62.60.130.235",
@@ -140,7 +149,8 @@
    "types": {
     "login_failed": 119
    },
-   "last_seen": "2026-10-09 19:12:21"
+   "last_seen": "2026-10-09 19:12:21",
+   "is_unbanned": false
   },
   {
    "ip": "45.148.10.5",
@@ -149,7 +159,8 @@
    "types": {
     "vuln_scan": 104
    },
-   "last_seen": "2026-10-09 16:54:31"
+   "last_seen": "2026-10-09 16:54:31",
+   "is_unbanned": false
   },
   {
    "ip": "89.126.211.166",
@@ -158,7 +169,8 @@
    "types": {
     "vuln_scan": 82
    },
-   "last_seen": "2026-10-10 09:25:24"
+   "last_seen": "2026-10-10 09:25:24",
+   "is_unbanned": false
   },
   {
    "ip": "186.182.105.49",
@@ -167,7 +179,8 @@
    "types": {
     "vuln_scan": 82
    },
-   "last_seen": "2026-10-10 14:52:08"
+   "last_seen": "2026-10-10 14:52:08",
+   "is_unbanned": false
   },
   {
    "ip": "45.43.60.98",
@@ -176,7 +189,8 @@
    "types": {
     "vuln_scan": 82
    },
-   "last_seen": "2026-10-09 17:08:27"
+   "last_seen": "2026-10-09 17:08:27",
+   "is_unbanned": false
   },
   {
    "ip": "45.138.12.27",
@@ -185,7 +199,8 @@
    "types": {
     "vuln_scan": 69
    },
-   "last_seen": "2026-10-08 17:46:18"
+   "last_seen": "2026-10-08 17:46:18",
+   "is_unbanned": false
   },
   {
    "ip": "59.3.43.121",
@@ -194,7 +209,8 @@
    "types": {
     "vuln_scan": 60
    },
-   "last_seen": "2026-10-08 06:37:21"
+   "last_seen": "2026-10-08 06:37:21",
+   "is_unbanned": false
   },
   {
    "ip": "89.126.214.24",
@@ -203,7 +219,8 @@
    "types": {
     "vuln_scan": 41
    },
-   "last_seen": "2026-10-10 07:08:56"
+   "last_seen": "2026-10-10 07:08:56",
+   "is_unbanned": false
   },
   {
    "ip": "160.250.132.238",
@@ -212,7 +229,8 @@
    "types": {
     "vuln_scan": 41
    },
-   "last_seen": "2026-10-06 02:52:42"
+   "last_seen": "2026-10-06 02:52:42",
+   "is_unbanned": false
   },
   {
    "ip": "39.114.167.228",
@@ -221,7 +239,8 @@
    "types": {
     "vuln_scan": 41
    },
-   "last_seen": "2026-10-07 14:18:06"
+   "last_seen": "2026-10-07 14:18:06",
+   "is_unbanned": false
   },
   {
    "ip": "165.99.207.153",
@@ -230,7 +249,8 @@
    "types": {
     "vuln_scan": 41
    },
-   "last_seen": "2026-10-07 18:17:11"
+   "last_seen": "2026-10-07 18:17:11",
+   "is_unbanned": false
   },
   {
    "ip": "43.155.202.36",
@@ -239,7 +259,8 @@
    "types": {
     "vuln_scan": 41
    },
-   "last_seen": "2026-10-09 09:39:29"
+   "last_seen": "2026-10-09 09:39:29",
+   "is_unbanned": false
   },
   {
    "ip": "165.154.218.226",
@@ -248,7 +269,8 @@
    "types": {
     "vuln_scan": 39
    },
-   "last_seen": "2026-10-06 10:55:37"
+   "last_seen": "2026-10-06 10:55:37",
+   "is_unbanned": false
   },
   {
    "ip": "101.109.32.152",
@@ -258,7 +280,8 @@
     "login_failed": 29,
     "login_ratelimited": 4
    },
-   "last_seen": "2026-10-11 12:33:53"
+   "last_seen": "2026-10-11 12:33:53",
+   "is_unbanned": false
   },
   {
    "ip": "129.213.151.234",
@@ -267,7 +290,8 @@
    "types": {
     "vuln_scan": 21
    },
-   "last_seen": "2026-10-07 00:07:18"
+   "last_seen": "2026-10-07 00:07:18",
+   "is_unbanned": false
   },
   {
    "ip": "125.25.127.153",
@@ -276,7 +300,8 @@
    "types": {
     "login_failed": 10
    },
-   "last_seen": "2026-10-22 18:03:26"
+   "last_seen": "2026-10-22 18:03:26",
+   "is_unbanned": false
   },
   {
    "ip": "96.62.224.241",
@@ -285,7 +310,8 @@
    "types": {
     "vuln_scan": 6
    },
-   "last_seen": "2026-10-10 12:45:07"
+   "last_seen": "2026-10-10 12:45:07",
+   "is_unbanned": false
   },
   {
    "ip": "45.138.12.16",
@@ -294,7 +320,8 @@
    "types": {
     "xmlrpc_abuse": 6
    },
-   "last_seen": "2026-10-09 09:21:40"
+   "last_seen": "2026-10-09 09:21:40",
+   "is_unbanned": false
   },
   {
    "ip": "20.106.17.91",
@@ -303,7 +330,8 @@
    "types": {
     "vuln_scan": 6
    },
-   "last_seen": "2026-10-07 19:34:27"
+   "last_seen": "2026-10-07 19:34:27",
+   "is_unbanned": false
   },
   {
    "ip": "34.31.120.130",
@@ -312,7 +340,8 @@
    "types": {
     "vuln_scan": 5
    },
-   "last_seen": "2026-10-06 09:27:08"
+   "last_seen": "2026-10-06 09:27:08",
+   "is_unbanned": false
   },
   {
    "ip": "91.148.245.81",
@@ -321,7 +350,8 @@
    "types": {
     "vuln_scan": 5
    },
-   "last_seen": "2026-10-07 03:46:27"
+   "last_seen": "2026-10-07 03:46:27",
+   "is_unbanned": false
   },
   {
    "ip": "96.126.130.210",
@@ -330,7 +360,8 @@
    "types": {
     "vuln_scan": 4
    },
-   "last_seen": "2026-10-08 07:11:56"
+   "last_seen": "2026-10-08 07:11:56",
+   "is_unbanned": false
   },
   {
    "ip": "101.109.96.116",
@@ -340,7 +371,8 @@
     "xmlrpc_abuse": 2,
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-28 12:14:19"
+   "last_seen": "2026-10-28 12:14:19",
+   "is_unbanned": false
   },
   {
    "ip": "206.81.12.187",
@@ -349,7 +381,8 @@
    "types": {
     "vuln_scan": 4
    },
-   "last_seen": "2026-10-09 22:45:42"
+   "last_seen": "2026-10-09 22:45:42",
+   "is_unbanned": false
   },
   {
    "ip": "156.146.51.203",
@@ -358,7 +391,8 @@
    "types": {
     "vuln_scan": 4
    },
-   "last_seen": "2026-10-07 03:24:53"
+   "last_seen": "2026-10-07 03:24:53",
+   "is_unbanned": false
   },
   {
    "ip": "221.159.119.6",
@@ -367,7 +401,8 @@
    "types": {
     "vuln_scan": 4
    },
-   "last_seen": "2026-10-09 08:53:14"
+   "last_seen": "2026-10-09 08:53:14",
+   "is_unbanned": false
   },
   {
    "ip": "138.199.39.186",
@@ -376,7 +411,8 @@
    "types": {
     "vuln_scan": 4
    },
-   "last_seen": "2026-10-07 11:55:53"
+   "last_seen": "2026-10-07 11:55:53",
+   "is_unbanned": false
   },
   {
    "ip": "45.138.12.6",
@@ -385,7 +421,8 @@
    "types": {
     "vuln_scan": 3
    },
-   "last_seen": "2026-10-08 01:24:22"
+   "last_seen": "2026-10-08 01:24:22",
+   "is_unbanned": false
   },
   {
    "ip": "45.148.10.120",
@@ -394,7 +431,8 @@
    "types": {
     "vuln_scan": 3
    },
-   "last_seen": "2026-10-09 19:23:41"
+   "last_seen": "2026-10-09 19:23:41",
+   "is_unbanned": false
   },
   {
    "ip": "202.28.78.215",
@@ -403,7 +441,8 @@
    "types": {
     "login_failed": 3
    },
-   "last_seen": "2026-10-28 06:04:39"
+   "last_seen": "2026-10-28 06:04:39",
+   "is_unbanned": false
   },
   {
    "ip": "202.28.78.214",
@@ -413,7 +452,8 @@
     "xmlrpc_abuse": 1,
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-28 11:01:32"
+   "last_seen": "2026-10-28 11:01:32",
+   "is_unbanned": false
   },
   {
    "ip": "169.40.142.26",
@@ -422,7 +462,8 @@
    "types": {
     "vuln_scan": 3
    },
-   "last_seen": "2026-10-07 04:04:51"
+   "last_seen": "2026-10-07 04:04:51",
+   "is_unbanned": false
   },
   {
    "ip": "45.153.102.164",
@@ -431,7 +472,8 @@
    "types": {
     "vuln_scan": 3
    },
-   "last_seen": "2026-10-07 08:25:37"
+   "last_seen": "2026-10-07 08:25:37",
+   "is_unbanned": false
   },
   {
    "ip": "206.189.233.36",
@@ -440,7 +482,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-08 19:02:30"
+   "last_seen": "2026-10-08 19:02:30",
+   "is_unbanned": false
   },
   {
    "ip": "202.28.78.251",
@@ -449,7 +492,8 @@
    "types": {
     "login_failed": 2
    },
-   "last_seen": "2026-10-22 02:33:40"
+   "last_seen": "2026-10-22 02:33:40",
+   "is_unbanned": false
   },
   {
    "ip": "95.235.198.195",
@@ -458,7 +502,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-10 13:54:18"
+   "last_seen": "2026-10-10 13:54:18",
+   "is_unbanned": false
   },
   {
    "ip": "49.48.48.149",
@@ -467,7 +512,8 @@
    "types": {
     "user_enumeration": 2
    },
-   "last_seen": "2026-10-26 13:03:12"
+   "last_seen": "2026-10-26 13:03:12",
+   "is_unbanned": false
   },
   {
    "ip": "31.76.111.195",
@@ -476,7 +522,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-06 05:26:21"
+   "last_seen": "2026-10-06 05:26:21",
+   "is_unbanned": false
   },
   {
    "ip": "167.172.232.142",
@@ -485,7 +532,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-06 10:31:13"
+   "last_seen": "2026-10-06 10:31:13",
+   "is_unbanned": false
   },
   {
    "ip": "209.38.255.199",
@@ -494,7 +542,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-06 12:14:59"
+   "last_seen": "2026-10-06 12:14:59",
+   "is_unbanned": false
   },
   {
    "ip": "167.71.233.141",
@@ -503,7 +552,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-06 21:45:40"
+   "last_seen": "2026-10-06 21:45:40",
+   "is_unbanned": false
   },
   {
    "ip": "46.151.182.7",
@@ -512,7 +562,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-07 08:26:33"
+   "last_seen": "2026-10-07 08:26:33",
+   "is_unbanned": false
   },
   {
    "ip": "71.74.3.176",
@@ -521,7 +572,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-07 12:09:24"
+   "last_seen": "2026-10-07 12:09:24",
+   "is_unbanned": false
   },
   {
    "ip": "124.70.71.204",
@@ -530,7 +582,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-07 14:08:33"
+   "last_seen": "2026-10-07 14:08:33",
+   "is_unbanned": false
   },
   {
    "ip": "167.235.185.190",
@@ -539,7 +592,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-09 18:41:21"
+   "last_seen": "2026-10-09 18:41:21",
+   "is_unbanned": false
   },
   {
    "ip": "142.93.231.234",
@@ -548,7 +602,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-09 19:00:35"
+   "last_seen": "2026-10-09 19:00:35",
+   "is_unbanned": false
   },
   {
    "ip": "91.92.240.86",
@@ -557,7 +612,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-09 22:21:52"
+   "last_seen": "2026-10-09 22:21:52",
+   "is_unbanned": false
   },
   {
    "ip": "80.94.92.65",
@@ -566,7 +622,8 @@
    "types": {
     "vuln_scan": 2
    },
-   "last_seen": "2026-10-09 23:29:15"
+   "last_seen": "2026-10-09 23:29:15",
+   "is_unbanned": false
   },
   {
    "ip": "45.138.12.188",
@@ -575,7 +632,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-08 02:36:50"
+   "last_seen": "2026-10-08 02:36:50",
+   "is_unbanned": false
   },
   {
    "ip": "64.62.156.80",
@@ -584,7 +642,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-08 05:48:24"
+   "last_seen": "2026-10-08 05:48:24",
+   "is_unbanned": false
   },
   {
    "ip": "198.235.24.10",
@@ -593,7 +652,8 @@
    "types": {
     "xmlrpc_abuse": 1
    },
-   "last_seen": "2026-10-08 07:21:02"
+   "last_seen": "2026-10-08 07:21:02",
+   "is_unbanned": false
   },
   {
    "ip": "144.172.98.192",
@@ -602,7 +662,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-08 08:05:13"
+   "last_seen": "2026-10-08 08:05:13",
+   "is_unbanned": false
   },
   {
    "ip": "216.180.246.24",
@@ -611,7 +672,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-08 13:03:45"
+   "last_seen": "2026-10-08 13:03:45",
+   "is_unbanned": false
   },
   {
    "ip": "94.102.56.99",
@@ -620,7 +682,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-08 17:23:53"
+   "last_seen": "2026-10-08 17:23:53",
+   "is_unbanned": false
   },
   {
    "ip": "93.123.109.101",
@@ -629,7 +692,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-08 23:46:50"
+   "last_seen": "2026-10-08 23:46:50",
+   "is_unbanned": false
   },
   {
    "ip": "150.109.254.122",
@@ -638,7 +702,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-10 01:34:41"
+   "last_seen": "2026-10-10 01:34:41",
+   "is_unbanned": false
   },
   {
    "ip": "45.138.12.21",
@@ -647,7 +712,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-10 07:51:53"
+   "last_seen": "2026-10-10 07:51:53",
+   "is_unbanned": false
   },
   {
    "ip": "205.210.31.128",
@@ -656,7 +722,8 @@
    "types": {
     "xmlrpc_abuse": 1
    },
-   "last_seen": "2026-10-10 09:46:12"
+   "last_seen": "2026-10-10 09:46:12",
+   "is_unbanned": false
   },
   {
    "ip": "184.105.139.69",
@@ -665,7 +732,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-10 10:50:36"
+   "last_seen": "2026-10-10 10:50:36",
+   "is_unbanned": false
   },
   {
    "ip": "198.235.24.161",
@@ -674,7 +742,8 @@
    "types": {
     "xmlrpc_abuse": 1
    },
-   "last_seen": "2026-10-06 00:16:17"
+   "last_seen": "2026-10-06 00:16:17",
+   "is_unbanned": false
   },
   {
    "ip": "198.235.24.144",
@@ -683,7 +752,8 @@
    "types": {
     "xmlrpc_abuse": 1
    },
-   "last_seen": "2026-10-06 03:10:22"
+   "last_seen": "2026-10-06 03:10:22",
+   "is_unbanned": false
   },
   {
    "ip": "184.105.247.254",
@@ -692,7 +762,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-06 08:17:32"
+   "last_seen": "2026-10-06 08:17:32",
+   "is_unbanned": false
   },
   {
    "ip": "163.61.91.104",
@@ -701,7 +772,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-06 11:32:30"
+   "last_seen": "2026-10-06 11:32:30",
+   "is_unbanned": false
   },
   {
    "ip": "216.180.246.177",
@@ -710,7 +782,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-06 13:10:28"
+   "last_seen": "2026-10-06 13:10:28",
+   "is_unbanned": false
   },
   {
    "ip": "153.117.33.166",
@@ -719,7 +792,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-06 15:05:25"
+   "last_seen": "2026-10-06 15:05:25",
+   "is_unbanned": false
   },
   {
    "ip": "47.95.234.23",
@@ -728,7 +802,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-06 20:12:30"
+   "last_seen": "2026-10-06 20:12:30",
+   "is_unbanned": false
   },
   {
    "ip": "64.62.156.38",
@@ -737,7 +812,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-07 00:49:45"
+   "last_seen": "2026-10-07 00:49:45",
+   "is_unbanned": false
   },
   {
    "ip": "198.235.24.137",
@@ -746,7 +822,8 @@
    "types": {
     "xmlrpc_abuse": 1
    },
-   "last_seen": "2026-10-07 06:14:13"
+   "last_seen": "2026-10-07 06:14:13",
+   "is_unbanned": false
   },
   {
    "ip": "94.154.43.125",
@@ -755,7 +832,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-07 11:33:06"
+   "last_seen": "2026-10-07 11:33:06",
+   "is_unbanned": false
   },
   {
    "ip": "74.82.47.2",
@@ -764,7 +842,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-09 05:47:22"
+   "last_seen": "2026-10-09 05:47:22",
+   "is_unbanned": false
   },
   {
    "ip": "45.148.10.171",
@@ -773,7 +852,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-09 06:32:05"
+   "last_seen": "2026-10-09 06:32:05",
+   "is_unbanned": false
   },
   {
    "ip": "94.154.43.158",
@@ -782,7 +862,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-09 09:30:19"
+   "last_seen": "2026-10-09 09:30:19",
+   "is_unbanned": false
   },
   {
    "ip": "205.210.31.28",
@@ -791,7 +872,8 @@
    "types": {
     "xmlrpc_abuse": 1
    },
-   "last_seen": "2026-10-09 12:39:59"
+   "last_seen": "2026-10-09 12:39:59",
+   "is_unbanned": false
   },
   {
    "ip": "185.218.86.24",
@@ -800,7 +882,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-09 13:17:31"
+   "last_seen": "2026-10-09 13:17:31",
+   "is_unbanned": false
   },
   {
    "ip": "130.12.180.212",
@@ -809,7 +892,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-09 14:21:54"
+   "last_seen": "2026-10-09 14:21:54",
+   "is_unbanned": false
   },
   {
    "ip": "43.230.94.184",
@@ -818,7 +902,8 @@
    "types": {
     "vuln_scan": 1
    },
-   "last_seen": "2026-10-09 19:33:42"
+   "last_seen": "2026-10-09 19:33:42",
+   "is_unbanned": false
   }
  ],
  "audit_logs": [
@@ -1979,7 +2064,7 @@
   },
   {
    "hour": "2026-10-29 10:00",
-   "requests": 59,
+   "requests": 91,
    "attacks": 0
   }
  ],
@@ -1989,7 +2074,7 @@
    "attacks": 12964
   },
   "after": {
-   "requests": 8581,
+   "requests": 8613,
    "attacks": 54
   }
  }

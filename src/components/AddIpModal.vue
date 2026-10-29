@@ -37,6 +37,7 @@ const handleAddSubmit = async () => {
     }
 
     isAddModalOpen.value = false
+    securityStore.markIpUnbanned(ip, isUnban)
 
     const now = new Date()
     const pad = (n: number) => n.toString().padStart(2, '0')

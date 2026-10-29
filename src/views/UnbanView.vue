@@ -100,7 +100,9 @@ const toggleUnbanRow = async (row: ThreatRow) => {
     }
 
     // อัปเดตสถานะเมื่อคำสั่งลบ/เพิ่มกฎ iptables และ fail2ban ทำงานสำเร็จจริงบนเซิร์ฟเวอร์
-    row.isUnbanned = !row.isUnbanned
+    const nextUnbanned = !row.isUnbanned
+    securityStore.markIpUnbanned(row.ip, nextUnbanned)
+    row.isUnbanned = nextUnbanned
     const now = new Date()
     const pad = (n: number) => n.toString().padStart(2, '0')
     row.lastSeen = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
