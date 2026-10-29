@@ -285,9 +285,9 @@ export const useSecurityStore = defineStore('security', () => {
       const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
       fetch(`${origin}/api/custom-ip`, {
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           ip: row.ip,
@@ -360,9 +360,9 @@ export const useSecurityStore = defineStore('security', () => {
       const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
       fetch(`${origin}/api/logs`, {
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(newLog)
       }).catch(() => null)

@@ -10,13 +10,17 @@ from pydantic import BaseModel
 
 app = FastAPI(title="SecDash Firewall Control API")
 
-# อนุญาตให้ Frontend ยิงเข้ามาได้ (CORS)
+# อนุญาตให้ Frontend ยิงเข้ามาได้ (CORS แบบระบุ Origin อย่างเข้มงวด)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://nenenainaemak.duckdns.org",
+        "http://localhost:5173",
+        "http://localhost"
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "X-Real-IP", "X-Forwarded-For", "X-Remote-User", "X-Admin-Token"],
 )
 
 ADMIN_TOKEN = os.environ.get("SECDASH_ADMIN_TOKEN", "SecDash-Admin-Secret-Key-2026")
@@ -104,17 +108,34 @@ def sanitize_ip(ip_str: str) -> str:
     except ValueError:
         raise HTTPException(status_code=400, detail="รูปแบบ IP Address ไม่ถูกต้อง")
 
-def verify_token(authorization: str = None):
+def verify_token(
+    authorization: str = Header(None),
+    x_remote_user: str = Header(None),
+    x_admin_token: str = Header(None)
+):
+    # 1. ตรวจสอบหากผ่าน Nginx Basic Authentication มาแล้ว
+    if x_remote_user:
+        return
+    # 2. ตรวจสอบผ่าน Token (รองรับทั้ง X-Admin-Token และ Authorization Header)
     expected_header = f"Bearer {ADMIN_TOKEN}"
-    if not authorization or authorization != expected_header:
-        raise HTTPException(status_code=401, detail="Unauthorized: Invalid Token")
+    if x_admin_token and (x_admin_token == ADMIN_TOKEN or x_admin_token == expected_header):
+        return
+    if authorization and (authorization == expected_header or authorization == ADMIN_TOKEN):
+        return
+    raise HTTPException(status_code=401, detail="Unauthorized: Access denied")
 
 @app.get("/api/health")
 def health_check():
     return {"status": "ok", "service": "SecDash Control API"}
 
 @app.get("/api/state")
-def get_state(request: Request):
+def get_state(
+    request: Request,
+    authorization: str = Header(None),
+    x_remote_user: str = Header(None),
+    x_admin_token: str = Header(None)
+):
+    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     state = load_state()
     # ดึง client IP ของผู้เรียกผ่าน headers หรือ socket
     client_ip = request.headers.get("X-Real-IP") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or (request.client.host if request.client else "")
@@ -122,12 +143,22 @@ def get_state(request: Request):
     return state
 
 @app.get("/api/logs")
-def get_logs():
+def get_logs(
+    authorization: str = Header(None),
+    x_remote_user: str = Header(None),
+    x_admin_token: str = Header(None)
+):
+    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     return load_admin_logs()
 
 @app.post("/api/logs")
-def save_log(entry: AuditLogRequest, authorization: str = Header(None)):
-    # อนุญาตให้ frontend ส่ง log มาบันทึกบนเซิร์ฟเวอร์ถาวร
+def save_log(
+    entry: AuditLogRequest,
+    authorization: str = Header(None),
+    x_remote_user: str = Header(None),
+    x_admin_token: str = Header(None)
+):
+    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     now_str = entry.timestamp or dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_id = entry.id or f"audit-{int(dt.datetime.now().timestamp() * 1000)}"
     new_entry = {
@@ -145,8 +176,13 @@ def save_log(entry: AuditLogRequest, authorization: str = Header(None)):
     return {"status": "ok", "total": len(logs)}
 
 @app.post("/api/custom-ip")
-def add_custom_ip(entry: CustomIPEntry, authorization: str = Header(None)):
-    verify_token(authorization)
+def add_custom_ip(
+    entry: CustomIPEntry,
+    authorization: str = Header(None),
+    x_remote_user: str = Header(None),
+    x_admin_token: str = Header(None)
+):
+    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     clean_ip = sanitize_ip(entry.ip)
     state = load_state()
     customs = state.get("custom_ips", [])
@@ -164,8 +200,13 @@ def add_custom_ip(entry: CustomIPEntry, authorization: str = Header(None)):
     return {"status": "ok", "custom_ips": customs}
 
 @app.post("/api/unban")
-def unban_ip(payload: IPRequest, authorization: str = Header(None)):
-    verify_token(authorization)
+def unban_ip(
+    payload: IPRequest,
+    authorization: str = Header(None),
+    x_remote_user: str = Header(None),
+    x_admin_token: str = Header(None)
+):
+    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     clean_ip = sanitize_ip(payload.ip)
     results = {}
 
@@ -217,8 +258,14 @@ def unban_ip(payload: IPRequest, authorization: str = Header(None)):
     }
 
 @app.post("/api/ban")
-def ban_ip(payload: IPRequest, request: Request, authorization: str = Header(None)):
-    verify_token(authorization)
+def ban_ip(
+    payload: IPRequest,
+    request: Request,
+    authorization: str = Header(None),
+    x_remote_user: str = Header(None),
+    x_admin_token: str = Header(None)
+):
+    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
     clean_ip = sanitize_ip(payload.ip)
 
     # ตรวจสอบและป้องกันการบล็อก IP ของผู้ดูแลระบบ (Admin Self-Ban Protection)

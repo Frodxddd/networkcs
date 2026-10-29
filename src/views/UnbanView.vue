@@ -94,9 +94,9 @@ const toggleUnbanRow = async (row: ThreatRow) => {
     const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
     const res = await fetch(`${origin}/api/${targetAction}`, {
       method: 'POST',
+      credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ ip: row.ip }),
       signal: AbortSignal.timeout(8000)

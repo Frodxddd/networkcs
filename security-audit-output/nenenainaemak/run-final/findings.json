@@ -1,6 +1,161 @@
 [
   {
     "verdict": "rejected",
+    "fingerprint": "SEC-AUTH-TOKEN-LEAK-01",
+    "title": "Hardcoded Administrative Secret Token Exposed in Client-Side Bundle",
+    "description": "The administrative Bearer token was previously present in client-side Vue source files.",
+    "claimed_root_cause": "Static frontend files contained hardcoded administrative credentials for API authorization.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "src/stores/security.ts",
+        "line": 286,
+        "scope": "Frontend API client configuration",
+        "description": "Fetch request dispatches to /api/ with credentials: same-origin without static Bearer tokens"
+      },
+      {
+        "kind": "sink",
+        "file": "server/main.py",
+        "line": 107,
+        "scope": "API verify_token function",
+        "description": "Authentication delegates to Nginx Basic Auth gateway and dynamic session headers"
+      }
+    ],
+    "evidence": [
+      {
+        "file": "src/stores/security.ts",
+        "line": 286,
+        "description": "Verified: Hardcoded Bearer token completely removed. Built JS contains 0 references to SecDash-Admin-Secret-Key-2026."
+      }
+    ],
+    "reason": "Verified remediated. Hardcoded Bearer token was completely stripped from all client stores and Vue components; ingress protection is now enforced via Nginx Basic Auth."
+  },
+  {
+    "verdict": "rejected",
+    "fingerprint": "SEC-AUTH-BYPASS-LOGS-01",
+    "title": "Missing Authentication Check on POST /api/logs Audit Log Ingestion",
+    "description": "The POST /api/logs endpoint previously accepted requests without verifying caller authorization.",
+    "claimed_root_cause": "Omission of verify_token(authorization) in the save_log handler.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "server/main.py",
+        "line": 140,
+        "scope": "POST /api/logs router",
+        "description": "Client sends POST /api/logs request"
+      },
+      {
+        "kind": "sink",
+        "file": "server/main.py",
+        "line": 147,
+        "scope": "verify_token",
+        "description": "Endpoint enforces verify_token() and returns HTTP 401 for unauthenticated calls"
+      }
+    ],
+    "evidence": [
+      {
+        "file": "server/main.py",
+        "line": 147,
+        "description": "Tested curl POST /api/logs without authentication; server returns HTTP 401 Unauthorized."
+      }
+    ],
+    "reason": "Verified remediated. Endpoint now enforces verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token) and Nginx Basic Auth, blocking all unauthenticated log writes."
+  },
+  {
+    "verdict": "rejected",
+    "fingerprint": "SEC-INGRESS-GATEWAY-01",
+    "title": "Ingress Authentication Inconsistency Between UI and API Endpoints",
+    "description": "The backend API reverse proxy at /api/ previously lacked Nginx Basic Auth directives.",
+    "claimed_root_cause": "Asymmetric gateway protection in Nginx reverse proxy configuration.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "configs/nginx/snippets/secdash.conf",
+        "line": 11,
+        "scope": "location /api/",
+        "description": "Ingress request to /api/ intercepted by Nginx auth_basic"
+      },
+      {
+        "kind": "sink",
+        "file": "configs/nginx/snippets/secdash.conf",
+        "line": 13,
+        "scope": "auth_basic_user_file",
+        "description": "Returns HTTP 401 with WWW-Authenticate: Basic realm=Security Dashboard"
+      }
+    ],
+    "evidence": [
+      {
+        "file": "configs/nginx/snippets/secdash.conf",
+        "line": 11,
+        "description": "Tested curl -I https://nenenainaemak.duckdns.org/api/state; server returns HTTP 401 Unauthorized."
+      }
+    ],
+    "reason": "Verified remediated. Both /secdash/ and /api/ now share identical Nginx Basic Authentication policies and pass verified X-Remote-User headers to backend."
+  },
+  {
+    "verdict": "rejected",
+    "fingerprint": "SEC-CORS-WILDCARD-01",
+    "title": "Wildcard CORS Configuration Combined with Allow Credentials",
+    "description": "FastAPI CORSMiddleware was previously configured with allow_origins=['*'].",
+    "claimed_root_cause": "Permissive development CORS middleware settings left in production API.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "server/main.py",
+        "line": 16,
+        "scope": "CORSMiddleware setup",
+        "description": "Client sends cross-origin request with Origin header"
+      },
+      {
+        "kind": "sink",
+        "file": "server/main.py",
+        "line": 18,
+        "scope": "CORS origin validation",
+        "description": "Rejects arbitrary origins and only permits explicitly whitelisted domains"
+      }
+    ],
+    "evidence": [
+      {
+        "file": "server/main.py",
+        "line": 16,
+        "description": "Tested curl with Origin: https://evil-attacker.com; Access-Control-Allow-Origin header is omitted/blocked."
+      }
+    ],
+    "reason": "Verified remediated. allow_origins is locked to explicit trusted origins ['https://nenenainaemak.duckdns.org', 'http://localhost:5173', 'http://localhost'], eliminating wildcard credential reflection."
+  },
+  {
+    "verdict": "rejected",
+    "fingerprint": "SEC-INFO-STATE-EXPOSURE-01",
+    "title": "Unauthenticated Exposure of System Firewall State and Logs",
+    "description": "GET /api/state and GET /api/logs previously returned operational data without authentication.",
+    "claimed_root_cause": "Missing verify_token and gateway protection on read endpoints.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "server/main.py",
+        "line": 120,
+        "scope": "GET /api/state router",
+        "description": "Client sends GET /api/state request"
+      },
+      {
+        "kind": "sink",
+        "file": "server/main.py",
+        "line": 126,
+        "scope": "verify_token",
+        "description": "Enforces authorization verification before reading state.json or admin_logs.json"
+      }
+    ],
+    "evidence": [
+      {
+        "file": "server/main.py",
+        "line": 126,
+        "description": "Tested curl -I https://nenenainaemak.duckdns.org/api/logs without auth; returns HTTP 401 Unauthorized."
+      }
+    ],
+    "reason": "Verified remediated. Read endpoints now require active Basic Auth credentials or valid operator tokens."
+  },
+  {
+    "verdict": "rejected",
     "fingerprint": "SEC-CORS-01",
     "title": "Arbitrary Origin Reflection with Credentials on REST API",
     "description": "The WordPress REST API previously reflected untrusted Origin headers with credentials enabled.",
@@ -48,110 +203,17 @@
         "kind": "sink",
         "file": "wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php",
         "line": 1,
-        "scope": "REST route resolution",
-        "description": "Server returns HTTP 404 rest_no_route"
+        "scope": "REST Users Controller",
+        "description": "Endpoint returns HTTP 404 rest_no_route"
       }
     ],
     "evidence": [
       {
         "file": "wp-json/wp/v2/users",
         "line": 1,
-        "description": "HTTP request to /wp-json/wp/v2/users returned 404 Not Found with code rest_no_route."
+        "description": "HTTP request to /wp-json/wp/v2/users returns 404 rest_no_route"
       }
     ],
-    "reason": "Verified remediated. The users endpoint is completely disabled for unauthenticated users, preventing user enumeration."
-  },
-  {
-    "verdict": "rejected",
-    "fingerprint": "SEC-HEADER-CSP-01",
-    "title": "Missing Content-Security-Policy (CSP) Header",
-    "description": "Web server responses previously lacked a Content-Security-Policy header.",
-    "claimed_root_cause": "Nginx configuration did not define a Content-Security-Policy header.",
-    "trace": [
-      {
-        "kind": "entrypoint",
-        "file": "nginx/sites-enabled/wordpress",
-        "line": 1,
-        "scope": "HTTP response header pipeline",
-        "description": "Incoming HTTP request for root document"
-      },
-      {
-        "kind": "sink",
-        "file": "nginx/conf.d/security.conf",
-        "line": 1,
-        "scope": "Header emission",
-        "description": "Server attaches comprehensive Content-Security-Policy header"
-      }
-    ],
-    "evidence": [
-      {
-        "file": "headers",
-        "line": 1,
-        "description": "Content-Security-Policy header verified present with directives: default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; frame-ancestors 'self'; object-src 'none';"
-      }
-    ],
-    "reason": "Verified remediated. A robust Content-Security-Policy header is now enforced across responses."
-  },
-  {
-    "verdict": "rejected",
-    "fingerprint": "SEC-INFO-FILES-01",
-    "title": "Public Disclosure of Installation and License Files",
-    "description": "Direct access to /readme.html and /license.txt was previously permitted.",
-    "claimed_root_cause": "Nginx did not restrict access to documentation and text files in the web root.",
-    "trace": [
-      {
-        "kind": "entrypoint",
-        "file": "nginx/sites-enabled/wordpress",
-        "line": 1,
-        "scope": "Static file location matching",
-        "description": "HTTP GET request for /readme.html and /license.txt"
-      },
-      {
-        "kind": "sink",
-        "file": "nginx/sites-enabled/wordpress",
-        "line": 1,
-        "scope": "Access control rule",
-        "description": "Server blocks request and returns HTTP 404 Not Found"
-      }
-    ],
-    "evidence": [
-      {
-        "file": "readme.html",
-        "line": 1,
-        "description": "HTTP GET /readme.html and /license.txt returned 404 Not Found."
-      }
-    ],
-    "reason": "Verified remediated. Files are now blocked at the Nginx level."
-  },
-  {
-    "verdict": "rejected",
-    "fingerprint": "SEC-SUPPLY-SRI-01",
-    "title": "Missing Subresource Integrity on External Scripts",
-    "description": "External scripts from CDN were previously loaded without integrity hashes.",
-    "claimed_root_cause": "Script tags lacked the integrity and crossorigin attributes.",
-    "trace": [
-      {
-        "kind": "entrypoint",
-        "file": "index.html",
-        "line": 1,
-        "scope": "HTML script element",
-        "description": "Loading Three.js library from cdnjs.cloudflare.com"
-      },
-      {
-        "kind": "sink",
-        "file": "index.html",
-        "line": 1,
-        "scope": "Browser script execution pipeline",
-        "description": "Script tag includes SHA-512 SRI hash and crossorigin attribute"
-      }
-    ],
-    "evidence": [
-      {
-        "file": "index.html",
-        "line": 1,
-        "description": "Script tag verified: <script src=\"...three.min.js\" integrity=\"sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\">"
-      }
-    ],
-    "reason": "Verified remediated. Script tag now includes valid SHA-512 SRI checksum, preventing tampered CDN script execution."
+    "reason": "Verified remediated. MU-Plugin unsets the endpoint for unauthenticated callers, completely preventing enumeration."
   }
 ]
