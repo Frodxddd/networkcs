@@ -19,7 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-ADMIN_TOKEN = "SecDash-Admin-Secret-Key-2026"
+ADMIN_TOKEN = os.environ.get("SECDASH_ADMIN_TOKEN", "SecDash-Admin-Secret-Key-2026")
 STATE_FILE = Path("/opt/secdash-api/state.json")
 LOGS_FILE = Path("/opt/secdash-api/admin_logs.json")
 
