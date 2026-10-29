@@ -287,7 +287,9 @@ export const useSecurityStore = defineStore('security', () => {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
+          'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
         },
         body: JSON.stringify({
           ip: row.ip,
@@ -362,7 +364,9 @@ export const useSecurityStore = defineStore('security', () => {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
+          'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
         },
         body: JSON.stringify(newLog)
       }).catch(() => null)
@@ -380,8 +384,18 @@ export const useSecurityStore = defineStore('security', () => {
       const [repRes, aiRes, stateRes, logsRes] = await Promise.all([
         fetch(`${basePath}report.json?t=${t}`).catch(() => fetch(`/report.json?t=${t}`).catch(() => null)),
         fetch(`${basePath}ai_report.json?t=${t}`).catch(() => fetch(`/ai_report.json?t=${t}`).catch(() => null)),
-        fetch(`${origin}/api/state?t=${t}`).catch(() => null),
-        fetch(`${origin}/api/logs?t=${t}`).catch(() => null)
+        fetch(`${origin}/api/state?t=${t}`, {
+          headers: {
+            'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
+            'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
+          }
+        }).catch(() => null),
+        fetch(`${origin}/api/logs?t=${t}`, {
+          headers: {
+            'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
+            'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
+          }
+        }).catch(() => null)
       ])
 
       // 1. ซิงค์สถานะและ IP ที่จัดการบน Server ให้ตรงกันทุกคน (Multi-user Sync)
@@ -528,7 +542,13 @@ export const useSecurityStore = defineStore('security', () => {
 
           // ซิงค์ state และ client IP จาก Server API
         try {
-          const stateRes = await fetch(`${origin}/api/state`, { signal: AbortSignal.timeout(4000) }).catch(() => null)
+          const stateRes = await fetch(`${origin}/api/state`, {
+            headers: {
+              'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
+              'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
+            },
+            signal: AbortSignal.timeout(4000)
+          }).catch(() => null)
           if (stateRes && stateRes.ok) {
             const serverState = await stateRes.json()
             if (serverState.client_ip) {
@@ -575,7 +595,12 @@ export const useSecurityStore = defineStore('security', () => {
 
         // ซิงค์ audit logs จาก Server API
         try {
-          const logsRes = await fetch(`${origin}/api/logs`).catch(() => null)
+          const logsRes = await fetch(`${origin}/api/logs`, {
+            headers: {
+              'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
+              'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
+            }
+          }).catch(() => null)
           if (logsRes && logsRes.ok) {
             const serverLogs = await logsRes.json()
             if (Array.isArray(serverLogs) && serverLogs.length > 0) {

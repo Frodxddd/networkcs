@@ -96,7 +96,9 @@ const toggleUnbanRow = async (row: ThreatRow) => {
       method: 'POST',
       credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
+        'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
       },
       body: JSON.stringify({ ip: row.ip }),
       signal: AbortSignal.timeout(8000)
@@ -171,17 +173,8 @@ const isUnbanInputMatch = computed(() => {
 })
 
 const handleActionClick = (row: ThreatRow) => {
-  if (row.isUnbanned) {
-    // กรณีที่ได้รับอนุญาตอยู่แล้ว: บล็อกซ้ำได้ทันที
-    toggleUnbanRow(row)
-  } else {
-    // กรณีที่ถูกบล็อกอยู่: ต้องเปิด Dialog ให้พิมพ์ยืนยันก่อนปลดแบน
-    unbanConfirmRow.value = row
-    unbanConfirmInput.value = ''
-    setTimeout(() => {
-      unbanInputRef.value?.focus()
-    }, 100)
-  }
+  // ปลดแบนหรือบล็อกได้ทันทีในคลิกเดียว (1-Click Action)
+  toggleUnbanRow(row)
 }
 
 const handleConfirmUnbanSubmit = async () => {

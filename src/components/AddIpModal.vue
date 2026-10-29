@@ -32,7 +32,9 @@ const handleAddSubmit = async () => {
       method: 'POST',
       credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
+        'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
       },
       body: JSON.stringify({ ip, note: quickNote.value }),
       signal: AbortSignal.timeout(8000)

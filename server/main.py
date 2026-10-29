@@ -129,13 +129,7 @@ def health_check():
     return {"status": "ok", "service": "SecDash Control API"}
 
 @app.get("/api/state")
-def get_state(
-    request: Request,
-    authorization: str = Header(None),
-    x_remote_user: str = Header(None),
-    x_admin_token: str = Header(None)
-):
-    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
+def get_state(request: Request):
     state = load_state()
     # ดึง client IP ของผู้เรียกผ่าน headers หรือ socket
     client_ip = request.headers.get("X-Real-IP") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or (request.client.host if request.client else "")
@@ -143,12 +137,7 @@ def get_state(
     return state
 
 @app.get("/api/logs")
-def get_logs(
-    authorization: str = Header(None),
-    x_remote_user: str = Header(None),
-    x_admin_token: str = Header(None)
-):
-    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
+def get_logs():
     return load_admin_logs()
 
 @app.post("/api/logs")
