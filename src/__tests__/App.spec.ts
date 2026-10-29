@@ -61,7 +61,7 @@ describe('SecDash Thai Security Operations Dashboard', () => {
     expect(wrapper.text()).toContain('แดชบอร์ดความปลอดภัยเว็บ CS BUU')
   })
 
-  it('allows selecting real data periods (monthly overview and daily)', async () => {
+  it('allows selecting daily, monthly, and yearly periods with real data', async () => {
     const wrapper = mountApp()
     await flushPromises()
     const periodBtn = wrapper.find('.period-select-btn')
@@ -70,19 +70,27 @@ describe('SecDash Thai Security Operations Dashboard', () => {
     // Open dropdown
     await periodBtn.trigger('click')
     const items = wrapper.findAll('.dropdown-item')
-    expect(items.length).toBe(2)
+    expect(items.length).toBe(3)
 
     // Select 'รายวัน' (daily)
-    await items[1]!.trigger('click')
+    await items[0]!.trigger('click')
     await flushPromises()
     expect(wrapper.text()).toContain('รายวัน')
 
-    // Select 'ภาพรวมจริงทั้งหมด' (monthly)
+    // Select 'รายเดือน' (monthly)
     await periodBtn.trigger('click')
     const itemsMonthly = wrapper.findAll('.dropdown-item')
-    await itemsMonthly[0]!.trigger('click')
+    await itemsMonthly[1]!.trigger('click')
     await flushPromises()
-    expect(wrapper.text()).toContain('ภาพรวมจริงทั้งหมด')
+    expect(wrapper.text()).toContain('รายเดือน')
+    expect(wrapper.text()).toContain('30,331')
+
+    // Select 'รายปี' (yearly)
+    await periodBtn.trigger('click')
+    const itemsYearly = wrapper.findAll('.dropdown-item')
+    await itemsYearly[2]!.trigger('click')
+    await flushPromises()
+    expect(wrapper.text()).toContain('รายปี')
     expect(wrapper.text()).toContain('30,331')
   })
 
