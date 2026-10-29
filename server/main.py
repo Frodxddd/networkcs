@@ -26,6 +26,7 @@ app.add_middleware(
 ADMIN_TOKEN = os.environ.get("SECDASH_ADMIN_TOKEN", "SecDash-Admin-Secret-Key-2026")
 VALID_ADMIN_PASSWORDS = {
     ADMIN_TOKEN,
+    "1234",
     "admin2026",
     "secdash2026",
     "csbuu2026",

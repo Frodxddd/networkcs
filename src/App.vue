@@ -14,7 +14,13 @@ import {
   Plus,
   CheckCircle2,
   AlertCircle,
-  X
+  X,
+  Lock,
+  Key,
+  Eye,
+  EyeOff,
+  LogOut,
+  ShieldCheck
 } from 'lucide-vue-next'
 
 const route = useRoute()
@@ -22,6 +28,40 @@ const securityStore = useSecurityStore()
 const { isAddModalOpen } = storeToRefs(securityStore)
 const { isDarkMode, toggleTheme } = useTheme()
 const { toast } = useToast()
+
+// Gateway Authentication Lock Screen (ใส่รหัสผ่าน 1234 เพื่อเข้าใช้งานแดชบอร์ด)
+const lockPasswordInput = ref('')
+const lockPasswordError = ref('')
+const lockPasswordLoading = ref(false)
+const lockPasswordVisible = ref(false)
+const lockInputRef = ref<HTMLInputElement | null>(null)
+
+const handleLockLoginSubmit = async () => {
+  const pwd = lockPasswordInput.value.trim()
+  if (!pwd || lockPasswordLoading.value) return
+  lockPasswordLoading.value = true
+  lockPasswordError.value = ''
+  try {
+    const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
+    const res = await fetch(`${origin}/api/verify-admin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pwd })
+    })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      throw new Error(data.detail || 'รหัสผ่านไม่ถูกต้อง')
+    }
+    securityStore.setAdminToken(data.token || 'SecDash-Admin-Secret-Key-2026')
+    lockPasswordInput.value = ''
+    lockPasswordError.value = ''
+    securityStore.fetchReportData()
+  } catch (err: any) {
+    lockPasswordError.value = err.message || 'รหัสผ่านไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง'
+  } finally {
+    lockPasswordLoading.value = false
+  }
+}
 
 // Seamless Loading Screen
 const isPageLoading = ref(true)
@@ -139,6 +179,91 @@ onUnmounted(() => {
       </div>
     </Transition>
 
+    <!-- ========================================================== -->
+    <!-- GATEWAY AUTHENTICATION LOCK SCREEN (เข้าเว็บต้องใส่รหัส 1234) -->
+    <!-- ========================================================== -->
+    <Transition name="fade-lock">
+      <div v-if="!securityStore.isAdminAuthenticated && !isPageLoading" class="gateway-lock-backdrop">
+        <div class="gateway-lock-card">
+          <!-- โลโก้มหาวิทยาลัยบูรพา + CS BUU -->
+          <div class="gateway-brand">
+            <img
+              :src="isDarkMode ? buuLogoWhiteSvg : buuLogoSvg"
+              alt="ตราสัญลักษณ์ มหาวิทยาลัยบูรพา BUU"
+              class="gateway-logo-img"
+            />
+            <div class="gateway-brand-divider"></div>
+            <div class="gateway-brand-text">
+              <span class="gateway-title-cs">CS BUU</span>
+              <span class="gateway-sub-cs">COMPUTER SCIENCE</span>
+            </div>
+          </div>
+
+          <!-- หัวข้อของ Gateway -->
+          <div class="gateway-header-group">
+            <div class="gateway-lock-icon-badge">
+              <Lock class="gateway-shield-icon text-amber" />
+            </div>
+            <h2 class="gateway-main-title">SecDash Security Gateway</h2>
+            <p class="gateway-main-desc">
+              ระบบศูนย์ปฏิบัติการความปลอดภัยไซเบอร์และควบคุมไฟร์วอลล์ (VPS Control Plane)
+            </p>
+          </div>
+
+          <!-- ฟอร์มใส่รหัส 1234 -->
+          <form class="gateway-login-form" @submit.prevent="handleLockLoginSubmit">
+            <div class="gateway-form-field">
+              <label class="gateway-field-label">กรุณากรอกรหัสผ่านเพื่อเข้าใช้งานระบบ:</label>
+              <div class="gateway-input-box">
+                <Key class="gateway-key-icon" />
+                <input
+                  ref="lockInputRef"
+                  v-model="lockPasswordInput"
+                  :type="lockPasswordVisible ? 'text' : 'password'"
+                  class="gateway-input-control"
+                  :class="{ 'has-error': !!lockPasswordError }"
+                  placeholder="กรอกรหัสผ่าน (1234)..."
+                  autocomplete="current-password"
+                  autofocus
+                />
+                <button
+                  type="button"
+                  class="gateway-eye-toggle"
+                  @click="lockPasswordVisible = !lockPasswordVisible"
+                  tabindex="-1"
+                >
+                  <EyeOff v-if="lockPasswordVisible" class="tiny-icon" />
+                  <Eye v-else class="tiny-icon" />
+                </button>
+              </div>
+
+              <!-- ข้อความ Error หากรหัสผิด -->
+              <div v-if="lockPasswordError" class="gateway-alert-error">
+                <AlertCircle class="tiny-icon text-rose" />
+                <span>{{ lockPasswordError }}</span>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="gateway-submit-btn"
+              :disabled="!lockPasswordInput.trim() || lockPasswordLoading"
+            >
+              <Lock class="tiny-icon" />
+              <span v-if="lockPasswordLoading">กำลังตรวจสอบรหัสผ่าน...</span>
+              <span v-else>เข้าสู่ระบบแดชบอร์ด</span>
+            </button>
+          </form>
+
+          <!-- Footer ข้อความความปลอดภัย -->
+          <div class="gateway-card-footer">
+            <ShieldCheck class="tiny-icon text-green" />
+            <span>เข้าสู่ระบบด้วยรหัส <code>1234</code> เพื่อรับสิทธิ์สั่งการไฟร์วอลล์</span>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <!-- FLOATING TOAST แจ้งเตือนสถานะ -->
     <div v-if="toast" class="toast-card" :class="toast.type">
       <CheckCircle2 v-if="toast.type === 'success'" class="toast-icon text-green" />
@@ -217,6 +342,17 @@ onUnmounted(() => {
           <button class="navy-blue-btn" @click.stop="isAddModalOpen = true" title="เพิ่มกฎหรือปลดแบน IP ด่วน">
             <Plus class="tiny-icon" />
             <span>เพิ่ม IP / กฎ</span>
+          </button>
+
+          <!-- ปุ่มออกจากระบบ (Lock Screen) -->
+          <button
+            v-if="securityStore.isAdminAuthenticated"
+            class="navy-logout-btn"
+            @click="securityStore.clearAdminToken()"
+            title="ออกจากระบบ / ล็อกหน้าจอ"
+          >
+            <LogOut class="tiny-icon" />
+            <span>ล็อกหน้าจอ</span>
           </button>
         </div>
       </div>

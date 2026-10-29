@@ -575,7 +575,7 @@ const closeAdminAuthModal = () => {
                 :type="adminPasswordVisible ? 'text' : 'password'"
                 class="form-input admin-password-input"
                 :class="{ 'input-error': !!adminAuthError }"
-                placeholder="กรอกรหัสผ่าน Admin เช่น admin2026..."
+                placeholder="กรอกรหัสผ่าน Admin (1234)..."
                 @keyup.enter="handleVerifyAdminSubmit"
               />
               <button
