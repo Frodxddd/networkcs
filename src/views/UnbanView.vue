@@ -170,20 +170,14 @@ const pendingActionRow = ref<ThreatRow | null>(null)
 const adminPasswordInputRef = ref<HTMLInputElement | null>(null)
 
 const handleActionClick = (row: ThreatRow) => {
-  // หากยังไม่ได้ยืนยันตัวตนใน Session นี้ ให้เด้ง Modal ขอรหัสผ่าน Admin เพียงรอบเดียว
-  if (!securityStore.isAdminAuthenticated) {
-    pendingActionRow.value = row
-    adminPasswordInput.value = ''
-    adminAuthError.value = ''
-    isAdminAuthModalOpen.value = true
-    setTimeout(() => {
-      adminPasswordInputRef.value?.focus()
-    }, 120)
-    return
-  }
-
-  // ถ้ายืนยันสิทธิ์แล้ว ปลดแบนหรือบล็อกได้ทันที (1-Click Action)
-  toggleUnbanRow(row)
+  // บังคับกรอกรหัสผ่านผู้ดูแลระบบเสมอทุกครั้ง ไม่ว่าจะปลดแบนหรือบล็อก IP
+  pendingActionRow.value = row
+  adminPasswordInput.value = ''
+  adminAuthError.value = ''
+  isAdminAuthModalOpen.value = true
+  setTimeout(() => {
+    adminPasswordInputRef.value?.focus()
+  }, 120)
 }
 
 const handleVerifyAdminSubmit = async () => {
@@ -202,8 +196,11 @@ const handleVerifyAdminSubmit = async () => {
     if (!res.ok) {
       throw new Error(data.detail || 'รหัสผ่านผู้ดูแลระบบไม่ถูกต้อง')
     }
+    if (!data.token) {
+      throw new Error('ไม่ได้รับโทเค็นยืนยันสิทธิ์จากเซิร์ฟเวอร์')
+    }
     // ยืนยันสำเร็จ: บันทึก token ใน session
-    securityStore.setAdminToken(data.token || 'SecDash-Admin-Secret-Key-2026')
+    securityStore.setAdminToken(data.token)
     isAdminAuthModalOpen.value = false
     showToast('success', 'ยืนยันตัวตนแอดมินสำเร็จ', 'ระบบจดจำสิทธิ์ในรอบนี้แล้ว สามารถสั่งการไฟร์วอลล์ได้ทันที')
 
@@ -375,13 +372,6 @@ const closeAdminAuthModal = () => {
                     ถูกบล็อก ({{ threatRows.filter(r => !r.isUnbanned).length }})
                   </button>
                   <button
-                    class="filter-pill"
-                    :class="{ active: ipFilterStatus === 'allowed' }"
-                    @click="ipFilterStatus = 'allowed'"
-                  >
-                    อนุญาตแล้ว ({{ threatRows.filter(r => r.isUnbanned).length }})
-                  </button>
-                  <button
                     class="filter-pill refresh-pill-btn"
                     @click="handleRefreshData"
                     title="รีเฟรชข้อมูล IP ล่าสุด"
@@ -528,10 +518,15 @@ const closeAdminAuthModal = () => {
         <div class="modal-header">
           <div class="modal-title-group">
             <h3 class="modal-title flex-title">
-              <Lock class="modal-title-icon text-amber" />
-              <span>ยืนยันสิทธิ์ผู้ดูแลระบบ (Admin Access)</span>
+              <Ban v-if="pendingActionRow?.isUnbanned" class="modal-title-icon text-rose" />
+              <Unlock v-else class="modal-title-icon text-green" />
+              <span>{{ pendingActionRow?.isUnbanned ? 'ยืนยันการบล็อก IP (Admin Confirmation)' : 'ยืนยันการปลดแบน IP (Admin Confirmation)' }}</span>
             </h3>
-            <span class="modal-subtitle">กรุณากรอกรหัสผ่านเพื่อสั่งการไฟร์วอลล์ (ยืนยันเพียงครั้งเดียวต่อ Session)</span>
+            <span class="modal-subtitle">
+              {{ pendingActionRow?.isUnbanned
+                ? 'กรุณากรอกรหัสผ่านผู้ดูแลระบบเพื่อยืนยันการสั่งบล็อก IP ในไฟร์วอลล์ iptables DROP'
+                : 'กรุณากรอกรหัสผ่านผู้ดูแลระบบเพื่อยืนยันการสั่งปลดแบน IP ในไฟร์วอลล์ iptables & Fail2ban' }}
+            </span>
           </div>
           <button class="modal-close-btn" @click="closeAdminAuthModal" aria-label="ปิด">
             <X class="tiny-icon" />
@@ -575,7 +570,7 @@ const closeAdminAuthModal = () => {
                 :type="adminPasswordVisible ? 'text' : 'password'"
                 class="form-input admin-password-input"
                 :class="{ 'input-error': !!adminAuthError }"
-                placeholder="กรอกรหัสผ่าน Admin (1234)..."
+                placeholder="กรอกรหัสผ่านผู้ดูแลระบบ..."
                 @keyup.enter="handleVerifyAdminSubmit"
               />
               <button
@@ -595,7 +590,9 @@ const closeAdminAuthModal = () => {
             </div>
 
             <span class="form-hint">
-              💡 ปลอดภัย 100%: ยืนยันเพียงครั้งเดียว ระบบจะจำสิทธิ์ไว้จนกว่าจะปิดเบราว์เซอร์
+              {{ pendingActionRow?.isUnbanned
+                ? '🔒 นโยบายความปลอดภัย: คำสั่งบล็อก IP ต้องยืนยันรหัสผ่านผู้ดูแลระบบเสมอ'
+                : '🔒 นโยบายความปลอดภัย: คำสั่งปลดแบน IP ต้องยืนยันรหัสผ่านผู้ดูแลระบบเสมอ' }}
             </span>
           </div>
         </div>
@@ -612,12 +609,14 @@ const closeAdminAuthModal = () => {
           <button
             type="button"
             class="btn-confirm btn-admin-auth-submit"
+            :class="pendingActionRow?.isUnbanned ? 'btn-ban-submit' : 'btn-unban-submit'"
             :disabled="!adminPasswordInput.trim() || adminAuthLoading"
             @click="handleVerifyAdminSubmit"
           >
-            <Lock class="tiny-icon" />
+            <Ban v-if="pendingActionRow?.isUnbanned" class="tiny-icon" />
+            <Unlock v-else class="tiny-icon" />
             <span v-if="adminAuthLoading">กำลังตรวจสอบ...</span>
-            <span v-else>ยืนยันและดำเนินการ</span>
+            <span v-else>{{ pendingActionRow?.isUnbanned ? 'ยืนยันบล็อก IP' : 'ยืนยันปลดแบน IP' }}</span>
           </button>
         </div>
       </div>
@@ -736,9 +735,25 @@ const closeAdminAuthModal = () => {
   transition: all 0.2s ease;
 }
 
+.btn-admin-auth-submit.btn-ban-submit {
+  background: #dc2626;
+}
+
 .btn-admin-auth-submit:hover:not(:disabled) {
   background: #1d4ed8;
   transform: translateY(-1px);
+}
+
+.btn-admin-auth-submit.btn-ban-submit:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.btn-admin-auth-submit.btn-unban-submit {
+  background: #059669;
+}
+
+.btn-admin-auth-submit.btn-unban-submit:hover:not(:disabled) {
+  background: #047857;
 }
 
 .btn-admin-auth-submit:disabled {

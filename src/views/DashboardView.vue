@@ -164,7 +164,7 @@ const chooseDay = (d: string) => {
 
 // วันที่สรุป AI แบบภาษาไทย
 const formattedAiDate = computed(() => {
-  if (!aiReport.value?.generated_at) return '26 ต.ค. 2568'
+  if (!aiReport.value?.generated_at) return '26 ต.ค. 2569'
   const d = new Date(aiReport.value.generated_at)
   if (isNaN(d.getTime())) return aiReport.value.generated_at
   const day = d.getDate()
@@ -269,7 +269,7 @@ const currentStats = computed(() => {
     const parts = selectedDayDate.value.split('-')
     const mIdx = parseInt(parts[1] || '10', 10) - 1
     const dayNum = parseInt(parts[2] || '26', 10)
-    const dayLabel = `${dayNum} ${thaiMonths[mIdx] || 'ต.ค.'} 2568`
+    const dayLabel = `${dayNum} ${thaiMonths[mIdx] || 'ต.ค.'} 2569`
 
     return {
       totalRequests: dayReqs,
@@ -294,15 +294,15 @@ const currentStats = computed(() => {
       attacksMitigated: rawReportStats.value.attacksMitigated,
       defenseEfficiency: rawReportStats.value.defenseEfficiency,
       activeRules: 28,
-      trendRequests: 'สะสมปี 2568',
+      trendRequests: 'สะสมปี 2569',
       trendAttacks: '↘ 99.4%',
-      subLeadReq: 'ตลอดปีการศึกษา 2568 (สะสมจริง)',
+      subLeadReq: 'ตลอดปีการศึกษา 2569 (สะสมจริง)',
       subLeadAtk: 'สกัดกั้นการโจมตีเว็บสะสม',
       categories: rawReportStats.value.categories,
-      chartSubtitle: 'สถิติตลอดทั้งปี 2568 • เว็บไซต์หลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ ม.บูรพา'
+      chartSubtitle: 'สถิติตลอดทั้งปี 2569 • เว็บไซต์หลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ ม.บูรพา'
     }
   }
-  // รายเดือน: ข้อมูลจริงเดือนตุลาคม 2568
+  // รายเดือน: ข้อมูลจริงเดือนตุลาคม 2569
   return {
     totalRequests: rawReportStats.value.totalRequests,
     attacksMitigated: rawReportStats.value.attacksMitigated,
@@ -313,7 +313,7 @@ const currentStats = computed(() => {
     subLeadReq: 'ทราฟฟิกจริงนักศึกษา & ผู้สมัคร',
     subLeadAtk: 'บล็อกบอทเน็ตต่างชาติแล้ว',
     categories: rawReportStats.value.categories,
-    chartSubtitle: 'ภาพรวมทราฟฟิกตลอดเดือนตุลาคม 2568 • เว็บไซต์หลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ ม.บูรพา'
+    chartSubtitle: 'ภาพรวมทราฟฟิกตลอดเดือนตุลาคม 2569 • เว็บไซต์หลักสูตร วท.บ. วิทยาการคอมพิวเตอร์ ม.บูรพา'
   }
 })
 
@@ -401,7 +401,7 @@ const chartPoints = computed<ChartPoint[]>(() => {
       }
     })
   } else if (selectedPeriod.value === 'yearly') {
-    // ข้อมูลสะสมตลอดปีการศึกษา 2568 (ข้อมูลจริง เริ่มบันทึก ต.ค. 2568)
+    // ข้อมูลสะสมตลอดปีการศึกษา 2569 (ข้อมูลจริง เริ่มบันทึก ต.ค. 2569)
     const totalReq = rawReportStats.value.totalRequests
     const totalAtk = rawReportStats.value.attacksMitigated
     const last24Req = aiReport.value.last24h?.requests || 1434
@@ -414,16 +414,16 @@ const chartPoints = computed<ChartPoint[]>(() => {
     }
 
     return [
-      { day: 'พ.ค.', date: '2568', x: 70, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'เริ่มเปิดภาคเรียน (ก่อนเริ่มบันทึก access log)' },
-      { day: 'มิ.ย.', date: '2568', x: 215, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'ก่อนเริ่มเก็บบันทึก log ความปลอดภัย' },
-      { day: 'ก.ค.', date: '2568', x: 360, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'ก่อนเริ่มเก็บบันทึก log ความปลอดภัย' },
-      { day: 'ส.ค.', date: '2568', x: 505, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'ก่อนเริ่มเก็บบันทึก log ความปลอดภัย' },
-      { day: 'ก.ย.', date: '2568', x: 650, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'ช่วงเตรียมความพร้อมเซิร์ฟเวอร์' },
-      { day: 'ต.ค.', date: '2568', x: 795, reqY: getYearlyY(totalReq), atkY: getYearlyY(totalAtk), requests: totalReq, attacks: totalAtk, rate: eff, status: 'บันทึกทราฟฟิกจริงและเปิด Firewall สกัดกั้นสำเร็จ' },
-      { day: 'ปัจจุบัน', date: '2568', x: 940, reqY: getYearlyY(last24Req), atkY: 205, requests: last24Req, attacks: last24Atk, rate: '99.3%', status: 'ทราฟฟิกล่าสุด 24 ชม. ปลอดภัยสมบูรณ์' }
+      { day: 'พ.ค.', date: '2569', x: 70, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'เริ่มเปิดภาคเรียน (ก่อนเริ่มบันทึก access log)' },
+      { day: 'มิ.ย.', date: '2569', x: 215, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'ก่อนเริ่มเก็บบันทึก log ความปลอดภัย' },
+      { day: 'ก.ค.', date: '2569', x: 360, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'ก่อนเริ่มเก็บบันทึก log ความปลอดภัย' },
+      { day: 'ส.ค.', date: '2569', x: 505, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'ก่อนเริ่มเก็บบันทึก log ความปลอดภัย' },
+      { day: 'ก.ย.', date: '2569', x: 650, reqY: 205, atkY: 205, requests: 0, attacks: 0, rate: '100%', status: 'ช่วงเตรียมความพร้อมเซิร์ฟเวอร์' },
+      { day: 'ต.ค.', date: '2569', x: 795, reqY: getYearlyY(totalReq), atkY: getYearlyY(totalAtk), requests: totalReq, attacks: totalAtk, rate: eff, status: 'บันทึกทราฟฟิกจริงและเปิด Firewall สกัดกั้นสำเร็จ' },
+      { day: 'ปัจจุบัน', date: '2569', x: 940, reqY: getYearlyY(last24Req), atkY: 205, requests: last24Req, attacks: last24Atk, rate: '99.3%', status: 'ทราฟฟิกล่าสุด 24 ชม. ปลอดภัยสมบูรณ์' }
     ]
   }
-  // ข้อมูลจริงรายเดือนตุลาคม 2568 (Timeline ตลอดเดือนตั้งแต่เริ่มเก็บข้อมูล 6 ต.ค. จนถึงปัจจุบัน)
+  // ข้อมูลจริงรายเดือนตุลาคม 2569 (Timeline ตลอดเดือนตั้งแต่เริ่มเก็บข้อมูล 6 ต.ค. จนถึงปัจจุบัน)
   const dailyMap: Record<string, { req: number; atk: number }> = {}
   if (hourlyRecords.value && hourlyRecords.value.length > 0) {
     hourlyRecords.value.forEach(h => {
@@ -692,8 +692,8 @@ const currentHttpData = computed<HttpPeriodData>(() => {
   const total = rawReportStats.value.totalRequests || 30331
   const counts = rawReportStats.value.statusCounts || { '2xx': 24167, '3xx': 3012, '4xx': 2755, '429': 24, '5xx': 373 }
   const periodLabel = selectedPeriod.value === 'yearly'
-    ? 'สถิติสะสมรอบปีการศึกษา 2568 (ข้อมูลจริงจากเซิร์ฟเวอร์)'
-    : 'ประจำเดือนตุลาคม 2568 (ข้อมูลจริงจากเซิร์ฟเวอร์)'
+    ? 'สถิติสะสมรอบปีการศึกษา 2569 (ข้อมูลจริงจากเซิร์ฟเวอร์)'
+    : 'ประจำเดือนตุลาคม 2569 (ข้อมูลจริงจากเซิร์ฟเวอร์)'
 
   return {
     total,
@@ -1044,7 +1044,7 @@ onMounted(async () => {
                   @click="setPeriod('monthly')"
                 >
                   <span class="item-title">รายเดือน</span>
-                  <span class="item-desc">เดือนนี้ (ตุลาคม 2568)</span>
+                  <span class="item-desc">เดือนนี้ (ตุลาคม 2569)</span>
                 </button>
                 <button
                   class="dropdown-item"
@@ -1052,7 +1052,7 @@ onMounted(async () => {
                   @click="setPeriod('yearly')"
                 >
                   <span class="item-title">รายปี</span>
-                  <span class="item-desc">สถิติตลอดปี 2568</span>
+                  <span class="item-desc">สถิติตลอดปี 2569</span>
                 </button>
               </div>
             </div>

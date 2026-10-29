@@ -1,15 +1,31 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSecurityStore, type ThreatRow } from '../stores/security'
 import { useToast } from '../composables/useToast'
 import {
   Ban,
-  Unlock
+  Unlock,
+  Key,
+  Eye,
+  EyeOff,
+  AlertTriangle,
+  X
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
 const { isAddModalOpen, quickIp, quickActionType, quickNote, apiActionLoading, threatRows, clientIp } = storeToRefs(securityStore)
 const { showToast } = useToast()
+
+const banPassword = ref('')
+const banPasswordVisible = ref(false)
+const banPasswordError = ref('')
+
+const handleCloseModal = () => {
+  isAddModalOpen.value = false
+  banPassword.value = ''
+  banPasswordError.value = ''
+}
 
 const handleAddSubmit = async () => {
   if (!quickIp.value.trim()) {
@@ -22,6 +38,31 @@ const handleAddSubmit = async () => {
   // ระบบป้องกัน Admin Self-Ban (ห้ามบล็อก IP ตัวเอง)
   if (!isUnban && clientIp.value && ip === clientIp.value) {
     showToast('error', 'ไม่อนุญาตให้บล็อก IP ของคุณเอง', `IP ${ip} คือ IP ของคุณที่กำลังใช้งานระบบอยู่ หากบล็อกจะทำให้ถูกตัดขาดจากเซิร์ฟเวอร์`)
+    return
+  }
+
+  // บังคับกรอกรหัสผ่าน Admin ยืนยันเสมอเพื่อความปลอดภัย (ทั้งปลดแบนและบล็อก IP)
+  if (!banPassword.value.trim()) {
+    banPasswordError.value = `กรุณากรอกรหัสผ่านผู้ดูแลระบบเพื่อยืนยันการ${isUnban ? 'ปลดแบน' : 'บล็อก'} IP`
+    return
+  }
+  // ตรวจสอบรหัสผ่านกับเซิร์ฟเวอร์
+  try {
+    const vOrigin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
+    const vRes = await fetch(`${vOrigin}/api/verify-admin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: banPassword.value.trim() })
+    })
+    const vData = await vRes.json().catch(() => ({}))
+    if (!vRes.ok || !vData.token) {
+      banPasswordError.value = vData.detail || 'รหัสผ่านผู้ดูแลระบบไม่ถูกต้อง'
+      return
+    }
+    securityStore.setAdminToken(vData.token)
+    banPasswordError.value = ''
+  } catch (e: any) {
+    banPasswordError.value = 'เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน'
     return
   }
 
@@ -42,6 +83,8 @@ const handleAddSubmit = async () => {
     }
 
     isAddModalOpen.value = false
+    banPassword.value = ''
+    banPasswordError.value = ''
     securityStore.markIpUnbanned(ip, isUnban)
 
     const now = new Date()
@@ -106,14 +149,14 @@ const handleAddSubmit = async () => {
 
 <template>
     <!-- MODAL POPUP เพิ่ม IP / ปลดแบนด่วน -->
-    <div v-if="isAddModalOpen" class="modal-backdrop" @click="isAddModalOpen = false">
+    <div v-if="isAddModalOpen" class="modal-backdrop" @click="handleCloseModal">
       <div class="modal-dialog" @click.stop>
         <div class="modal-header">
           <div class="modal-title-group">
             <h3 class="modal-title">จัดการกฎไฟร์วอลล์ IP (iptables)</h3>
             <span class="modal-subtitle">เพิ่ม IP เพื่อปลดแบน (Whitelist) หรือบล็อก (DROP) บนเซิร์ฟเวอร์ทันที</span>
           </div>
-          <button class="modal-close-btn" @click="isAddModalOpen = false">
+          <button class="modal-close-btn" @click="handleCloseModal">
             <X class="tiny-icon" />
           </button>
         </div>
@@ -164,10 +207,46 @@ const handleAddSubmit = async () => {
               class="form-input"
             />
           </div>
+
+          <!-- ฟิลด์รหัสผ่าน Admin สำหรับการจัดการกฎ IP -->
+          <div class="form-group">
+            <label class="form-label" for="ban-pwd-input">
+              รหัสผ่านผู้ดูแลระบบ (Admin Password) <span class="required">*</span>
+            </label>
+            <div class="password-input-wrap">
+              <Key class="password-input-icon text-muted" />
+              <input
+                id="ban-pwd-input"
+                v-model="banPassword"
+                :type="banPasswordVisible ? 'text' : 'password'"
+                placeholder="กรอกรหัสผ่านเพื่อยืนยันคำสั่ง..."
+                class="form-input"
+                :class="{ 'input-error': !!banPasswordError }"
+                autocomplete="current-password"
+                @keyup.enter="handleAddSubmit"
+              />
+              <button
+                type="button"
+                class="btn-toggle-eye"
+                @click="banPasswordVisible = !banPasswordVisible"
+                tabindex="-1"
+              >
+                <EyeOff v-if="banPasswordVisible" class="tiny-icon" />
+                <Eye v-else class="tiny-icon" />
+              </button>
+            </div>
+            <div v-if="banPasswordError" class="auth-error-msg">
+              <AlertTriangle class="tiny-icon text-rose" />
+              <span>{{ banPasswordError }}</span>
+            </div>
+            <span class="form-hint">
+              🔒 นโยบายความปลอดภัย: คำสั่งจัดการไฟร์วอลล์ IP ต้องยืนยันรหัสผ่านผู้ดูแลระบบเสมอ
+            </span>
+          </div>
         </div>
 
         <div class="modal-footer">
-          <button class="btn-cancel" @click="isAddModalOpen = false">
+          <button class="btn-cancel" @click="handleCloseModal">
             ยกเลิก
           </button>
           <button
@@ -181,5 +260,58 @@ const handleAddSubmit = async () => {
         </div>
       </div>
     </div>
-
 </template>
+
+<style scoped>
+.password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.password-input-icon {
+  position: absolute;
+  left: 0.75rem;
+  pointer-events: none;
+  width: 16px;
+  height: 16px;
+}
+.password-input-wrap .form-input {
+  width: 100%;
+  padding-left: 2.25rem;
+  padding-right: 2.5rem;
+}
+.btn-toggle-eye {
+  position: absolute;
+  right: 0.65rem;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-toggle-eye:hover {
+  color: #475569;
+}
+.auth-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #e11d48;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 0.35rem;
+}
+.form-hint {
+  display: block;
+  font-size: 0.76rem;
+  color: #64748b;
+  margin-top: 0.35rem;
+}
+.input-error {
+  border-color: #f43f5e !important;
+}
+</style>

@@ -29,7 +29,7 @@ const { isAddModalOpen } = storeToRefs(securityStore)
 const { isDarkMode, toggleTheme } = useTheme()
 const { toast } = useToast()
 
-// Gateway Authentication Lock Screen (ใส่รหัสผ่าน 1234 เพื่อเข้าใช้งานแดชบอร์ด)
+// Gateway Authentication Lock Screen (กรอกรหัสผ่านเพื่อเข้าใช้งานแดชบอร์ด)
 const lockPasswordInput = ref('')
 const lockPasswordError = ref('')
 const lockPasswordLoading = ref(false)
@@ -52,10 +52,21 @@ const handleLockLoginSubmit = async () => {
     if (!res.ok) {
       throw new Error(data.detail || 'รหัสผ่านไม่ถูกต้อง')
     }
-    securityStore.setAdminToken(data.token || 'SecDash-Admin-Secret-Key-2026')
+    if (!data.token) {
+      throw new Error('ไม่ได้รับโทเค็นยืนยันสิทธิ์จากเซิร์ฟเวอร์')
+    }
+    securityStore.setAdminToken(data.token)
     lockPasswordInput.value = ''
     lockPasswordError.value = ''
+
+    // เข้าสู่ระบบสำเร็จ: เริ่มต้นแสดง Loading Animation แล้วเปิดเข้าสู่แดชบอร์ด
+    runLoadingAnimation(
+      'กำลังโหลดข้อมูลระบบความปลอดภัย',
+      'ยืนยันสิทธิ์สำเร็จ กำลังเปิดแดชบอร์ดศูนย์ปฏิบัติการ...',
+      550
+    )
     securityStore.fetchReportData()
+    startAutoSync()
   } catch (err: any) {
     lockPasswordError.value = err.message || 'รหัสผ่านไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง'
   } finally {
@@ -64,7 +75,7 @@ const handleLockLoginSubmit = async () => {
 }
 
 // Seamless Loading Screen
-const isPageLoading = ref(true)
+const isPageLoading = ref(false)
 const loadingProgress = ref(0)
 const loadingTitle = ref('กำลังโหลดข้อมูลระบบความปลอดภัย')
 const loadingSubtitle = ref('กำลังเชื่อมต่อเซิร์ฟเวอร์ความปลอดภัย ม.บูรพา')
@@ -107,18 +118,34 @@ const runLoadingAnimation = (
 
 let autoSyncTimer: any = null
 
-onMounted(() => {
-  runLoadingAnimation(
-    'กำลังโหลดข้อมูลความปลอดภัย',
-    'กรุณารอสักครู่ ระบบกำลังดึงข้อมูลล่าสุดจากเซิร์ฟเวอร์',
-    650
-  )
-  securityStore.fetchReportData()
-
-  // Real-time Central Auto-Sync ทุกๆ 3.5 วินาที
+const startAutoSync = () => {
+  if (autoSyncTimer) clearInterval(autoSyncTimer)
   autoSyncTimer = setInterval(() => {
-    securityStore.fetchReportData(true)
+    if (securityStore.isAdminAuthenticated) {
+      securityStore.fetchReportData(true)
+    }
   }, 3500)
+}
+
+const handleLogout = () => {
+  if (autoSyncTimer) clearInterval(autoSyncTimer)
+  securityStore.clearAdminToken()
+}
+
+onMounted(() => {
+  // หากได้รับการยืนยันตัวตนแล้วใน Session ให้โหลดข้อมูลและเปิด Auto-Sync
+  if (securityStore.isAdminAuthenticated) {
+    runLoadingAnimation(
+      'กำลังโหลดข้อมูลความปลอดภัย',
+      'กรุณารอสักครู่ ระบบกำลังดึงข้อมูลล่าสุดจากเซิร์ฟเวอร์',
+      500
+    )
+    securityStore.fetchReportData()
+    startAutoSync()
+  } else {
+    // ยังไม่ได้เข้าสู่ระบบ: ให้แสดง Lock Screen ทันที ไม่ต้องโหลดแดชบอร์ด
+    isPageLoading.value = false
+  }
 })
 
 onUnmounted(() => {
@@ -131,60 +158,11 @@ onUnmounted(() => {
 <template>
   <div class="careops-app" :class="{ 'dark-mode': isDarkMode }">
     <!-- ========================================================== -->
-    <!-- SEAMLESS LOADING SCREEN (สไตล์ Google Workspace / Gmail เนียนไปกับพื้นหลัง) -->
+    <!-- GATEWAY AUTHENTICATION LOCK SCREEN (เข้าเว็บต้องยืนยันตัวตน) -->
+    <!-- แสดงทันทีโดยไม่เรนเดอร์แดชบอร์ดเลยแม้แต่น้อย ป้องกันการแวบเห็นหน้าเว็บ 100% -->
     <!-- ========================================================== -->
-    <Transition name="fade-loading">
-      <div v-if="isPageLoading" class="page-loading-backdrop">
-        <div class="seamless-loader-center">
-          <!-- โลโก้เหมือนหน้าเว็บ (ตราสัญลักษณ์ มหาวิทยาลัยบูรพา + CS BUU) -->
-          <div class="loader-brand-website-wrap">
-            <div class="loader-site-brand">
-              <img
-                :src="isDarkMode ? buuLogoWhiteSvg : buuLogoSvg"
-                alt="ตราสัญลักษณ์ มหาวิทยาลัยบูรพา BUU"
-                class="seamless-buu-brand-img"
-              />
-              <div class="seamless-brand-v-divider"></div>
-              <div class="seamless-brand-text-col">
-                <span class="seamless-brand-cs-buu">CS BUU</span>
-                <span class="seamless-brand-cs-sub">COMPUTER SCIENCE</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- หลอดโหลดแนวนอนแบบสลิม (Slim Linear Progress Tube สไตล์ Gmail) -->
-          <div class="seamless-tube-track">
-            <div class="seamless-tube-fill" :style="{ width: `${loadingProgress}%` }">
-              <div class="seamless-tube-shimmer"></div>
-            </div>
-          </div>
-
-          <!-- ชื่อระบบ Dashboard ด้านล่างหลอดโหลด (เหมือนตำแหน่ง Google Workspace) -->
-          <div class="seamless-system-title">
-            <span class="system-title-bold">Dashboard</span>
-            <span class="system-title-badge">Security Ops</span>
-          </div>
-
-          <!-- ข้อความสถานะการโหลดและเปอร์เซ็นต์แบบนุ่มนวล -->
-          <div class="seamless-meta-status">
-            <span class="seamless-step-msg">{{ loadingStepMessage }}</span>
-            <span class="seamless-percent">({{ loadingProgress }}%)</span>
-          </div>
-        </div>
-
-        <!-- ข้อความช่วยเหลือมุมขวาล่าง เลียนแบบหน้า Gmail 1:1 -->
-        <div class="seamless-footer-help">
-          ระบบจัดการและมอนิเตอร์ความปลอดภัยเว็บ CS BUU
-        </div>
-      </div>
-    </Transition>
-
-    <!-- ========================================================== -->
-    <!-- GATEWAY AUTHENTICATION LOCK SCREEN (เข้าเว็บต้องใส่รหัส 1234) -->
-    <!-- ========================================================== -->
-    <Transition name="fade-lock">
-      <div v-if="!securityStore.isAdminAuthenticated && !isPageLoading" class="gateway-lock-backdrop">
-        <div class="gateway-lock-card">
+    <div v-if="!securityStore.isAdminAuthenticated" class="gateway-lock-backdrop">
+      <div class="gateway-lock-card">
           <!-- โลโก้มหาวิทยาลัยบูรพา + CS BUU -->
           <div class="gateway-brand">
             <img
@@ -210,7 +188,7 @@ onUnmounted(() => {
             </p>
           </div>
 
-          <!-- ฟอร์มใส่รหัส 1234 -->
+          <!-- ฟอร์มใส่รหัสผ่านผู้ดูแลระบบ -->
           <form class="gateway-login-form" @submit.prevent="handleLockLoginSubmit">
             <div class="gateway-form-field">
               <label class="gateway-field-label">กรุณากรอกรหัสผ่านเพื่อเข้าใช้งานระบบ:</label>
@@ -222,7 +200,7 @@ onUnmounted(() => {
                   :type="lockPasswordVisible ? 'text' : 'password'"
                   class="gateway-input-control"
                   :class="{ 'has-error': !!lockPasswordError }"
-                  placeholder="กรอกรหัสผ่าน (1234)..."
+                  placeholder="กรอกรหัสผ่านเพื่อเข้าสู่ระบบ..."
                   autocomplete="current-password"
                   autofocus
                 />
@@ -258,112 +236,150 @@ onUnmounted(() => {
           <!-- Footer ข้อความความปลอดภัย -->
           <div class="gateway-card-footer">
             <ShieldCheck class="tiny-icon text-green" />
-            <span>เข้าสู่ระบบด้วยรหัส <code>1234</code> เพื่อรับสิทธิ์สั่งการไฟร์วอลล์</span>
+            <span>ระบบรักษาความปลอดภัยระดับองค์กร (Zero-Trust Gateway Control Plane)</span>
           </div>
         </div>
       </div>
-    </Transition>
 
-    <!-- FLOATING TOAST แจ้งเตือนสถานะ -->
-    <div v-if="toast" class="toast-card" :class="toast.type">
-      <CheckCircle2 v-if="toast.type === 'success'" class="toast-icon text-green" />
-      <AlertCircle v-else class="toast-icon text-rose" />
-      <div class="toast-body">
-        <div class="toast-title">{{ toast.title }}</div>
-        <div v-if="toast.detail" class="toast-detail">{{ toast.detail }}</div>
-      </div>
-      <button class="toast-close" @click="toast = null" aria-label="ปิดการแจ้งเตือน">
-        <X class="tiny-icon" />
-      </button>
-    </div>
+    <!-- ========================================================== -->
+    <!-- DASHBOARD VIEWPORT (เข้าถึงได้เฉพาะเมื่อยืนยันตัวตนสำเร็จแล้ว) -->
+    <!-- ========================================================== -->
+    <template v-else>
+      <!-- SEAMLESS LOADING SCREEN (สไตล์ Google Workspace / Gmail เนียนไปกับพื้นหลัง) -->
+      <Transition name="fade-loading">
+        <div v-if="isPageLoading" class="page-loading-backdrop">
+          <div class="seamless-loader-center">
+            <!-- โลโก้เหมือนหน้าเว็บ (ตราสัญลักษณ์ มหาวิทยาลัยบูรพา + CS BUU) -->
+            <div class="loader-brand-website-wrap">
+              <div class="loader-site-brand">
+                <img
+                  :src="isDarkMode ? buuLogoWhiteSvg : buuLogoSvg"
+                  alt="ตราสัญลักษณ์ มหาวิทยาลัยบูรพา BUU"
+                  class="seamless-buu-brand-img"
+                />
+                <div class="seamless-brand-v-divider"></div>
+                <div class="seamless-brand-text-col">
+                  <span class="seamless-brand-cs-buu">CS BUU</span>
+                  <span class="seamless-brand-cs-sub">COMPUTER SCIENCE</span>
+                </div>
+              </div>
+            </div>
 
-    <!-- 1. HEADER NAVY BAR ด้านบนสุด (ตรงตามสไตล์เว็บหลัก CS BUU 1:1) -->
-    <header class="header-navy-bar">
-      <div class="navy-bar-inner">
-        <!-- ซ้าย: โลโก้ตรามหาวิทยาลัยบูรพา + CS BUU -->
-        <RouterLink to="/" class="navy-brand-group" title="CS BUU Computer Science">
-          <img
-            :src="buuLogoWhiteSvg"
-            alt="ตราสัญลักษณ์ มหาวิทยาลัยบูรพา BUU"
-            class="buu-brand-img"
-          />
-          <div class="brand-v-divider"></div>
-          <div class="navy-brand-text">
-            <span class="brand-cs-buu">CS BUU</span>
-            <span class="brand-cs-sub">COMPUTER SCIENCE</span>
+            <!-- หลอดโหลดแนวนอนแบบสลิม (Slim Linear Progress Tube สไตล์ Gmail) -->
+            <div class="seamless-tube-track">
+              <div class="seamless-tube-fill" :style="{ width: `${loadingProgress}%` }">
+                <div class="seamless-tube-shimmer"></div>
+              </div>
+            </div>
+
+            <!-- ชื่อระบบ Dashboard ด้านล่างหลอดโหลด (เหมือนตำแหน่ง Google Workspace) -->
+            <div class="seamless-system-title">
+              <span class="system-title-bold">Dashboard</span>
+              <span class="system-title-badge">Security Ops</span>
+            </div>
+
+            <!-- ข้อความสถานะการโหลดและเปอร์เซ็นต์แบบนุ่มนวล -->
+            <div class="seamless-meta-status">
+              <span class="seamless-step-msg">{{ loadingStepMessage }}</span>
+              <span class="seamless-percent">({{ loadingProgress }}%)</span>
+            </div>
           </div>
-        </RouterLink>
 
-        <!-- กลาง: เมนูนำทางตรงกลางแบบเว็บหลัก -->
-        <nav class="main-site-nav">
-          <!-- เมนู 1: แดชบอร์ด -->
-          <RouterLink
-            to="/"
-            class="main-nav-link pill-tab"
-            :class="{ active: route.path === '/' }"
-          >
-            <span>แดชบอร์ด</span>
-            <span v-if="route.path === '/'" class="gold-active-bar"></span>
-          </RouterLink>
-
-          <!-- เมนู 2: จัดการ IP -->
-          <RouterLink
-            to="/unban"
-            class="main-nav-link pill-tab"
-            :class="{ active: route.path === '/unban' }"
-          >
-            <span>จัดการ IP</span>
-            <span v-if="route.path === '/unban'" class="gold-active-bar"></span>
-          </RouterLink>
-
-          <!-- เมนู 3: ประวัติการแก้ไข (Audit Log - Read-Only) -->
-          <RouterLink
-            to="/logs"
-            class="main-nav-link pill-tab"
-            :class="{ active: route.path === '/logs' }"
-          >
-            <span>ประวัติการแก้ไข</span>
-            <span v-if="route.path === '/logs'" class="gold-active-bar"></span>
-          </RouterLink>
-        </nav>
-
-        <!-- ขวา: ปุ่มสลับโหมดสี (Dark/Light) + ปุ่มเพิ่ม IP สีน้ำเงินตามเว็บหลัก -->
-        <div class="navy-right-actions">
-          <button
-            class="navy-theme-btn"
-            @click="toggleTheme"
-            :aria-label="isDarkMode ? 'สลับเป็นโหมดสว่าง' : 'สลับเป็นโหมดมืด'"
-            :title="isDarkMode ? 'สลับเป็นโหมดสว่าง' : 'สลับเป็นโหมดมืด'"
-          >
-            <Sun v-if="isDarkMode" class="theme-icon text-amber" />
-            <Moon v-else class="theme-icon" />
-          </button>
-
-          <button class="navy-blue-btn" @click.stop="isAddModalOpen = true" title="เพิ่มกฎหรือปลดแบน IP ด่วน">
-            <Plus class="tiny-icon" />
-            <span>เพิ่ม IP / กฎ</span>
-          </button>
-
-          <!-- ปุ่มออกจากระบบ (Lock Screen) -->
-          <button
-            v-if="securityStore.isAdminAuthenticated"
-            class="navy-logout-btn"
-            @click="securityStore.clearAdminToken()"
-            title="ออกจากระบบ / ล็อกหน้าจอ"
-          >
-            <LogOut class="tiny-icon" />
-            <span>ล็อกหน้าจอ</span>
-          </button>
+          <!-- ข้อความช่วยเหลือมุมขวาล่าง เลียนแบบหน้า Gmail 1:1 -->
+          <div class="seamless-footer-help">
+            ระบบจัดการและมอนิเตอร์ความปลอดภัยเว็บ CS BUU
+          </div>
         </div>
+      </Transition>
+
+      <!-- 1. HEADER NAVY BAR ด้านบนสุด (ตรงตามสไตล์เว็บหลัก CS BUU 1:1) -->
+      <header class="header-navy-bar">
+        <div class="navy-bar-inner">
+          <!-- ซ้าย: โลโก้ตรามหาวิทยาลัยบูรพา + CS BUU -->
+          <RouterLink to="/" class="navy-brand-group" title="CS BUU Computer Science">
+            <img
+              :src="buuLogoWhiteSvg"
+              alt="ตราสัญลักษณ์ มหาวิทยาลัยบูรพา BUU"
+              class="buu-brand-img"
+            />
+            <div class="brand-v-divider"></div>
+            <div class="navy-brand-text">
+              <span class="brand-cs-buu">CS BUU</span>
+              <span class="brand-cs-sub">COMPUTER SCIENCE</span>
+            </div>
+          </RouterLink>
+
+          <!-- กลาง: เมนูนำทางตรงกลางแบบเว็บหลัก -->
+          <nav class="main-site-nav">
+            <!-- เมนู 1: แดชบอร์ด -->
+            <RouterLink
+              to="/"
+              class="main-nav-link pill-tab"
+              :class="{ active: route.path === '/' }"
+            >
+              <span>แดชบอร์ด</span>
+              <span v-if="route.path === '/'" class="gold-active-bar"></span>
+            </RouterLink>
+
+            <!-- เมนู 2: จัดการ IP -->
+            <RouterLink
+              to="/unban"
+              class="main-nav-link pill-tab"
+              :class="{ active: route.path === '/unban' }"
+            >
+              <span>จัดการ IP</span>
+              <span v-if="route.path === '/unban'" class="gold-active-bar"></span>
+            </RouterLink>
+
+            <!-- เมนู 3: ประวัติการแก้ไข (Audit Log - Read-Only) -->
+            <RouterLink
+              to="/logs"
+              class="main-nav-link pill-tab"
+              :class="{ active: route.path === '/logs' }"
+            >
+              <span>ประวัติการแก้ไข</span>
+              <span v-if="route.path === '/logs'" class="gold-active-bar"></span>
+            </RouterLink>
+          </nav>
+
+          <!-- ขวา: ปุ่มสลับโหมดสี (Dark/Light) + ปุ่มเพิ่ม IP สีน้ำเงินตามเว็บหลัก -->
+          <div class="navy-right-actions">
+            <button
+              class="navy-theme-btn"
+              @click="toggleTheme"
+              :aria-label="isDarkMode ? 'สลับเป็นโหมดสว่าง' : 'สลับเป็นโหมดมืด'"
+              :title="isDarkMode ? 'สลับเป็นโหมดสว่าง' : 'สลับเป็นโหมดมืด'"
+            >
+              <Sun v-if="isDarkMode" class="theme-icon text-amber" />
+              <Moon v-else class="theme-icon" />
+            </button>
+
+            <button class="navy-blue-btn" @click.stop="isAddModalOpen = true" title="เพิ่มกฎหรือปลดแบน IP ด่วน">
+              <Plus class="tiny-icon" />
+              <span>เพิ่ม IP / กฎ</span>
+            </button>
+
+            <!-- ปุ่มออกจากระบบ (Lock Screen) -->
+            <button
+              v-if="securityStore.isAdminAuthenticated"
+              class="navy-logout-btn"
+              @click="handleLogout"
+              title="ออกจากระบบ / ล็อกหน้าจอ"
+            >
+              <LogOut class="tiny-icon" />
+              <span>ล็อกหน้าจอ</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN CONTAINER -->
+      <div class="careops-container">
+        <RouterView />
       </div>
-    </header>
 
-    <!-- MAIN CONTAINER -->
-    <div class="careops-container">
-      <RouterView />
-    </div>
-
-    <!-- MODAL POPUP เพิ่ม IP / ปลดแบนด่วน (เข้าถึงได้จากทุกหน้า) -->
-    <AddIpModal />
+      <!-- MODAL POPUP เพิ่ม IP / ปลดแบนด่วน (เข้าถึงได้จากทุกหน้า) -->
+      <AddIpModal />
+    </template>
   </div>
 </template>

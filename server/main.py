@@ -1,4 +1,5 @@
 import datetime as dt
+import hashlib
 import ipaddress
 import json
 import os
@@ -24,14 +25,19 @@ app.add_middleware(
 )
 
 ADMIN_TOKEN = os.environ.get("SECDASH_ADMIN_TOKEN", "SecDash-Admin-Secret-Key-2026")
-VALID_ADMIN_PASSWORDS = {
-    ADMIN_TOKEN,
-    "1234",
-    "admin2026",
-    "secdash2026",
-    "csbuu2026",
-    "67160058",
-    "admin"
+ADMIN_PASSWORD = os.environ.get("SECDASH_ADMIN_PASSWORD", "1234")
+
+def hash_pw(pw: str) -> str:
+    return hashlib.sha256(pw.strip().encode("utf-8")).hexdigest()
+
+VALID_PASSWORD_HASHES = {
+    hash_pw(ADMIN_PASSWORD),
+    hash_pw("1234"),
+    hash_pw("admin2026"),
+    hash_pw("secdash2026"),
+    hash_pw("csbuu2026"),
+    hash_pw("67160058"),
+    hash_pw(ADMIN_TOKEN)
 }
 
 class AdminAuthRequest(BaseModel):
@@ -75,15 +81,20 @@ def save_admin_logs(logs: list):
 
 def record_server_audit(ip: str, action: str, action_label: str, detail: str):
     now_str = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    clean_ip = sanitize_ip(ip)
+    clean_detail = (detail or "").replace("\r", " ").replace("\n", " ").strip()[:300]
+    clean_label = (action_label or "").replace("\r", " ").replace("\n", " ").strip()[:100]
     entry = {
         "id": f"audit-{int(dt.datetime.now().timestamp() * 1000)}",
         "timestamp": now_str,
-        "ip": ip,
+        "ip": clean_ip,
         "action": action,
-        "actionLabel": action_label,
-        "detail": detail
+        "actionLabel": clean_label,
+        "detail": clean_detail
     }
     logs = load_admin_logs()
+    # ป้องกัน Log ซ้ำซ้อน (ตรวจจับหากมีคำสั่งเดียวกันบน IP เดียวกันในนาทีเดียวกัน)
+    logs = [l for l in logs if not (l.get("ip") == clean_ip and l.get("action") == action and l.get("timestamp", "")[:16] == now_str[:16])]
     logs.insert(0, entry)
     save_admin_logs(logs[:500])
     return entry
@@ -132,14 +143,14 @@ def verify_token(
     token = x_admin_token
     if not token and authorization:
         token = authorization.replace("Bearer ", "").strip()
-    if token and (token == ADMIN_TOKEN or token in VALID_ADMIN_PASSWORDS):
+    if token and (token == ADMIN_TOKEN or hash_pw(token) in VALID_PASSWORD_HASHES):
         return
     raise HTTPException(status_code=401, detail="Unauthorized: รหัสผ่านหรือ Token ผู้ดูแลระบบไม่ถูกต้อง")
 
 @app.post("/api/verify-admin")
 def verify_admin(payload: AdminAuthRequest):
     pwd = payload.password.strip()
-    if pwd in VALID_ADMIN_PASSWORDS:
+    if hash_pw(pwd) in VALID_PASSWORD_HASHES or pwd == ADMIN_TOKEN:
         return {
             "status": "ok",
             "message": "ยืนยันสิทธิ์แอดมินสำเร็จ",
@@ -160,8 +171,24 @@ def get_state(request: Request):
     return state
 
 @app.get("/api/logs")
-def get_logs():
-    return load_admin_logs()
+def get_logs(
+    authorization: str = Header(None),
+    x_remote_user: str = Header(None),
+    x_admin_token: str = Header(None)
+):
+    verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
+    logs = load_admin_logs()
+    deduped = []
+    seen = set()
+    for l in logs:
+        ip = l.get("ip", "")
+        act = l.get("action", "")
+        ts = l.get("timestamp", "")[:16]
+        key = f"{ip}_{act}_{ts}"
+        if key not in seen:
+            seen.add(key)
+            deduped.append(l)
+    return deduped
 
 @app.post("/api/logs")
 def save_log(
@@ -171,18 +198,22 @@ def save_log(
     x_admin_token: str = Header(None)
 ):
     verify_token(authorization=authorization, x_remote_user=x_remote_user, x_admin_token=x_admin_token)
+    clean_ip = sanitize_ip(entry.ip)
     now_str = entry.timestamp or dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_id = entry.id or f"audit-{int(dt.datetime.now().timestamp() * 1000)}"
+    clean_detail = (entry.detail or "").replace("\r", " ").replace("\n", " ").strip()[:300]
+    clean_label = (entry.actionLabel or "").replace("\r", " ").replace("\n", " ").strip()[:100]
     new_entry = {
         "id": log_id,
         "timestamp": now_str,
-        "ip": entry.ip,
+        "ip": clean_ip,
         "action": entry.action,
-        "actionLabel": entry.actionLabel,
-        "detail": entry.detail
+        "actionLabel": clean_label,
+        "detail": clean_detail
     }
     logs = load_admin_logs()
-    logs = [l for l in logs if l.get("id") != log_id]
+    # ป้องกัน Log ซ้ำซ้อน
+    logs = [l for l in logs if l.get("id") != log_id and not (l.get("ip") == clean_ip and l.get("action") == entry.action and l.get("timestamp", "")[:16] == now_str[:16])]
     logs.insert(0, new_entry)
     save_admin_logs(logs[:500])
     return {"status": "ok", "total": len(logs)}

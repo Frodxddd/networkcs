@@ -3,10 +3,13 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import App from '../App.vue'
 import router from '../router'
+import { useSecurityStore } from '../stores/security'
 
 describe('SecDash Thai Security Operations Dashboard', () => {
   beforeEach(async () => {
-    setActivePinia(createPinia())
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    useSecurityStore().setAdminToken('mock-admin-token')
     router.push('/')
     await router.isReady()
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({

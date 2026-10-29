@@ -75,9 +75,11 @@ export const useSecurityStore = defineStore('security', () => {
   function getAuthHeaders(contentType: boolean = true): Record<string, string> {
     const headers: Record<string, string> = {}
     if (contentType) headers['Content-Type'] = 'application/json'
-    const token = adminToken.value || 'SecDash-Admin-Secret-Key-2026'
-    headers['Authorization'] = `Bearer ${token}`
-    headers['X-Admin-Token'] = token
+    const token = adminToken.value || (typeof window !== 'undefined' && window.sessionStorage ? (sessionStorage.getItem('secdash_auth_token') || '') : '')
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+      headers['X-Admin-Token'] = token
+    }
     return headers
   }
 
@@ -313,11 +315,7 @@ export const useSecurityStore = defineStore('security', () => {
       fetch(`${origin}/api/custom-ip`, {
         method: 'POST',
         credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
-          'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
-        },
+        headers: getAuthHeaders(true),
         body: JSON.stringify({
           ip: row.ip,
           attackType: row.attackType,
@@ -390,11 +388,7 @@ export const useSecurityStore = defineStore('security', () => {
       fetch(`${origin}/api/logs`, {
         method: 'POST',
         credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
-          'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
-        },
+        headers: getAuthHeaders(true),
         body: JSON.stringify(newLog)
       }).catch(() => null)
     } catch {
@@ -412,16 +406,10 @@ export const useSecurityStore = defineStore('security', () => {
         fetch(`${basePath}report.json?t=${t}`).catch(() => fetch(`/report.json?t=${t}`).catch(() => null)),
         fetch(`${basePath}ai_report.json?t=${t}`).catch(() => fetch(`/ai_report.json?t=${t}`).catch(() => null)),
         fetch(`${origin}/api/state?t=${t}`, {
-          headers: {
-            'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
-            'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
-          }
+          headers: getAuthHeaders(false)
         }).catch(() => null),
         fetch(`${origin}/api/logs?t=${t}`, {
-          headers: {
-            'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
-            'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
-          }
+          headers: getAuthHeaders(false)
         }).catch(() => null)
       ])
 
@@ -476,18 +464,14 @@ export const useSecurityStore = defineStore('security', () => {
         }
       }
 
-      // 2. ซิงค์ Audit Logs จาก Server ให้ตรงกันทุกคน
+      // 2. ดึง Server Logs จาก logsRes (API /api/logs)
+      let serverLogs: AuditLogRow[] = []
       if (logsRes && logsRes.ok) {
         try {
-          const serverLogs = await logsRes.json()
-          if (Array.isArray(serverLogs) && serverLogs.length > 0) {
-            auditLogs.value = serverLogs
-            if (typeof window !== 'undefined' && window.localStorage) {
-              localStorage.setItem('secdash_audit_logs', JSON.stringify(auditLogs.value))
-            }
-          }
+          const sJson = await logsRes.json()
+          if (Array.isArray(sJson)) serverLogs = sJson
         } catch (e) {
-          console.error('Error syncing server audit logs:', e)
+          console.error('Error parsing server audit logs:', e)
         }
       }
 
@@ -570,10 +554,7 @@ export const useSecurityStore = defineStore('security', () => {
           // ซิงค์ state และ client IP จาก Server API
         try {
           const stateRes = await fetch(`${origin}/api/state`, {
-            headers: {
-              'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
-              'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
-            },
+            headers: getAuthHeaders(false),
             signal: AbortSignal.timeout(4000)
           }).catch(() => null)
           if (stateRes && stateRes.ok) {
@@ -620,35 +601,47 @@ export const useSecurityStore = defineStore('security', () => {
           threatRows.value = mergedAttackers
         }
 
-        // ซิงค์ audit logs จาก Server API
-        try {
-          const logsRes = await fetch(`${origin}/api/logs`, {
-            headers: {
-              'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
-              'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
-            }
-          }).catch(() => null)
-          if (logsRes && logsRes.ok) {
-            const serverLogs = await logsRes.json()
-            if (Array.isArray(serverLogs) && serverLogs.length > 0) {
-              const existingIds = new Set(auditLogs.value.map(l => l.id))
-              const newServerLogs = serverLogs.filter((l: any) => !existingIds.has(l.id))
-              if (newServerLogs.length > 0) {
-                auditLogs.value = [...newServerLogs, ...auditLogs.value].sort((a, b) => b.timestamp.localeCompare(a.timestamp))
-                if (typeof window !== 'undefined' && window.localStorage) {
-                  localStorage.setItem('secdash_audit_logs', JSON.stringify(auditLogs.value))
-                }
-              }
-            }
-          }
-        } catch {}
+        // รวมและซิงค์ Audit Logs ให้เป็นเนื้อเดียวกันและป้องกันตัวเลขกระตุก
+        const logMap = new Map<string, AuditLogRow>()
 
+        // 1. Fail2ban Historical Logs จาก report.json
         if (data.audit_logs && Array.isArray(data.audit_logs)) {
-          // ผสานข้อมูลจริงจาก Fail2ban บนเซิร์ฟเวอร์
-          const manualLogs = auditLogs.value.filter(l => !l.id.startsWith('f2b-') && l.ip !== '1.46.128.90')
-          const merged = [...manualLogs, ...data.audit_logs]
-          merged.sort((a, b) => b.timestamp.localeCompare(a.timestamp))
-          auditLogs.value = merged
+          data.audit_logs.forEach((l: AuditLogRow) => {
+            const key = l.id || `f2b-${l.ip}-${l.timestamp}`
+            logMap.set(key, l)
+          })
+        }
+
+        // 2. Server Logs จาก /api/logs (คำสั่งแอดมินปลดแบน/บล็อกจริง)
+        serverLogs.forEach((l: AuditLogRow) => {
+          const tsMinute = l.timestamp ? l.timestamp.substring(0, 16) : ''
+          const key = `admin-${l.ip}-${l.action}-${tsMinute}`
+          logMap.set(key, l)
+        })
+
+        // 3. Local Audit Logs ในเครื่อง
+        auditLogs.value.forEach((l: AuditLogRow) => {
+          const tsMinute = l.timestamp ? l.timestamp.substring(0, 16) : ''
+          const key = l.id.startsWith('f2b-') ? l.id : `admin-${l.ip}-${l.action}-${tsMinute}`
+          if (!logMap.has(key)) {
+            logMap.set(key, l)
+          }
+        })
+
+        const finalLogs = Array.from(logMap.values())
+        finalLogs.sort((a, b) => (b.timestamp || '').localeCompare(a.timestamp || ''))
+
+        // อัปเดต reactive ref เฉพาะเมื่อรายการหรือจำนวนเปลี่ยนแปลงจริงเท่านั้น (Single Source of Truth)
+        // เพื่อขจัดปัญหาตัวเลขในหน้าประวัติกระตุก หรือตารางกระพริบทุกๆ 3.5 วินาที
+        const isLogChanged =
+          finalLogs.length !== auditLogs.value.length ||
+          (finalLogs.length > 0 && auditLogs.value.length > 0 && finalLogs[0]?.id !== auditLogs.value[0]?.id)
+
+        if (isLogChanged) {
+          auditLogs.value = finalLogs
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('secdash_audit_logs', JSON.stringify(finalLogs))
+          }
         }
         if (data.hourly && Array.isArray(data.hourly)) {
           hourlyRecords.value = data.hourly

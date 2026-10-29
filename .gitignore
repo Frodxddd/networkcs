@@ -73,3 +73,11 @@ wordpress/wp-content/cache/
 *.log.*
 *.jsonl
 
+# Scratch & Inspection Scripts
+scripts/*.py
+scripts/verify_*.cjs
+scripts/test_*.cjs
+scripts/take_*.cjs
+!scripts/generate_table_image.cjs
+
+
