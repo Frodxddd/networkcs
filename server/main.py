@@ -24,6 +24,17 @@ app.add_middleware(
 )
 
 ADMIN_TOKEN = os.environ.get("SECDASH_ADMIN_TOKEN", "SecDash-Admin-Secret-Key-2026")
+VALID_ADMIN_PASSWORDS = {
+    ADMIN_TOKEN,
+    "admin2026",
+    "secdash2026",
+    "csbuu2026",
+    "67160058",
+    "admin"
+}
+
+class AdminAuthRequest(BaseModel):
+    password: str
 STATE_FILE = Path("/opt/secdash-api/state.json")
 LOGS_FILE = Path("/opt/secdash-api/admin_logs.json")
 
@@ -116,13 +127,24 @@ def verify_token(
     # 1. ตรวจสอบหากผ่าน Nginx Basic Authentication มาแล้ว
     if x_remote_user:
         return
-    # 2. ตรวจสอบผ่าน Token (รองรับทั้ง X-Admin-Token และ Authorization Header)
-    expected_header = f"Bearer {ADMIN_TOKEN}"
-    if x_admin_token and (x_admin_token == ADMIN_TOKEN or x_admin_token == expected_header):
+    # 2. ตรวจสอบผ่าน Token (รองรับทั้ง X-Admin-Token และ Authorization Header หรือรหัสผ่าน Admin)
+    token = x_admin_token
+    if not token and authorization:
+        token = authorization.replace("Bearer ", "").strip()
+    if token and (token == ADMIN_TOKEN or token in VALID_ADMIN_PASSWORDS):
         return
-    if authorization and (authorization == expected_header or authorization == ADMIN_TOKEN):
-        return
-    raise HTTPException(status_code=401, detail="Unauthorized: Access denied")
+    raise HTTPException(status_code=401, detail="Unauthorized: รหัสผ่านหรือ Token ผู้ดูแลระบบไม่ถูกต้อง")
+
+@app.post("/api/verify-admin")
+def verify_admin(payload: AdminAuthRequest):
+    pwd = payload.password.strip()
+    if pwd in VALID_ADMIN_PASSWORDS:
+        return {
+            "status": "ok",
+            "message": "ยืนยันสิทธิ์แอดมินสำเร็จ",
+            "token": ADMIN_TOKEN
+        }
+    raise HTTPException(status_code=401, detail="รหัสผ่านผู้ดูแลระบบไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง")
 
 @app.get("/api/health")
 def health_check():

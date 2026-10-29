@@ -31,11 +31,7 @@ const handleAddSubmit = async () => {
     const res = await fetch(`${origin}/api/${quickActionType.value}`, {
       method: 'POST',
       credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
-        'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
-      },
+      headers: securityStore.getAuthHeaders(),
       body: JSON.stringify({ ip, note: quickNote.value }),
       signal: AbortSignal.timeout(8000)
     })

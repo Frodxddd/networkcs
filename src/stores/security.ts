@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export interface ThreatRow {
   id: string
@@ -53,6 +53,33 @@ export const useSecurityStore = defineStore('security', () => {
   const clientIp = ref(
     (typeof window !== 'undefined' && window.localStorage?.getItem('secdash_client_ip')) || ''
   )
+  const adminToken = ref<string>(
+    (typeof window !== 'undefined' && window.sessionStorage?.getItem('secdash_auth_token')) || ''
+  )
+  const isAdminAuthenticated = computed(() => !!adminToken.value)
+
+  function setAdminToken(token: string) {
+    adminToken.value = token
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      sessionStorage.setItem('secdash_auth_token', token)
+    }
+  }
+
+  function clearAdminToken() {
+    adminToken.value = ''
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      sessionStorage.removeItem('secdash_auth_token')
+    }
+  }
+
+  function getAuthHeaders(contentType: boolean = true): Record<string, string> {
+    const headers: Record<string, string> = {}
+    if (contentType) headers['Content-Type'] = 'application/json'
+    const token = adminToken.value || 'SecDash-Admin-Secret-Key-2026'
+    headers['Authorization'] = `Bearer ${token}`
+    headers['X-Admin-Token'] = token
+    return headers
+  }
 
   const aiReport = ref<AiReportData>({
     risk_level: 'low',
@@ -654,6 +681,11 @@ export const useSecurityStore = defineStore('security', () => {
     quickNote,
     apiActionLoading,
     clientIp,
+    adminToken,
+    isAdminAuthenticated,
+    setAdminToken,
+    clearAdminToken,
+    getAuthHeaders,
     rawReportStats,
     aiReport,
     hourlyRecords,

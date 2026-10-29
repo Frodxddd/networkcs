@@ -18,7 +18,11 @@ import {
   Clock,
   ArrowUpDown,
   ArrowDown,
-  ArrowUp
+  ArrowUp,
+  Lock,
+  Key,
+  Eye,
+  EyeOff
 } from 'lucide-vue-next'
 
 const securityStore = useSecurityStore()
@@ -95,11 +99,7 @@ const toggleUnbanRow = async (row: ThreatRow) => {
     const res = await fetch(`${origin}/api/${targetAction}`, {
       method: 'POST',
       credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer SecDash-Admin-Secret-Key-2026',
-        'X-Admin-Token': 'SecDash-Admin-Secret-Key-2026'
-      },
+      headers: securityStore.getAuthHeaders(),
       body: JSON.stringify({ ip: row.ip }),
       signal: AbortSignal.timeout(8000)
     })
@@ -160,36 +160,71 @@ onMounted(() => {
   securityStore.fetchReportData(true)
 })
 
-// Dialog ยืนยันการปลดแบน IP (ต้องพิมพ์เพื่อยืนยัน)
-const unbanConfirmRow = ref<ThreatRow | null>(null)
-const unbanConfirmInput = ref('')
-const unbanInputRef = ref<HTMLInputElement | null>(null)
-
-const isUnbanInputMatch = computed(() => {
-  if (!unbanConfirmRow.value) return false
-  const targetIp = unbanConfirmRow.value.ip.trim().toLowerCase()
-  const typed = unbanConfirmInput.value.trim().toLowerCase()
-  return typed === targetIp || typed === 'unban' || typed === 'ปลดแบน'
-})
+// State สำหรับ Admin Auth Verification Modal (เด้งถามครั้งเดียวเมื่อกดสั่งการ)
+const isAdminAuthModalOpen = ref(false)
+const adminPasswordInput = ref('')
+const adminAuthError = ref('')
+const adminAuthLoading = ref(false)
+const adminPasswordVisible = ref(false)
+const pendingActionRow = ref<ThreatRow | null>(null)
+const adminPasswordInputRef = ref<HTMLInputElement | null>(null)
 
 const handleActionClick = (row: ThreatRow) => {
-  // ปลดแบนหรือบล็อกได้ทันทีในคลิกเดียว (1-Click Action)
+  // หากยังไม่ได้ยืนยันตัวตนใน Session นี้ ให้เด้ง Modal ขอรหัสผ่าน Admin เพียงรอบเดียว
+  if (!securityStore.isAdminAuthenticated) {
+    pendingActionRow.value = row
+    adminPasswordInput.value = ''
+    adminAuthError.value = ''
+    isAdminAuthModalOpen.value = true
+    setTimeout(() => {
+      adminPasswordInputRef.value?.focus()
+    }, 120)
+    return
+  }
+
+  // ถ้ายืนยันสิทธิ์แล้ว ปลดแบนหรือบล็อกได้ทันที (1-Click Action)
   toggleUnbanRow(row)
 }
 
-const handleConfirmUnbanSubmit = async () => {
-  if (!isUnbanInputMatch.value || !unbanConfirmRow.value || apiActionLoading.value) return
-  const row = unbanConfirmRow.value
+const handleVerifyAdminSubmit = async () => {
+  const pwd = adminPasswordInput.value.trim()
+  if (!pwd || adminAuthLoading.value) return
+  adminAuthLoading.value = true
+  adminAuthError.value = ''
   try {
-    await toggleUnbanRow(row)
+    const origin = typeof window !== 'undefined' && window.location?.origin ? window.location.origin : 'http://localhost'
+    const res = await fetch(`${origin}/api/verify-admin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pwd })
+    })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      throw new Error(data.detail || 'รหัสผ่านผู้ดูแลระบบไม่ถูกต้อง')
+    }
+    // ยืนยันสำเร็จ: บันทึก token ใน session
+    securityStore.setAdminToken(data.token || 'SecDash-Admin-Secret-Key-2026')
+    isAdminAuthModalOpen.value = false
+    showToast('success', 'ยืนยันตัวตนแอดมินสำเร็จ', 'ระบบจดจำสิทธิ์ในรอบนี้แล้ว สามารถสั่งการไฟร์วอลล์ได้ทันที')
+
+    // รัน action ต่อให้ทันที
+    if (pendingActionRow.value) {
+      const targetRow = pendingActionRow.value
+      pendingActionRow.value = null
+      await toggleUnbanRow(targetRow)
+    }
+  } catch (err: any) {
+    adminAuthError.value = err.message || 'รหัสผ่านผู้ดูแลระบบไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง'
   } finally {
-    closeUnbanConfirmModal()
+    adminAuthLoading.value = false
   }
 }
 
-const closeUnbanConfirmModal = () => {
-  unbanConfirmRow.value = null
-  unbanConfirmInput.value = ''
+const closeAdminAuthModal = () => {
+  isAdminAuthModalOpen.value = false
+  pendingActionRow.value = null
+  adminPasswordInput.value = ''
+  adminAuthError.value = ''
 }
 </script>
 
@@ -203,6 +238,26 @@ const closeUnbanConfirmModal = () => {
           </div>
 
           <div class="title-controls">
+            <!-- สถานะ Session Admin -->
+            <div
+              class="admin-session-badge"
+              :class="securityStore.isAdminAuthenticated ? 'badge-authed' : 'badge-guest'"
+              :title="securityStore.isAdminAuthenticated ? 'คลิกเพื่อออกจากระบบแอดมิน' : 'ต้องยืนยันรหัสผ่านเพื่อสั่งการไฟร์วอลล์'"
+            >
+              <ShieldCheck v-if="securityStore.isAdminAuthenticated" class="tiny-icon text-green" />
+              <Lock v-else class="tiny-icon text-amber" />
+              <span>{{ securityStore.isAdminAuthenticated ? 'Admin Authenticated (พร้อมสั่งการ)' : 'Guest Mode (ต้องใส่รหัสก่อนแก้ไข)' }}</span>
+              <button
+                v-if="securityStore.isAdminAuthenticated"
+                type="button"
+                class="btn-logout-session"
+                @click="securityStore.clearAdminToken()"
+                title="ออกจากสิทธิ์แอดมิน"
+              >
+                ออกจากระบบ
+              </button>
+            </div>
+
             <button class="btn-primary-add" @click.stop="isAddModalOpen = true">
               <Plus class="tiny-icon" />
               <span>เพิ่ม IP / ปลดแบนด่วน</span>
@@ -467,84 +522,80 @@ const closeUnbanConfirmModal = () => {
         </section>
       </main>
 
-    <!-- MODAL ยืนยันการปลดแบน IP (ต้องพิมพ์ยืนยัน) -->
-    <div v-if="unbanConfirmRow" class="modal-backdrop" @click="closeUnbanConfirmModal">
-      <div class="modal-dialog unban-confirm-dialog" @click.stop>
+    <!-- MODAL ยืนยันสิทธิ์ผู้ดูแลระบบ (Admin Password Verification) -->
+    <div v-if="isAdminAuthModalOpen" class="modal-backdrop" @click="closeAdminAuthModal">
+      <div class="modal-dialog admin-auth-dialog" @click.stop>
         <div class="modal-header">
           <div class="modal-title-group">
             <h3 class="modal-title flex-title">
-              <ShieldAlert class="modal-title-icon text-amber" />
-              <span>ยืนยันการปลดแบน IP</span>
+              <Lock class="modal-title-icon text-amber" />
+              <span>ยืนยันสิทธิ์ผู้ดูแลระบบ (Admin Access)</span>
             </h3>
-            <span class="modal-subtitle">ระบบรักษาความปลอดภัยไฟร์วอลล์ (iptables)</span>
+            <span class="modal-subtitle">กรุณากรอกรหัสผ่านเพื่อสั่งการไฟร์วอลล์ (ยืนยันเพียงครั้งเดียวต่อ Session)</span>
           </div>
-          <button class="modal-close-btn" @click="closeUnbanConfirmModal" aria-label="ปิด">
+          <button class="modal-close-btn" @click="closeAdminAuthModal" aria-label="ปิด">
             <X class="tiny-icon" />
           </button>
         </div>
 
         <div class="modal-body">
-          <!-- การ์ดสรุปข้อมูล IP ที่จะปลดแบน -->
-          <div class="unban-target-card">
+          <!-- การ์ดสรุปเป้าหมาย -->
+          <div v-if="pendingActionRow" class="unban-target-card">
             <div class="target-meta">
-              <span class="target-label">IP ADDRESS ที่ต้องการปลดแบน</span>
+              <span class="target-label">คำสั่งที่รอดำเนินการ:</span>
               <div class="target-ip-wrap">
-                <span class="target-ip-mono">{{ unbanConfirmRow.ip }}</span>
-                <button
-                  type="button"
-                  class="btn-copy-fill"
-                  @click="unbanConfirmInput = unbanConfirmRow.ip"
-                  title="คลิกเพื่อกรอกหมายเลข IP นี้ลงในช่องยืนยันทันที"
-                >
-                  <Copy class="tiny-icon" />
-                  <span>ใส่ในช่องพิมพ์</span>
-                </button>
+                <span class="status-pill" :class="pendingActionRow.isUnbanned ? 'status-blocked' : 'status-allowed'">
+                  {{ pendingActionRow.isUnbanned ? 'บล็อก IP' : 'ปลดแบน IP' }}
+                </span>
+                <span class="target-ip-mono">{{ pendingActionRow.ip }}</span>
               </div>
             </div>
-
             <div class="target-details-grid">
               <div class="detail-cell">
-                <span class="detail-label">พฤติกรรมที่ตรวจพบ:</span>
-                <span class="detail-val">{{ unbanConfirmRow.attackType }}</span>
+                <span class="detail-label">พฤติกรรม / ประเภท:</span>
+                <span class="detail-val">{{ pendingActionRow.attackType }}</span>
               </div>
               <div class="detail-cell">
-                <span class="detail-label">จำนวนครั้งที่บล็อก:</span>
-                <span class="detail-val text-rose">{{ unbanConfirmRow.hits }}</span>
+                <span class="detail-label">จำนวนสถิติ:</span>
+                <span class="detail-val text-rose">{{ pendingActionRow.hits }}</span>
               </div>
             </div>
           </div>
 
-          <!-- กล่องเตือนความปลอดภัย -->
-          <div class="unban-warning-alert">
-            <AlertTriangle class="alert-icon-svg text-amber" />
-            <div class="alert-content">
-              <strong>คำเตือนด้านความปลอดภัย:</strong>
-              การปลดแบนจะลบกฎ DROP บนเซิร์ฟเวอร์ และอนุญาตให้ IP นี้เชื่อมต่อเข้าสู่เว็บไซต์ได้ทันที หากเป็น IP บอทหรือผู้ไม่หวังดี อาจทำให้เว็บเสี่ยงถูกโจมตีซ้ำ
-            </div>
-          </div>
-
-          <!-- ช่องพิมพ์ยืนยัน -->
-          <div class="form-group unban-type-group">
+          <!-- ช่องกรอกรหัสผ่าน Admin -->
+          <div class="form-group admin-auth-group">
             <label class="form-label font-medium">
-              กรุณาพิมพ์ <code class="ip-code-chip">{{ unbanConfirmRow.ip }}</code> เพื่อยืนยัน:
+              รหัสผ่านผู้ดูแลระบบ (Admin Password):
             </label>
-            <div class="confirm-input-wrap">
+            <div class="password-input-wrap">
+              <Key class="password-input-icon text-muted" />
               <input
-                ref="unbanInputRef"
-                v-model="unbanConfirmInput"
-                type="text"
-                class="form-input confirm-type-input"
-                :class="{ 'input-matched': isUnbanInputMatch }"
-                :placeholder="`พิมพ์ ${unbanConfirmRow.ip} เพื่อยืนยัน...`"
-                @keyup.enter="handleConfirmUnbanSubmit"
+                ref="adminPasswordInputRef"
+                v-model="adminPasswordInput"
+                :type="adminPasswordVisible ? 'text' : 'password'"
+                class="form-input admin-password-input"
+                :class="{ 'input-error': !!adminAuthError }"
+                placeholder="กรอกรหัสผ่าน Admin เช่น admin2026..."
+                @keyup.enter="handleVerifyAdminSubmit"
               />
-              <span v-if="isUnbanInputMatch" class="match-badge">
-                <Check class="tiny-icon" />
-                <span>ถูกต้อง</span>
-              </span>
+              <button
+                type="button"
+                class="btn-toggle-eye"
+                @click="adminPasswordVisible = !adminPasswordVisible"
+                tabindex="-1"
+              >
+                <EyeOff v-if="adminPasswordVisible" class="tiny-icon" />
+                <Eye v-else class="tiny-icon" />
+              </button>
             </div>
+
+            <div v-if="adminAuthError" class="auth-error-msg">
+              <AlertTriangle class="tiny-icon text-rose" />
+              <span>{{ adminAuthError }}</span>
+            </div>
+
             <span class="form-hint">
-              กด Enter หรือคลิกปุ่มด้านล่างเพื่อดำเนินการ (หรือพิมพ์ <code>UNBAN</code>)
+              💡 ปลอดภัย 100%: ยืนยันเพียงครั้งเดียว ระบบจะจำสิทธิ์ไว้จนกว่าจะปิดเบราว์เซอร์
             </span>
           </div>
         </div>
@@ -553,21 +604,20 @@ const closeUnbanConfirmModal = () => {
           <button
             type="button"
             class="btn-cancel"
-            :disabled="apiActionLoading"
-            @click="closeUnbanConfirmModal"
+            :disabled="adminAuthLoading"
+            @click="closeAdminAuthModal"
           >
             ยกเลิก
           </button>
           <button
             type="button"
-            class="btn-confirm btn-unban-execute"
-            :class="{ 'btn-active-glow': isUnbanInputMatch }"
-            :disabled="!isUnbanInputMatch || apiActionLoading"
-            @click="handleConfirmUnbanSubmit"
+            class="btn-confirm btn-admin-auth-submit"
+            :disabled="!adminPasswordInput.trim() || adminAuthLoading"
+            @click="handleVerifyAdminSubmit"
           >
-            <Unlock class="tiny-icon" />
-            <span v-if="apiActionLoading">กำลังปลดแบน...</span>
-            <span v-else>ยืนยันการปลดแบน IP</span>
+            <Lock class="tiny-icon" />
+            <span v-if="adminAuthLoading">กำลังตรวจสอบ...</span>
+            <span v-else>ยืนยันและดำเนินการ</span>
           </button>
         </div>
       </div>
@@ -579,6 +629,146 @@ const closeUnbanConfirmModal = () => {
 /* ==========================================================
    3. UNBAN & IP MANAGEMENT VIEW
    ========================================================== */
+/* Admin Session Badge */
+.admin-session-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.admin-session-badge.badge-authed {
+  background: #f0fdf4;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+.admin-session-badge.badge-guest {
+  background: #fffbeb;
+  color: #92400e;
+  border-color: #fef3c7;
+}
+
+.btn-logout-session {
+  background: none;
+  border: none;
+  color: #b91c1c;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 0.25rem;
+  padding: 0;
+}
+
+/* Password Input with Eye */
+.password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-input-icon {
+  position: absolute;
+  left: 0.75rem;
+  pointer-events: none;
+  width: 16px;
+  height: 16px;
+}
+
+.admin-password-input {
+  width: 100%;
+  padding-left: 2.25rem;
+  padding-right: 2.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.admin-password-input.input-error {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.btn-toggle-eye {
+  position: absolute;
+  right: 0.65rem;
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+}
+
+.auth-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #dc2626;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 0.4rem;
+}
+
+.btn-admin-auth-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 0.55rem 1.25rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-admin-auth-submit:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.btn-admin-auth-submit:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Dark mode for Admin Auth */
+:global(.careops-app.dark-mode) .admin-session-badge.badge-authed {
+  background: rgba(22, 101, 52, 0.25);
+  color: #86efac;
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+:global(.careops-app.dark-mode) .admin-session-badge.badge-guest {
+  background: rgba(146, 64, 14, 0.25);
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+:global(.careops-app.dark-mode) .admin-password-input {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+:global(.careops-app.dark-mode) .admin-password-input.input-error {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+}
 .btn-primary-add {
   display: inline-flex;
   align-items: center;
