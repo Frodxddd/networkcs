@@ -29,67 +29,74 @@
 
 | บริการ / เว็บไซต์ | ลิงก์เข้าใช้งาน (URL) | รายละเอียดและสถานะการทำงาน |
 | :--- | :--- | :--- |
-| 🏫 **เว็บหลัก (CS BUU Web Portal)** | 🔗 **[https://nenenainaemak.duckdns.org/](https://nenenainaemak.duckdns.org/)** | หน้าเว็บหลักของหลักสูตรวิทยาการคอมพิวเตอร์ มหาวิทยาลัยบูรพา พัฒนาด้วยเทคโนโลยีโมเดล 3D แบบเรียลไทม์ (Three.js) และระบบ **Continuous Scroll-Driven Scrubbing Animation** การ์ดและชิ้นส่วน 3D บินเข้า-ออกตามการเลื่อนของผู้ใช้ |
+| 🏫 **เว็บหลัก (CS BUU Web Portal)** | 🔗 **[https://nenenainaemak.duckdns.org/](https://nenenainaemak.duckdns.org/)** | หน้าเว็บหลักของหลักสูตรวิทยาการคอมพิวเตอร์ มหาวิทยาลัยบูรพา พัฒนาด้วยเทคโนโลยีโมเดล 3D แบบเรียลไทม์ (Three.js) และระบบ **Continuous Scroll-Driven Scrubbing Animation** การ์ดและชิ้นส่วน 3D บินเข้า-ออกตามการเลื่อนของผู้ใช้จริง |
 | 🛡️ **แดชบอร์ดความปลอดภัย (SecDash)** | 🔗 **[https://nenenainaemak.duckdns.org/secdash/](https://nenenainaemak.duckdns.org/secdash/)** | ศูนย์เฝ้าระวังความปลอดภัยอัจฉริยะ (SecOps) แสดงสถิติทราฟฟิก วิเคราะห์ภัยคุกคามด้วย AI จัดการบล็อก/ปลดแบน IP ผ่าน Linux iptables & Fail2ban พร้อมระบบ **Admin Self-Ban Protection** |
-| 💻 **เว็บหลัก (Local Development)** | `http://localhost:8080/code.html` | เซิร์ฟเวอร์ทดสอบ Local สำหรับรันโค้ด `wordpress/portal_code.html` แบบ Offline |
+| 💻 **เว็บหลัก (Local Development)** | `http://localhost:8080/portal_code.html` | เซิร์ฟเวอร์ทดสอบ Local สำหรับรันโค้ด `wordpress/portal_code.html` แบบ Offline |
 | 💻 **แดชบอร์ด (Local Development)** | `http://localhost:5173/` | Frontend Dev Server (Vite Hot-Reload) |
 
 ---
 
 ## 📄 เล่มรายงานโครงงานฉบับสมบูรณ์ (PDF Report)
 
-เอกสารรายงานฉบับสมบูรณ์ (จำนวน 23 หน้า) ถูกจัดเก็บอยู่ในไดเรกทอรี [`docs/`](docs/) เพื่อให้อาจารย์และผู้สนใจสามารถเปิดอ่านและดาวน์โหลดได้โดยตรง:
+เอกสารรายงานฉบับสมบูรณ์ (จำนวน 23 หน้า) ถูกจัดเก็บอยู่ในไดเรกทอรี [`docs/`](docs/) สามารถเปิดอ่านและดาวน์โหลดได้โดยตรง:
 
 * 📥 **[ดาวน์โหลดเล่มรายงานโครงงานฉบับสมบูรณ์ (PDF - Direct Link)](docs/Computer_Networks_Cloud_Security_Report_CS_BUU.pdf)**
 * 📥 **[ดาวน์โหลดเล่มรายงานภาษาไทย (PDF)](docs/รายงานโครงงานเครือข่ายคอมพิวเตอร์_SecWeb_SecDash.pdf)**
-* 📋 **[เอกสารแนวทางการปรับปรุงรายงาน (Markdown Guide)](docs/REPORT_REVISION_GUIDE.md)**
-* 🛡️ **[เอกสารผลการตรวจสอบความปลอดภัย Security Audit Report (Markdown)](docs/SECURITY_AUDIT_REPORT.md)**
 
 ---
 
 ## 📌 ภาพรวมสถาปัตยกรรมระบบ (System Architecture)
 
-โครงงานนี้เป็นการประยุกต์ใช้แนวคิด **แบบจำลอง OSI 7 Layers** และ **TCP/IP Model** ในสถานการณ์จริงบนระบบคลาวด์ โดยออกแบบระบบการป้องกันแบบหลายชั้น (**Defense-in-Depth**):
+โครงงานนี้ประยุกต์ใช้แนวคิด **แบบจำลอง OSI 7 Layers** และ **TCP/IP Model** ในสถานการณ์จริงบนระบบคลาวด์ โดยออกแบบระบบการป้องกันแบบหลายชั้น (**Defense-in-Depth**):
 
-```mermaid
-graph TD
-    User([ผู้ใช้ทั่วไป / ผู้โจมตี]) -->|DNS Query UDP/TCP 53| DuckDNS[DuckDNS Dynamic DNS]
-    DuckDNS -->|nenenainaemak.duckdns.org| PublicIP[Public IP: Azure VM]
-    PublicIP --> NSG[Azure Network Security Group]
-    NSG --> IPTables["Linux Kernel L3/L4 (iptables + ipset: th_allow 1,196 CIDR)"]
-    IPTables -->|บล็อกทราฟฟิกต่างประเทศ / DROP| Discard[ทิ้งแพ็กเก็ต Connection Timeout]
-    IPTables -->|อนุญาตทราฟฟิกในประเทศ พอร์ต 80, 443, 22| NginxEdge["Nginx Frontend L7 Edge (พอร์ต 443 SSL)"]
-    NginxEdge -->|HSTS / TLS 1.2-1.3 / Security Headers / Micro-Cache| CacheCheck{ตรวจสถานะ Cache}
-    CacheCheck -->|Cache HIT 0.005s| FastReturn[ตอบกลับผู้ใช้ทันที]
-    CacheCheck -->|Cache MISS / Dynamic| NginxBack["Nginx Backend (127.0.0.1:8080)"]
-    NginxBack --> PHP[PHP-FPM 8.3 via Unix Socket]
-    PHP --> WP[WordPress Core & MU-Plugins]
-    WP --> DB[(MySQL 8.0 พอร์ต 3306 ภายในเครื่อง)]
-    
-    subgraph SecOps & Control Plane
-        NginxEdge -.->|Access Log ทุกชั่วโมง| LogAnalyzer[analyze-logs.py]
-        LogAnalyzer -.->|report.json (Masked IP)| SecDashAI[secdash-ai.py / AI SecOps]
-        SecDashAI -.->|ai_report.json| SecDashUI[SecDash Dashboard UI]
-        SecDashUI <-->|HTTP Auth + Token /api/| FastAPI["FastAPI Control Service (/opt/secdash-api)"]
-        FastAPI -->|Dynamic Rules| IPTables
-        FastAPI -->|Unban/Ban| Fail2ban[Fail2ban Jail wp-login & sshd]
-        FastAPI -.->|บันทึกประวัติ| AuditLogs[(Audit Logs: admin_logs.json)]
-    end
+```text
+[ ผู้ใช้ทั่วไป / ผู้โจมตี (Internet Client) ]
+                     │
+                     ▼ (DNS Query: UDP/TCP Port 53)
+   [ DuckDNS Domain: nenenainaemak.duckdns.org ]
+                     │
+                     ▼ (Public IP: Microsoft Azure VM)
+   [ Azure Network Security Group (NSG) ]
+                     │
+                     ▼
+   [ ชั้นที่ 1: Linux Kernel Firewall (L3/L4) ]
+   ├── Default Policy: INPUT DROP
+   ├── ipset th_allow: กรองเฉพาะช่วง IP ในประเทศไทย (1,196 CIDR blocks)
+   └── หากเป็นทราฟฟิกต่างประเทศ -> DROP ทิ้งทันที (Connection Timeout)
+                     │ (อนุญาต Port 22, 80, 443 เฉพาะในไทย)
+                     ▼
+   [ ชั้นที่ 2: Nginx Frontend / Edge Reverse Proxy (L7) ]
+   ├── Port 443 HTTPS (TLS 1.2 / TLS 1.3 - Let's Encrypt DNS-01 Challenge)
+   ├── HSTS (max-age=31536000), CSP, X-Frame-Options, X-Content-Type-Options
+   ├── Nginx Fast Micro-Cache (HIT 0.005s สำหรับหน้าที่แคชได้)
+   ├── Rate Limiting (จำกัดความถี่คำขอบน /wp-login.php)
+   └── บล็อกเส้นทางอันตราย: /xmlrpc.php (HTTP 403), ?author= (HTTP 403)
+                     │ (Proxy Pass 127.0.0.1:8080)
+                     ▼
+   [ ชั้นที่ 3: Nginx Backend & Application Runtime (L7) ]
+   ├── Backend Nginx (ฟังเฉพาะ Loopback 127.0.0.1:8080 แยกขาดจากภายนอก)
+   ├── PHP-FPM 8.3 (เชื่อมต่อผ่าน Unix Domain Socket)
+   ├── WordPress Core พร้อม Must-Use Security Plugins (mu-plugins)
+   └── MySQL 8.0 Database (เชื่อมต่อภายในเครื่อง Port 3306 เท่านั้น)
+
+[ ศูนย์เฝ้าระวังและการควบคุม (SecOps Control Plane) ]
+├── Nginx Access Log Analysis: สคริปต์ Python สรุปสถิติคำขอทุกชั่วโมงเป็น report.json
+├── AI SecOps Threat Advisor: โมเดล AI วิเคราะห์แนวโน้มภัยคุกคามแบบ Read-Only และ Mask IP
+├── SecDash UI: แดชบอร์ดตรวจสอบสถานะและควบคุมไฟร์วอลล์แบบ Real-time
+└── FastAPI Daemon (/opt/secdash-api): ควบคุม iptables/fail2ban พร้อมบันทึก Audit Logs
 ```
 
 ---
 
 ## 📂 โครงสร้าง Source Code และ Configuration Files
 
-คลังข้อมูลนี้จัดเก็บ Source Code และไฟล์คอนฟิกทุกส่วนไว้อย่างเป็นหมวดหมู่ ครบถ้วนตามมาตรฐานการตรวจสอบโครงงาน:
+คลังข้อมูลนี้จัดเก็บ Source Code และไฟล์คอนฟิกทุกส่วนไว้อย่างเป็นหมวดหมู่ ครบถ้วนตามมาตรฐานการส่งโครงงาน:
 
 ```text
 networkcs/
-├── docs/                                  # เล่มรายงานและเอกสารประกอบโครงงาน
+├── docs/                                  # เล่มรายงานโครงงาน
 │   ├── Computer_Networks_Cloud_Security_Report_CS_BUU.pdf  # เล่มรายงานฉบับสมบูรณ์ (PDF)
-│   ├── รายงานโครงงานเครือข่ายคอมพิวเตอร์_SecWeb_SecDash.pdf # เล่มรายงานฉบับสมบูรณ์ (ภาษาไทย)
-│   ├── REPORT_REVISION_GUIDE.md           # แนวทางและข้อสังเกตการแก้ไขรายงาน
-│   └── SECURITY_AUDIT_REPORT.md           # รายงานผลการทดสอบความปลอดภัยครบทุกด้าน
+│   └── รายงานโครงงานเครือข่ายคอมพิวเตอร์_SecWeb_SecDash.pdf # เล่มรายงานฉบับสมบูรณ์ (ชื่อภาษาไทย)
 │
 ├── configs/                               # ไฟล์คอนฟิกเซิร์ฟเวอร์และระบบเครือข่าย
 │   ├── nginx/                             # คอนฟิก Nginx Web Server & Reverse Proxy
@@ -131,7 +138,6 @@ networkcs/
 │
 ├── scripts/                               # สคริปต์ตรวจสอบและทดสอบระบบอัตโนมัติ
 │   ├── run_security_recheck.py            # สคริปต์ตรวจความปลอดภัยซ้ำตามมาตรฐาน Security Audit
-│   ├── verify_scroll_scrubbing.cjs        # สคริปต์ Playwright ทดสอบ Animation ตามการเลื่อน
 │   └── verify_live_wp.cjs                 # สคริปต์ Playwright ตรวจสอบความถูกต้องบน Production
 │
 └── package.json                           # การตั้งค่า Dependencies ของโปรเจกต์ Frontend
@@ -140,8 +146,6 @@ networkcs/
 ---
 
 ## 🛡️ สรุปผลการทดสอบความปลอดภัยและการทำงานจริง (Verification & Audit)
-
-ระบบได้รับการทดสอบความถูกต้องอย่างละเอียดตามมาตรฐานการรักษาความปลอดภัย:
 
 1. **การกรองทราฟฟิก GeoIP (L3/L4 Firewall):**
    - อนุญาตเฉพาะทราฟฟิกจากประเทศไทยผ่าน `ipset match-set th_allow` (1,196 CIDR blocks)
@@ -153,7 +157,7 @@ networkcs/
 3. **ระบบจัดการไฟร์วอลล์และ Audit Logging (SecDash Control API):**
    - สั่งบล็อกหรือปลดแบน IP ผ่านหน้าเว็บได้แบบ Real-time โดยส่งคำสั่งตรงไปยัง `iptables -I/D INPUT` และ `fail2ban-client unban`
    - มีระบบ **Admin Self-Ban Protection** ป้องกันไม่ให้แอดมินเผลอสั่งบล็อก IP ของตัวเอง
-   - บันทึกประวัติการแก้ไขลงใน **Audit Logs** อย่างละเอียด โดยบันทึกเฉพาะ IP ของผู้ดำเนินการและ**ไม่มีการบันทึกรหัสผ่านหรือข้อมูลลับรั่วไหล**
+   - บันทึกประวัติการแก้ไขลงใน **Audit Logs** อย่างละเอียด โดยบันทึกเฉพาะ IP ของผู้ดำเนินการและไม่มีการบันทึกรหัสผ่านหรือข้อมูลลับรั่วไหล
 4. **ประสิทธิภาพการแสดงผลและการตอบสนองต่อผู้ใช้ (Continuous Scroll Engine):**
    - หน้าเว็บหลัก CS BUU ใช้ระบบคำนวณพิกัด 3D แบบ Lerp Smoothing บน `requestAnimationFrame` ที่ทำงานตามการเลื่อน Scroll ของผู้ใช้จริงแบบ 1:1 ปราศจากอาการกระตุก (60–120 FPS)
 
