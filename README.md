@@ -1,74 +1,186 @@
-# SecDash: Cloud Security Dashboard & Threat Mitigation System
+# รายงานโครงงานเครือข่ายคอมพิวเตอร์ (Computer Networks Project)
+## การติดตั้งเว็บเซิร์ฟเวอร์และระบบรักษาความปลอดภัยบนคลาวด์
+### ด้วย Microsoft Azure, Ubuntu Server, Nginx, WordPress และ SecDash
 
-> โครงงานวิชา **88633065-65 Computer Networks (เครือข่ายคอมพิวเตอร์)**  
-> ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา  
-> **อาจารย์ผู้สอน:** ผศ.ภูษิต กุลเกษม
-
----
-
-## 📌 ภาพรวมโครงงาน (Overview)
-**SecDash** คือระบบศูนย์เฝ้าระวังความปลอดภัยเครือข่ายอัจฉริยะ (SecOps) และแดชบอร์ดบริหารจัดการไฟร์วอลล์แบบ Real-time บนระบบคลาวด์ Microsoft Azure ทำงานร่วมกับเว็บเซิร์ฟเวอร์ Nginx, ระบบตรวจจับการบุกรุก Fail2ban, Linux iptables/ipset และโมเดลปัญญาประดิษฐ์ (AI SecOps)
-
-### สถาปัตยกรรมระบบ (Architecture)
-1. **Network Layer (L3/L4):** กรองแพ็กเก็ตด้วย Linux `iptables` ร่วมกับ `ipset` (GeoIP `th_allow` จำนวน 1,195 CIDR blocks) ด้วยความเร็ว $O(1)$ Hash Table Lookup
-2. **Web Layer (L7 Frontend):** Nginx Reverse Proxy รองรับ HTTPS (TLS 1.2/1.3, Let's Encrypt DNS-01 Challenge, HSTS) พร้อม Rate Limiting และสกัดกั้นคำขอขยะ (`/xmlrpc.php`, `?author=`)
-3. **Application Layer (L7 Backend):** Nginx Backend (`127.0.0.1:8080`) เชื่อมต่อ PHP-FPM 8.3 และ WordPress โดยแยกขาดจากเครือข่ายภายนอก
-4. **Monitoring & AI Automation:** สคริปต์ Python ประมวลผล Nginx Access Log ทุกชั่วโมง สรุปเป็น `report.json` และส่งวิเคราะห์ผ่าน AI SecOps (Read-Only Advisor & Masked IP)
-5. **Dashboard & Firewall Control:** เว็บแอปพลิเคชัน Single-Page Application (Vue 3 + TypeScript + Tailwind CSS) ควบคุมกฎไฟร์วอลล์ผ่าน FastAPI พร้อมระบบ **Admin Self-Ban Protection**
+> **รายวิชา:** 88633065-65 Computer Networks (เครือข่ายคอมพิวเตอร์)  
+> **ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา**  
+> **ภาคเรียนที่ 1 ปีการศึกษา 2569**  
+> **เสนอ:** ผศ.ภูสิต กุลเกษม  
 
 ---
 
-## 📂 โครงสร้างไดเรกทอรี (Directory Structure)
+### 👥 คณะผู้จัดทำ (Project Members)
+
+| ลำดับ | ชื่อ - นามสกุล | รหัสนิสิต | สาขาวิชา |
+| :---: | :--- | :---: | :--- |
+| 1 | นายศิวกร พวงเงินดี | 67160056 | วิทยาการคอมพิวเตอร์ |
+| 2 | นายกฤตภาส มีบุญล้ำ | 67160058 | วิทยาการคอมพิวเตอร์ |
+| 3 | นายณัฐชนน แสงแก้ว | 67160090 | วิทยาการคอมพิวเตอร์ |
+| 4 | นายธรรมวุติ แสนสา | 67160095 | วิทยาการคอมพิวเตอร์ |
+| 5 | นายปฐวี ฤทธิ์ประเสริฐ | 67160097 | วิทยาการคอมพิวเตอร์ |
+| 6 | นางสาวศศิมล โสภากุล | 67160106 | วิทยาการคอมพิวเตอร์ |
+| 7 | นายกรพบ บุญล้อม | 67160246 | วิทยาการคอมพิวเตอร์ |
+
+---
+
+## 🌐 ลิงก์ระบบที่เปิดให้บริการจริง (Live Deployments)
+
+อาจารย์และผู้ประเมินสามารถเข้าชมและทดสอบระบบที่เปิดให้บริการจริงบน Cloud Infrastructure (Microsoft Azure) ได้ดังนี้:
+
+| บริการ / เว็บไซต์ | ลิงก์เข้าใช้งาน (URL) | รายละเอียดและสถานะการทำงาน |
+| :--- | :--- | :--- |
+| 🏫 **เว็บหลัก (CS BUU Web Portal)** | 🔗 **[https://nenenainaemak.duckdns.org/](https://nenenainaemak.duckdns.org/)** | หน้าเว็บหลักของหลักสูตรวิทยาการคอมพิวเตอร์ มหาวิทยาลัยบูรพา พัฒนาด้วยเทคโนโลยีโมเดล 3D แบบเรียลไทม์ (Three.js) และระบบ **Continuous Scroll-Driven Scrubbing Animation** การ์ดและชิ้นส่วน 3D บินเข้า-ออกตามการเลื่อนของผู้ใช้ |
+| 🛡️ **แดชบอร์ดความปลอดภัย (SecDash)** | 🔗 **[https://nenenainaemak.duckdns.org/secdash/](https://nenenainaemak.duckdns.org/secdash/)** | ศูนย์เฝ้าระวังความปลอดภัยอัจฉริยะ (SecOps) แสดงสถิติทราฟฟิก วิเคราะห์ภัยคุกคามด้วย AI จัดการบล็อก/ปลดแบน IP ผ่าน Linux iptables & Fail2ban พร้อมระบบ **Admin Self-Ban Protection** |
+| 💻 **เว็บหลัก (Local Development)** | `http://localhost:8080/code.html` | เซิร์ฟเวอร์ทดสอบ Local สำหรับรันโค้ด `wordpress/portal_code.html` แบบ Offline |
+| 💻 **แดชบอร์ด (Local Development)** | `http://localhost:5173/` | Frontend Dev Server (Vite Hot-Reload) |
+
+---
+
+## 📄 เล่มรายงานโครงงานฉบับสมบูรณ์ (PDF Report)
+
+เอกสารรายงานฉบับสมบูรณ์ (จำนวน 23 หน้า) ถูกจัดเก็บอยู่ในไดเรกทอรี [`docs/`](docs/) เพื่อให้อาจารย์และผู้สนใจสามารถเปิดอ่านและดาวน์โหลดได้โดยตรง:
+
+* 📥 **[ดาวน์โหลดเล่มรายงานโครงงานฉบับสมบูรณ์ (PDF - Direct Link)](docs/Computer_Networks_Cloud_Security_Report_CS_BUU.pdf)**
+* 📥 **[ดาวน์โหลดเล่มรายงานภาษาไทย (PDF)](docs/รายงานโครงงานเครือข่ายคอมพิวเตอร์_SecWeb_SecDash.pdf)**
+* 📋 **[เอกสารแนวทางการปรับปรุงรายงาน (Markdown Guide)](docs/REPORT_REVISION_GUIDE.md)**
+* 🛡️ **[เอกสารผลการตรวจสอบความปลอดภัย Security Audit Report (Markdown)](docs/SECURITY_AUDIT_REPORT.md)**
+
+---
+
+## 📌 ภาพรวมสถาปัตยกรรมระบบ (System Architecture)
+
+โครงงานนี้เป็นการประยุกต์ใช้แนวคิด **แบบจำลอง OSI 7 Layers** และ **TCP/IP Model** ในสถานการณ์จริงบนระบบคลาวด์ โดยออกแบบระบบการป้องกันแบบหลายชั้น (**Defense-in-Depth**):
+
+```mermaid
+graph TD
+    User([ผู้ใช้ทั่วไป / ผู้โจมตี]) -->|DNS Query UDP/TCP 53| DuckDNS[DuckDNS Dynamic DNS]
+    DuckDNS -->|nenenainaemak.duckdns.org| PublicIP[Public IP: Azure VM]
+    PublicIP --> NSG[Azure Network Security Group]
+    NSG --> IPTables["Linux Kernel L3/L4 (iptables + ipset: th_allow 1,196 CIDR)"]
+    IPTables -->|บล็อกทราฟฟิกต่างประเทศ / DROP| Discard[ทิ้งแพ็กเก็ต Connection Timeout]
+    IPTables -->|อนุญาตทราฟฟิกในประเทศ พอร์ต 80, 443, 22| NginxEdge["Nginx Frontend L7 Edge (พอร์ต 443 SSL)"]
+    NginxEdge -->|HSTS / TLS 1.2-1.3 / Security Headers / Micro-Cache| CacheCheck{ตรวจสถานะ Cache}
+    CacheCheck -->|Cache HIT 0.005s| FastReturn[ตอบกลับผู้ใช้ทันที]
+    CacheCheck -->|Cache MISS / Dynamic| NginxBack["Nginx Backend (127.0.0.1:8080)"]
+    NginxBack --> PHP[PHP-FPM 8.3 via Unix Socket]
+    PHP --> WP[WordPress Core & MU-Plugins]
+    WP --> DB[(MySQL 8.0 พอร์ต 3306 ภายในเครื่อง)]
+    
+    subgraph SecOps & Control Plane
+        NginxEdge -.->|Access Log ทุกชั่วโมง| LogAnalyzer[analyze-logs.py]
+        LogAnalyzer -.->|report.json (Masked IP)| SecDashAI[secdash-ai.py / AI SecOps]
+        SecDashAI -.->|ai_report.json| SecDashUI[SecDash Dashboard UI]
+        SecDashUI <-->|HTTP Auth + Token /api/| FastAPI["FastAPI Control Service (/opt/secdash-api)"]
+        FastAPI -->|Dynamic Rules| IPTables
+        FastAPI -->|Unban/Ban| Fail2ban[Fail2ban Jail wp-login & sshd]
+        FastAPI -.->|บันทึกประวัติ| AuditLogs[(Audit Logs: admin_logs.json)]
+    end
+```
+
+---
+
+## 📂 โครงสร้าง Source Code และ Configuration Files
+
+คลังข้อมูลนี้จัดเก็บ Source Code และไฟล์คอนฟิกทุกส่วนไว้อย่างเป็นหมวดหมู่ ครบถ้วนตามมาตรฐานการตรวจสอบโครงงาน:
 
 ```text
-networkdashboard/
-├── wordpress/                    # ไฟล์แกนหลักและปลั๊กอินความปลอดภัยของเว็บ WordPress
-│   ├── wp-content/
-│   │   └── mu-plugins/           # Must-Use Security Plugins (Zero-Trust, Anti-Enumeration, Strict CORS)
-│   ├── wp-config.safe.php        # ไฟล์ตั้งค่า WordPress ฉบับปลอดภัย (เซ็นเซอร์รหัสผ่าน/คีย์ทั้งหมด)
-│   └── index.php
-├── configs/                      # ไฟล์คอนฟิกเซิร์ฟเวอร์และระบบเครือข่ายความปลอดภัย
-│   ├── nginx/                    # คอนฟิก Nginx Reverse Proxy (Frontend & Backend, Security Headers)
-│   ├── fail2ban/                 # คอนฟิก Jail & Filters ตรวจจับการบุกรุก
-│   └── iptables/                 # สคริปต์เซ็ตอัปไฟร์วอลล์ iptables และ ipset th_allow
-├── server/                       # Backend API & Automation Scripts บนเซิร์ฟเวอร์
-│   ├── main.py                   # FastAPI Firewall Control API (/api/unban, /api/ban, /api/logs)
-│   ├── analyze-logs.py           # สคริปต์ประมวลผล Nginx Access Log เป็น JSON
-│   ├── secdash-ai.py             # สคริปต์เชื่อมต่อ AI วิเคราะห์แนวโน้มภัยคุกคาม
-│   └── nginx/secdash.conf        # Nginx Configuration Snippet
-├── src/                          # Frontend Source Code (Vue 3 + TypeScript)
-│   ├── components/               # UI Components (Charts, Modals, Navbar, KPIs)
-│   ├── views/                    # หน้าจอหลัก (DashboardView, UnbanView, AuditLogs)
-│   ├── stores/                   # สถานะระบบ Pinia (security.ts)
-│   └── composables/              # Logic Hooks (useToast, etc.)
-├── docs/                         # เอกสารประกอบโครงงาน
-│   └── REPORT_REVISION_GUIDE.md  # บทวิเคราะห์และข้อเสนอแนะการปรับปรุงรายงานโครงงาน
-└── package.json                  # การตั้งค่า Dependencies ของโปรเจกต์
+networkcs/
+├── docs/                                  # เล่มรายงานและเอกสารประกอบโครงงาน
+│   ├── Computer_Networks_Cloud_Security_Report_CS_BUU.pdf  # เล่มรายงานฉบับสมบูรณ์ (PDF)
+│   ├── รายงานโครงงานเครือข่ายคอมพิวเตอร์_SecWeb_SecDash.pdf # เล่มรายงานฉบับสมบูรณ์ (ภาษาไทย)
+│   ├── REPORT_REVISION_GUIDE.md           # แนวทางและข้อสังเกตการแก้ไขรายงาน
+│   └── SECURITY_AUDIT_REPORT.md           # รายงานผลการทดสอบความปลอดภัยครบทุกด้าน
+│
+├── configs/                               # ไฟล์คอนฟิกเซิร์ฟเวอร์และระบบเครือข่าย
+│   ├── nginx/                             # คอนฟิก Nginx Web Server & Reverse Proxy
+│   │   ├── wordpress.conf                 # คอนฟิก Frontend HTTPS (พอร์ต 443), Cache, Rate Limit
+│   │   ├── wp-backend.conf                # คอนฟิก Backend Nginx (127.0.0.1:8080) และ FastCGI
+│   │   └── snippets/
+│   │       ├── security-headers.conf      # HSTS, CSP, X-Frame, X-Content-Type, Permissions Policy
+│   │       └── secdash.conf               # Nginx Snippet สำหรับเสิร์ฟ SecDash UI และ Proxy /api/
+│   ├── fail2ban/                          # คอนฟิก Intrusion Prevention System
+│   │   ├── jail.local                     # การตั้งค่า Jails (sshd, wp-login, nginx-http-auth)
+│   │   └── filter.d/
+│   │       └── wp-login.conf              # Regex กรองความถี่การล็อกอินผิดพลาด
+│   ├── iptables/                          # กฎไฟร์วอลล์ระดับเคอร์เนล Linux
+│   │   └── setup_firewall.sh              # สคริปต์ตั้งค่านโยบาย DROP, ipset th_allow 1,196 ช่วง
+│   └── systemd/                           # การจัดการ Services บนเซิร์ฟเวอร์
+│       └── secdash-api.service            # Systemd Service Unit สำหรับ FastAPI Control Daemon
+│
+├── server/                                # Backend API & สคริปต์เฝ้าระวังอัตโนมัติ
+│   ├── main.py                            # FastAPI Control API (/api/ban, /api/unban, /api/logs)
+│   ├── analyze-logs.py                    # สคริปต์วิเคราะห์ Nginx Access Log เป็น JSON ทุกชั่วโมง
+│   └── secdash-ai.py                      # สคริปต์เชื่อมต่อ AI ให้คำแนะนำเชิงวิเคราะห์แบบ Read-Only
+│
+├── wordpress/                             # Source Code หน้าเว็บหลัก CS BUU Portal
+│   ├── portal_code.html                   # โค้ดหน้าเว็บหลัก CS BUU (Three.js 3D + Scroll Scrubbing)
+│   ├── page_98_home.html                  # เพย์โหลดหน้าแรก (Gutenberg HTML Block) บน WordPress
+│   ├── buu-style.css                      # คอมไพล์ Static Tailwind CSS ปลอดภัย ไร้ Console Warning
+│   ├── images/                            # รูปภาพตราสัญลักษณ์มหาวิทยาลัย คณาจารย์ และข่าวกิจกรรม
+│   ├── wp-config.safe.php                 # ไฟล์ตั้งค่า WordPress ฉบับเซ็นเซอร์ข้อมูลลับ
+│   └── wp-content/
+│       └── mu-plugins/                    # Must-Use Plugins เสริมความปลอดภัย
+│           ├── proxy-https.php            # บังคับ HTTPS หลัง Reverse Proxy
+│           └── security-hardening.php     # ปิด XML-RPC, ซ่อนเวอร์ชัน WP, ป้องกัน User Enum, CORS
+│
+├── src/                                   # Source Code แดชบอร์ด SecDash (Frontend SPA)
+│   ├── components/                        # คอมโพเนนต์ UI (StatCard, AuditTable, Modals, Navbar)
+│   ├── views/                             # หน้าหลัก (DashboardView, UnbanView, AuditView)
+│   ├── stores/                            # State Management Pinia (security.ts)
+│   └── types/                             # TypeScript Interface คำจำกัดความโครงสร้างข้อมูล
+│
+├── scripts/                               # สคริปต์ตรวจสอบและทดสอบระบบอัตโนมัติ
+│   ├── run_security_recheck.py            # สคริปต์ตรวจความปลอดภัยซ้ำตามมาตรฐาน Security Audit
+│   ├── verify_scroll_scrubbing.cjs        # สคริปต์ Playwright ทดสอบ Animation ตามการเลื่อน
+│   └── verify_live_wp.cjs                 # สคริปต์ Playwright ตรวจสอบความถูกต้องบน Production
+│
+└── package.json                           # การตั้งค่า Dependencies ของโปรเจกต์ Frontend
 ```
 
 ---
 
-## 🚀 การติดตั้งและพัฒนา (Setup & Development)
+## 🛡️ สรุปผลการทดสอบความปลอดภัยและการทำงานจริง (Verification & Audit)
 
-### 1. ติดตั้ง Dependencies
+ระบบได้รับการทดสอบความถูกต้องอย่างละเอียดตามมาตรฐานการรักษาความปลอดภัย:
+
+1. **การกรองทราฟฟิก GeoIP (L3/L4 Firewall):**
+   - อนุญาตเฉพาะทราฟฟิกจากประเทศไทยผ่าน `ipset match-set th_allow` (1,196 CIDR blocks)
+   - ทราฟฟิกจากต่างประเทศจะถูกปฏิเสธด้วยสถานะ Connection Timeout ทันทีที่ระดับ Linux Kernel
+2. **การป้องกันเว็บเซิร์ฟเวอร์ (L7 Nginx & WordPress):**
+   - เข้ารหัส HTTPS 100% ด้วยใบรับรอง Let's Encrypt ผ่าน **DNS-01 Challenge**
+   - เปิดใช้งาน **HSTS (`max-age=31536000`)**, X-Frame-Options (`SAMEORIGIN`), X-Content-Type-Options (`nosniff`)
+   - บล็อกเส้นทางโจมตี `/xmlrpc.php` (HTTP 403), ป้องกัน User Enumeration `/?author=1` (HTTP 403), และซ่อนไฟล์ Sensitive Configurations (HTTP 404)
+3. **ระบบจัดการไฟร์วอลล์และ Audit Logging (SecDash Control API):**
+   - สั่งบล็อกหรือปลดแบน IP ผ่านหน้าเว็บได้แบบ Real-time โดยส่งคำสั่งตรงไปยัง `iptables -I/D INPUT` และ `fail2ban-client unban`
+   - มีระบบ **Admin Self-Ban Protection** ป้องกันไม่ให้แอดมินเผลอสั่งบล็อก IP ของตัวเอง
+   - บันทึกประวัติการแก้ไขลงใน **Audit Logs** อย่างละเอียด โดยบันทึกเฉพาะ IP ของผู้ดำเนินการและ**ไม่มีการบันทึกรหัสผ่านหรือข้อมูลลับรั่วไหล**
+4. **ประสิทธิภาพการแสดงผลและการตอบสนองต่อผู้ใช้ (Continuous Scroll Engine):**
+   - หน้าเว็บหลัก CS BUU ใช้ระบบคำนวณพิกัด 3D แบบ Lerp Smoothing บน `requestAnimationFrame` ที่ทำงานตามการเลื่อน Scroll ของผู้ใช้จริงแบบ 1:1 ปราศจากอาการกระตุก (60–120 FPS)
+
+---
+
+## 🚀 การติดตั้งและรันในโหมด Development (Local Run)
+
+### 1. การรันหน้าเว็บหลัก CS BUU (Local Portal)
 ```bash
+# รัน HTTP Server ในไดเรกทอรี wordpress/
+python -m http.server 8080 --directory wordpress
+# เปิดเบราว์เซอร์: http://localhost:8080/portal_code.html
+```
+
+### 2. การรันแดชบอร์ด SecDash (Local UI)
+```bash
+# ติดตั้ง dependencies
 npm install
-```
 
-### 2. รันโหมด Development (Hot-Reload)
-```bash
+# รันในโหมด Development
 npm run dev
-```
+# เปิดเบราว์เซอร์: http://localhost:5173/
 
-### 3. ตรวจสอบ Type และทดสอบระบบ
-```bash
+# บิลด์สำหรับ Production
 npm run build
 ```
 
 ---
 
-## 🛡️ ฟีเจอร์เด่นด้านความปลอดภัย (Security Features)
-* **Real-time Firewall Control:** สั่งลบ/เพิ่มกฎ `iptables -I/D INPUT -s <IP> -j DROP` และ `fail2ban-client unban <IP>` ได้ทันทีผ่านหน้าเว็บ
-* **Admin Self-Ban Protection:** ระบบตรวจสอบ IP ของผู้ดูแลระบบอัตโนมัติทั้งในชั้น Frontend และ Backend API เพื่อป้องกันการสั่งบล็อก IP ของตนเอง
-* **Persistent Audit Logging:** บันทึกประวัติการกระทำของผู้ดูแลระบบและบอท Fail2ban ลงบนเซิร์ฟเวอร์อย่างถาวร
-* **8-Second Timeout Guard:** ควบคุมการเชื่อมต่อ API ด้วย AbortSignal ป้องกันปัญหาหน้าต่างค้างเมื่อสัญญาณเครือข่ายขาดหาย
+*จัดทำโดย คณะผู้จัดทำโครงงานวิชา Computer Networks (88633065-65) ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา*
